@@ -1,0 +1,15 @@
+{
+  "name": "mie-gacoan-self-ordering",
+  "version": "1.0.0",
+  "description": "Mie Gacoan Web Self-Ordering App via QR Code Meja",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "malbionputra-ux",
+  "license": "MIT"
+}
