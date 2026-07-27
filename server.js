@@ -226,6 +226,22 @@ function renderIndexPage(tableNumber) {
         .spicy-option input[type="radio"] { display: none; }
         .spicy-option label { display: block; text-align: center; padding: 10px 4px; border: 2px solid #E0E0E0; border-radius: 12px; font-weight: 700; font-size: 0.85rem; color: #444; cursor: pointer; }
         .spicy-option input[type="radio"]:checked + label { border-color: var(--gacoan-magenta); background-color: var(--gacoan-magenta-light); color: var(--gacoan-magenta); }
+
+        #checkoutCanvas.offcanvas-bottom {
+            left: 50% !important;
+            right: auto !important;
+            transform: translateX(-50%) translateY(100%) !important;
+            width: 100% !important;
+            max-width: 480px !important;
+            border-top-left-radius: 24px !important;
+            border-top-right-radius: 24px !important;
+            box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.3) !important;
+            border-top: none !important;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        }
+        #checkoutCanvas.offcanvas-bottom.show {
+            transform: translateX(-50%) translateY(0) !important;
+        }
     </style>
 </head>
 <body>
@@ -247,7 +263,7 @@ function renderIndexPage(tableNumber) {
 
         <!-- Modal Input Nomor Meja Makan -->
         <div class="modal fade" id="tablePromptModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered px-3">
+            <div class="modal-dialog modal-dialog-centered px-3" style="max-width: 440px; margin: 0 auto;">
                 <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
                     <div class="modal-body text-center p-4">
                         <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 70px; height: 70px;">
@@ -298,7 +314,7 @@ function renderIndexPage(tableNumber) {
 
         <!-- Spicy Modal -->
         <div class="modal fade" id="spicyModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered px-3">
+            <div class="modal-dialog modal-dialog-centered px-3" style="max-width: 440px; margin: 0 auto;">
                 <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
                     <div class="modal-header border-0 pb-0">
                         <h5 class="modal-title fw-bold" id="spicyMenuTitle">Pilih Level Kepedasan</h5>
@@ -329,7 +345,7 @@ function renderIndexPage(tableNumber) {
         </div>
 
         <!-- Checkout Canvas -->
-        <div class="offcanvas offcanvas-bottom h-auto rounded-top-4" tabindex="-1" id="checkoutCanvas" style="max-width: 480px; margin: 0 auto; max-height: 90vh;">
+        <div class="offcanvas offcanvas-bottom h-auto rounded-top-4" tabindex="-1" id="checkoutCanvas" style="max-width: 480px; max-height: 90vh;">
             <div class="offcanvas-header border-bottom py-3">
                 <h5 class="offcanvas-title fw-bold"><i class="bi bi-receipt text-danger me-2"></i> Ringkasan Pesanan</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>

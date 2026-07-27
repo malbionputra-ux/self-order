@@ -1,5 +1,4 @@
 // Vercel Serverless Function - Mie Gacoan Self-Ordering App (No Consumer Login Required)
-// In-Memory store (resets per cold start - for persistent data, connect to a DB like PlanetScale/Supabase)
 
 const categories = [
     { id: 1, name: 'Mie Pedas', slug: 'mie-pedas' },
@@ -118,6 +117,10 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
 .spicy-option input[type=radio]{display:none}
 .spicy-option label{display:block;text-align:center;padding:10px 4px;border:2px solid #e0e0e0;border-radius:12px;font-weight:700;font-size:.85rem;color:#444;cursor:pointer;transition:all .2s}
 .spicy-option input[type=radio]:checked+label{border-color:var(--gacoan);background:var(--gacoan-light);color:var(--gacoan)}
+
+/* Offcanvas Bottom Centered alignment for Desktop preview */
+#checkoutCanvas.offcanvas-bottom{left:50%!important;right:auto!important;transform:translateX(-50%) translateY(100%)!important;width:100%!important;max-width:480px!important;border-top-left-radius:24px!important;border-top-right-radius:24px!important;box-shadow:0 -10px 40px rgba(0,0,0,.3)!important;border-top:none!important;transition:transform .3s cubic-bezier(.16,1,.3,1)!important}
+#checkoutCanvas.offcanvas-bottom.show{transform:translateX(-50%) translateY(0)!important}
 </style>
 </head>
 <body>
@@ -139,7 +142,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
 
   <!-- Modal Input Nomor Meja Makan -->
   <div class="modal fade" id="tablePromptModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered px-3">
+    <div class="modal-dialog modal-dialog-centered px-3" style="max-width:440px;margin:0 auto">
       <div class="modal-content border-0 shadow-lg" style="border-radius:20px">
         <div class="modal-body text-center p-4">
           <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width:70px;height:70px">
@@ -187,7 +190,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
 
   <!-- Spicy Modal -->
   <div class="modal fade" id="spicyModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered px-3">
+    <div class="modal-dialog modal-dialog-centered px-3" style="max-width:440px;margin:0 auto">
       <div class="modal-content border-0 shadow-lg" style="border-radius:20px">
         <div class="modal-header border-0 pb-0">
           <h5 class="modal-title fw-bold" id="spicyMenuTitle">Pilih Level Kepedasan</h5>
@@ -208,8 +211,8 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
     </div>
   </div>
 
-  <!-- Checkout Offcanvas -->
-  <div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="checkoutCanvas" style="max-width:480px;margin:0 auto;max-height:92vh">
+  <!-- Checkout Offcanvas Centered 480px -->
+  <div class="offcanvas offcanvas-bottom rounded-top-4" tabindex="-1" id="checkoutCanvas" style="max-width:480px;max-height:92vh">
     <div class="offcanvas-header border-bottom py-3">
       <h5 class="offcanvas-title fw-bold"><i class="bi bi-receipt text-danger me-2"></i>Ringkasan Pesanan</h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas"></button>
