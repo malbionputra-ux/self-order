@@ -20,6 +20,11 @@
         padding: 6px 14px;
         border-radius: 20px;
         font-size: 0.85rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+    .table-badge:hover {
+        background: rgba(255, 255, 255, 0.35);
     }
 
     .category-pills {
@@ -66,19 +71,17 @@
         display: flex;
         gap: 12px;
         align-items: center;
-        transition: transform 0.15s ease;
-    }
-    .menu-card:active {
-        transform: scale(0.98);
     }
     .menu-img {
         width: 90px;
         height: 90px;
         object-fit: cover;
         border-radius: 12px;
+        flex-shrink: 0;
     }
     .menu-info {
         flex: 1;
+        min-width: 0;
     }
     .menu-title {
         font-weight: 800;
@@ -91,6 +94,10 @@
         color: #777;
         margin-bottom: 8px;
         line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
     }
     .menu-price {
         font-weight: 800;
@@ -116,10 +123,10 @@
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
         z-index: 1040;
         cursor: pointer;
-        transition: transform 0.2s ease, opacity 0.2s ease;
+        transition: transform 0.25s ease, opacity 0.25s ease;
     }
     .cart-bar.hidden {
-        transform: translate(-50%, 100px);
+        transform: translate(-50%, 120px);
         opacity: 0;
         pointer-events: none;
     }
@@ -159,12 +166,37 @@
     <div class="d-flex align-items-center gap-2">
         <i class="bi bi-fire fs-3 text-warning"></i>
         <div>
-            <h1 class="h6 mb-0 fw-bold tracking-tight text-white">MIE GACOAN</h1>
-            <small class="text-white-50" style="font-size: 0.72rem;">Self-Ordering App</small>
+            <h1 class="h6 mb-0 fw-bold text-white">MIE GACOAN</h1>
+            <small class="text-white-50" style="font-size: 0.72rem;">Self-Ordering App (Tanpa Login)</small>
         </div>
     </div>
-    <div class="table-badge d-flex align-items-center gap-1">
+    <div class="table-badge d-flex align-items-center gap-1" onclick="promptTableNumber()">
         <i class="bi bi-qr-code-scan"></i> Meja #<span id="displayTableNumber">{{ $tableNumber }}</span>
+        <i class="bi bi-pencil-square ms-1" style="font-size: 0.75rem;"></i>
+    </div>
+</div>
+
+<!-- Modal Input Nomor Meja (Pop-up Awal jika belum ada Meja) -->
+<div class="modal fade" id="tablePromptModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered px-3">
+        <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+            <div class="modal-body text-center p-4">
+                <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 70px; height: 70px;">
+                    <i class="bi bi-geo-alt-fill fs-2" style="color: var(--gacoan-magenta);"></i>
+                </div>
+                <h5 class="fw-bold text-dark mb-1">Selamat Datang di Mie Gacoan!</h5>
+                <p class="text-muted small mb-4">Masukkan nomor meja tempat Anda duduk untuk mulai memesan langsung tanpa perlu login.</p>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold text-secondary small">NOMOR MEJA DUDUK</label>
+                    <input type="number" id="inputTableNumber" class="form-control form-control-lg text-center fw-bold fs-4" placeholder="Cth: 14" min="1" max="99" value="{{ $tableNumber }}">
+                </div>
+
+                <button type="button" class="btn btn-gacoan w-100 py-3 text-uppercase fw-bold" onclick="saveTableNumber()">
+                    Mulai Pilih Menu <i class="bi bi-arrow-right-short fs-5"></i>
+                </button>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -184,12 +216,12 @@
         <div class="category-section mb-4" id="cat-section-{{ $category->slug }}">
             <h2 class="h6 fw-bold mb-3 text-secondary d-flex align-items-center gap-2">
                 <span class="bg-danger rounded-circle d-inline-block" style="width: 8px; height: 8px;"></span>
-                {{ $category->name }}
+                {{ $category->name }} ({{ count($category->menus) }})
             </h2>
             
             @foreach($category->menus as $menu)
                 <div class="menu-card" data-category="{{ $category->slug }}">
-                    <img src="{{ $menu->image ?? 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200' }}" alt="{{ $menu->name }}" class="menu-img">
+                    <img src="{{ $menu->image ?? 'https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200' }}" alt="{{ $menu->name }}" class="menu-img" onerror="this.src='https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200'">
                     <div class="menu-info">
                         <h3 class="menu-title">{{ $menu->name }}</h3>
                         <p class="menu-desc">{{ Str::limit($menu->description, 55) }}</p>
@@ -219,14 +251,14 @@
     <div class="d-flex align-items-center gap-3">
         <div class="position-relative">
             <i class="bi bi-bag-check-fill fs-3 text-warning"></i>
-            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gacoan" id="cartTotalCount">0</span>
+            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gacoan-pill" id="cartTotalCount">0</span>
         </div>
         <div>
             <div class="small text-white-50" style="font-size: 0.72rem;">Total Pesanan</div>
-            <div class="fw-extrabold fs-6" id="cartTotalPrice">Rp 0</div>
+            <div class="fw-bold fs-6" id="cartTotalPrice">Rp 0</div>
         </div>
     </div>
-    <div class="d-flex align-items-center gap-1 font-weight-bold text-warning">
+    <div class="d-flex align-items-center gap-1 font-weight-bold text-warning small">
         <span>Lanjut Checkout</span>
         <i class="bi bi-chevron-right fs-6"></i>
     </div>
@@ -268,15 +300,14 @@
 </div>
 
 <!-- Offcanvas / Modal Checkout -->
-<div class="offcanvas offcanvas-bottom h-auto rounded-top-4" tabindex="-1" id="checkoutCanvas" style="max-width: 480px; margin: 0 auto; max-height: 90vh;">
+<div class="offcanvas offcanvas-bottom h-auto rounded-top-4" tabindex="-1" id="checkoutCanvas" style="max-width: 480px; margin: 0 auto; max-height: 92vh;">
     <div class="offcanvas-header border-bottom py-3">
         <h5 class="offcanvas-title fw-bold"><i class="bi bi-receipt text-danger me-2"></i> Ringkasan Pesanan</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body p-3">
-        <!-- Customer Info -->
         <form id="orderForm" onsubmit="submitOrder(event)">
-            <input type="hidden" name="table_number" value="{{ $tableNumber }}">
+            <input type="hidden" id="formTableNumber" name="table_number" value="{{ $tableNumber }}">
             
             <div class="mb-3">
                 <label class="form-label fw-bold small text-dark"><i class="bi bi-person-fill text-danger me-1"></i> Nama Pemesan</label>
@@ -286,24 +317,29 @@
             <!-- Cart Items List -->
             <div class="mb-3">
                 <label class="form-label fw-bold small text-dark"><i class="bi bi-cart3 text-danger me-1"></i> Item Pesanan</label>
-                <div id="checkoutItemsList" class="d-flex flex-column gap-2 max-h-40 overflow-y-auto pr-1">
-                    <!-- Items populated dynamically -->
-                </div>
+                <div id="checkoutItemsList" class="d-flex flex-column gap-2"></div>
             </div>
 
-            <!-- Payment Method -->
+            <!-- Payment Method & Upload Bukti Pembayaran -->
             <div class="mb-3">
                 <label class="form-label fw-bold small text-dark"><i class="bi bi-wallet2 text-danger me-1"></i> Metode Pembayaran</label>
-                <div class="d-flex gap-2">
-                    <input type="radio" class="btn-check" name="payment_method" id="pay_qris" value="qris" checked>
+                <div class="d-flex gap-2 mb-2">
+                    <input type="radio" class="btn-check" name="payment_method" id="pay_qris" value="qris" checked onchange="toggleProofUpload(this.value)">
                     <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_qris">
-                        <i class="bi bi-qr-code"></i> QRIS
+                        <i class="bi bi-qr-code"></i> QRIS / Transfer
                     </label>
 
-                    <input type="radio" class="btn-check" name="payment_method" id="pay_kasir" value="kasir">
+                    <input type="radio" class="btn-check" name="payment_method" id="pay_kasir" value="kasir" onchange="toggleProofUpload(this.value)">
                     <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_kasir">
                         <i class="bi bi-cash-stack"></i> Bayar di Kasir
                     </label>
+                </div>
+
+                <!-- Proof of Payment Upload Container -->
+                <div id="proofUploadContainer" class="bg-light p-3 rounded-3 border mb-2">
+                    <label class="form-label fw-bold small text-dark mb-1"><i class="bi bi-upload text-danger me-1"></i> Unggah Bukti Pembayaran (Opsional)</label>
+                    <input type="file" name="payment_proof" class="form-control form-control-sm" accept="image/*">
+                    <small class="text-muted" style="font-size: 0.7rem;">Anda dapat mengunggah struk transfer/QRIS sekarang atau setelah memesan.</small>
                 </div>
             </div>
 
@@ -338,11 +374,43 @@
     let activeMenuForSpicy = null;
     let spicyBsModal = null;
     let checkoutBsCanvas = null;
+    let tablePromptBsModal = null;
 
     document.addEventListener('DOMContentLoaded', () => {
         spicyBsModal = new bootstrap.Modal(document.getElementById('spicyModal'));
         checkoutBsCanvas = new bootstrap.Offcanvas(document.getElementById('checkoutCanvas'));
+        tablePromptBsModal = new bootstrap.Modal(document.getElementById('tablePromptModal'));
+
+        // Check if table number exists in URL or LocalStorage
+        const urlParams = new URLSearchParams(window.location.search);
+        let table = urlParams.get('table');
+
+        if (!table) {
+            table = localStorage.getItem('gacoan_table_number');
+        }
+
+        if (!table || table === '') {
+            tablePromptBsModal.show();
+        } else {
+            setTableNumber(table);
+        }
     });
+
+    function promptTableNumber() {
+        tablePromptBsModal.show();
+    }
+
+    function saveTableNumber() {
+        const val = document.getElementById('inputTableNumber').value || '14';
+        setTableNumber(val);
+        tablePromptBsModal.hide();
+    }
+
+    function setTableNumber(table) {
+        localStorage.setItem('gacoan_table_number', table);
+        document.getElementById('displayTableNumber').innerText = table;
+        document.getElementById('formTableNumber').value = table;
+    }
 
     function filterCategory(slug, btn) {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -430,6 +498,15 @@
     function openCheckoutModal() {
         renderCheckoutItems();
         checkoutBsCanvas.show();
+    }
+
+    function toggleProofUpload(method) {
+        const container = document.getElementById('proofUploadContainer');
+        if (method === 'qris') {
+            container.style.display = 'block';
+        } else {
+            container.style.display = 'none';
+        }
     }
 
     function renderCheckoutItems() {

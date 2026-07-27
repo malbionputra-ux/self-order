@@ -1,4 +1,4 @@
-// Vercel Serverless Function - Mie Gacoan Self-Ordering App
+// Vercel Serverless Function - Mie Gacoan Self-Ordering App (No Consumer Login Required)
 // In-Memory store (resets per cold start - for persistent data, connect to a DB like PlanetScale/Supabase)
 
 const categories = [
@@ -28,7 +28,6 @@ const menus = [
     { id: 15, category_id: 3, name: 'Air Mineral Cold', description: 'Air mineral kemasan dingin 600ml.', price: 4000, image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300', has_spicy_levels: false, category: { id: 3, name: 'Es & Minuman', slug: 'es-minuman' } }
 ];
 
-// In-memory orders (ephemeral per serverless instance)
 const orders = global._gacoanOrders || [];
 global._gacoanOrders = orders;
 let nextOrderId = global._gacoanNextId || 1;
@@ -86,8 +85,8 @@ function renderIndexPage(tableNumber) {
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<meta name="description" content="Pesan makanan dan minuman Mie Gacoan langsung dari meja kamu via QR Code. Menu lengkap tersedia!">
-<title>Mie Gacoan - Self Ordering | Meja #${tableNumber}</title>
+<meta name="description" content="Pesan makanan dan minuman Mie Gacoan langsung dari meja Anda tanpa perlu registrasi/login!">
+<title>Mie Gacoan - Self Ordering (Tanpa Login)</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -101,7 +100,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
 .btn-outline-gacoan{border:2px solid var(--gacoan);color:var(--gacoan);font-weight:700;border-radius:12px;background:transparent;cursor:pointer;transition:all .2s}
 .badge-gacoan-pill{background:var(--gacoan);color:#fff}
 .header-bar{background:linear-gradient(135deg,#E60067,#B80052);color:#fff;padding:16px 20px;position:sticky;top:0;z-index:1020;box-shadow:0 4px 12px rgba(230,0,103,.25)}
-.table-badge{background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);font-weight:700;padding:6px 14px;border-radius:20px;font-size:.85rem}
+.table-badge{background:rgba(255,255,255,.2);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.3);font-weight:700;padding:6px 14px;border-radius:20px;font-size:.85rem;cursor:pointer}
 .category-pills{display:flex;overflow-x:auto;gap:8px;padding:12px 16px;background:#fff;position:sticky;top:65px;z-index:1010;border-bottom:1px solid #f0f0f0;scrollbar-width:none}
 .category-pills::-webkit-scrollbar{display:none}
 .cat-btn{white-space:nowrap;padding:8px 18px;border-radius:25px;font-size:.85rem;font-weight:700;border:1.5px solid #e0e0e0;color:#555;background:#f8f9fa;cursor:pointer;transition:all .2s}
@@ -129,11 +128,34 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
       <i class="bi bi-fire fs-3 text-warning"></i>
       <div>
         <h1 class="h6 mb-0 fw-bold text-white">MIE GACOAN</h1>
-        <small class="text-white-50" style="font-size:.72rem">Self-Ordering App</small>
+        <small class="text-white-50" style="font-size:.72rem">Self-Ordering (Tanpa Login)</small>
       </div>
     </div>
-    <div class="table-badge d-flex align-items-center gap-1">
-      <i class="bi bi-qr-code-scan"></i> Meja #${tableNumber}
+    <div class="table-badge d-flex align-items-center gap-1" onclick="promptTableNumber()">
+      <i class="bi bi-qr-code-scan"></i> Meja #<span id="displayTableNumber">${tableNumber}</span>
+      <i class="bi bi-pencil-square ms-1" style="font-size:.75rem"></i>
+    </div>
+  </div>
+
+  <!-- Modal Input Nomor Meja Makan -->
+  <div class="modal fade" id="tablePromptModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered px-3">
+      <div class="modal-content border-0 shadow-lg" style="border-radius:20px">
+        <div class="modal-body text-center p-4">
+          <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width:70px;height:70px">
+            <i class="bi bi-geo-alt-fill fs-2" style="color:var(--gacoan)"></i>
+          </div>
+          <h5 class="fw-bold text-dark mb-1">Selamat Datang di Mie Gacoan!</h5>
+          <p class="text-muted small mb-4">Masukkan nomor meja tempat Anda duduk untuk mulai memesan langsung tanpa perlu registrasi/login.</p>
+          <div class="mb-3">
+            <label class="form-label fw-bold text-secondary small">NOMOR MEJA DUDUK</label>
+            <input type="number" id="inputTableNumber" class="form-control form-control-lg text-center fw-bold fs-4" placeholder="Cth: 14" min="1" max="99" value="${tableNumber}">
+          </div>
+          <button type="button" class="btn btn-gacoan w-100 py-3 text-uppercase fw-bold" onclick="saveTableNumber()">
+            Mulai Pilih Menu <i class="bi bi-arrow-right-short fs-5"></i>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -194,7 +216,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
     </div>
     <div class="offcanvas-body p-3">
       <form id="orderForm" onsubmit="submitOrder(event)">
-        <input type="hidden" name="table_number" value="${tableNumber}">
+        <input type="hidden" id="formTableNumber" name="table_number" value="${tableNumber}">
         <div class="mb-3">
           <label class="form-label fw-bold small"><i class="bi bi-person-fill text-danger me-1"></i>Nama Pemesan</label>
           <input type="text" name="customer_name" class="form-control" placeholder="Masukkan nama kamu..." required>
@@ -205,11 +227,16 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
         </div>
         <div class="mb-3">
           <label class="form-label fw-bold small"><i class="bi bi-wallet2 text-danger me-1"></i>Metode Pembayaran</label>
-          <div class="d-flex gap-2">
+          <div class="d-flex gap-2 mb-2">
             <input type="radio" class="btn-check" name="payment_method" id="pay_qris" value="qris" checked>
-            <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_qris"><i class="bi bi-qr-code"></i> QRIS</label>
+            <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_qris"><i class="bi bi-qr-code"></i> QRIS / Transfer</label>
             <input type="radio" class="btn-check" name="payment_method" id="pay_kasir" value="kasir">
             <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_kasir"><i class="bi bi-cash-stack"></i> Kasir</label>
+          </div>
+          <div id="proofUploadContainer" class="bg-light p-3 rounded-3 border">
+            <label class="form-label fw-bold small text-dark mb-1"><i class="bi bi-upload text-danger me-1"></i> Unggah Bukti Pembayaran (Opsional)</label>
+            <input type="file" name="payment_proof" class="form-control form-control-sm" accept="image/*">
+            <small class="text-muted" style="font-size:.7rem">Dapat diunggah sekarang atau setelah memesan.</small>
           </div>
         </div>
         <div class="bg-light p-3 rounded-3 mb-3 border">
@@ -231,7 +258,29 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
 let cart=[];let activeMenu=null;
 const spicyModal=new bootstrap.Modal(document.getElementById('spicyModal'));
 const checkoutCanvas=new bootstrap.Offcanvas(document.getElementById('checkoutCanvas'));
+const tablePromptModal=new bootstrap.Modal(document.getElementById('tablePromptModal'));
 
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    let table = urlParams.get('table') || localStorage.getItem('gacoan_table_number');
+    if (!table) {
+        tablePromptModal.show();
+    } else {
+        setTableNumber(table);
+    }
+});
+
+function promptTableNumber() { tablePromptModal.show(); }
+function saveTableNumber() {
+    const val = document.getElementById('inputTableNumber').value || '14';
+    setTableNumber(val);
+    tablePromptModal.hide();
+}
+function setTableNumber(table) {
+    localStorage.setItem('gacoan_table_number', table);
+    document.getElementById('displayTableNumber').innerText = table;
+    document.getElementById('formTableNumber').value = table;
+}
 function filterCategory(slug,btn){
   document.querySelectorAll('.cat-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
@@ -340,6 +389,8 @@ function renderSuccessPage(order) {
 body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;display:flex;justify-content:center;min-height:100vh}
 .mobile-container{width:100%;max-width:480px;background:#fff;min-height:100vh;box-shadow:0 0 25px rgba(0,0,0,.15)}
 .btn-gacoan{background:var(--gacoan);color:#fff;font-weight:700;border-radius:12px;border:none;text-decoration:none;display:inline-block}
+.step-badge{background:#e9ecef;color:#6c757d;font-size:.72rem;font-weight:700;padding:6px 12px;border-radius:20px}
+.step-badge.active{background:var(--gacoan);color:#fff}
 </style>
 </head>
 <body>
@@ -350,7 +401,18 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
     </div>
   </div>
   <h1 class="h4 fw-bold text-dark mb-1">Pesanan Berhasil Dibuat!</h1>
-  <p class="text-muted small mb-4">Pesanan kamu sedang diproses oleh dapur Mie Gacoan.</p>
+  <p class="text-muted small mb-3">Pesanan Anda langsung diteruskan ke dapur tanpa perlu login.</p>
+
+  <!-- Monitoring Status Pesanan (Real-time tracking flow) -->
+  <div class="bg-light p-3 rounded-4 mb-4 border text-start">
+    <div class="small fw-bold text-secondary mb-2"><i class="bi bi-activity text-danger me-1"></i> STATUS MONITORING PESANAN</div>
+    <div class="d-flex justify-content-between gap-1 text-center">
+      <span class="step-badge active"><i class="bi bi-clock-history me-1"></i> Menunggu</span>
+      <span class="step-badge active"><i class="bi bi-fire me-1"></i> Diproses</span>
+      <span class="step-badge"><i class="bi bi-bag-check me-1"></i> Siap Diantar</span>
+    </div>
+  </div>
+
   <div class="card border-0 shadow-sm rounded-4 text-start mb-4 overflow-hidden">
     <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background:var(--dark)">
       <div>
@@ -382,6 +444,7 @@ body{font-family:'Plus Jakarta Sans',sans-serif;background:#EAEAEA;margin:0;disp
       </div>
     </div>
   </div>
+
   <a href="/?table=${order.table_number}" class="btn btn-gacoan w-100 py-3 text-uppercase fw-bold">
     <i class="bi bi-plus-circle me-1"></i> Pesan Menu Tambahan
   </a>

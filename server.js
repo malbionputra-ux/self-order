@@ -15,160 +15,23 @@ const categories = [
 
 const menus = [
     // Mie Pedas
-    {
-        id: 1,
-        category_id: 1,
-        name: 'Mie Hompimpa',
-        description: 'Mie asin gurih khas Gacoan dengan pangsit goreng renyah & taburan ayam lembut.',
-        price: 10500,
-        image: '/images/mie_hompimpa.png',
-        has_spicy_levels: true,
-        category: categories[0]
-    },
-    {
-        id: 2,
-        category_id: 1,
-        name: 'Mie Iblis',
-        description: 'Mie manis pedas gurih dengan taburan cabai asli, pangsit renyah & daging ayam.',
-        price: 10500,
-        image: '/images/mie_iblis.png',
-        has_spicy_levels: true,
-        category: categories[0]
-    },
-    {
-        id: 3,
-        category_id: 1,
-        name: 'Mie Gacoan',
-        description: 'Signature mie manis pedas khas Gacoan dengan topping ayam cincang & pangsit goreng.',
-        price: 10500,
-        image: '/images/mie_gacoan.png',
-        has_spicy_levels: true,
-        category: categories[0]
-    },
-    {
-        id: 4,
-        category_id: 1,
-        name: 'Mie Suit',
-        description: 'Mie asin gurih tanpa cabai (non-pedas), cocok untuk yang suka rasa asli gurih.',
-        price: 10500,
-        image: '/images/mie_hompimpa.png',
-        has_spicy_levels: false,
-        category: categories[0]
-    },
-    {
-        id: 5,
-        category_id: 1,
-        name: 'Mie Angel',
-        description: 'Mie original gurih lezat bertabur ayam cincang tanpa minyak pedas.',
-        price: 9500,
-        image: '/images/mie_hompimpa.png',
-        has_spicy_levels: false,
-        category: categories[0]
-    },
-
+    { id: 1, category_id: 1, name: 'Mie Hompimpa', description: 'Mie asin gurih khas Gacoan dengan pangsit goreng renyah & taburan ayam lembut.', price: 10500, image: '/images/mie_hompimpa.png', has_spicy_levels: true, category: categories[0] },
+    { id: 2, category_id: 1, name: 'Mie Iblis', description: 'Mie manis pedas gurih dengan taburan cabai asli, pangsit renyah & daging ayam.', price: 10500, image: '/images/mie_iblis.png', has_spicy_levels: true, category: categories[0] },
+    { id: 3, category_id: 1, name: 'Mie Gacoan', description: 'Signature mie manis pedas khas Gacoan dengan topping ayam cincang & pangsit goreng.', price: 10500, image: '/images/mie_gacoan.png', has_spicy_levels: true, category: categories[0] },
+    { id: 4, category_id: 1, name: 'Mie Suit', description: 'Mie asin gurih tanpa cabai (non-pedas), cocok untuk yang suka rasa asli gurih.', price: 10500, image: '/images/mie_hompimpa.png', has_spicy_levels: false, category: categories[0] },
+    { id: 5, category_id: 1, name: 'Mie Angel', description: 'Mie original gurih lezat bertabur ayam cincang tanpa minyak pedas.', price: 9500, image: '/images/mie_hompimpa.png', has_spicy_levels: false, category: categories[0] },
     // Dimsum
-    {
-        id: 6,
-        category_id: 2,
-        name: 'Udang Keju',
-        description: 'Dimsum goreng balut tepung renyah isi udang gurih & lelehan keju mozarella.',
-        price: 9500,
-        image: '/images/udang_keju.png',
-        has_spicy_levels: false,
-        category: categories[1]
-    },
-    {
-        id: 7,
-        category_id: 2,
-        name: 'Siomay Ayam',
-        description: 'Siomay kukus lembut olahan daging ayam pilihan disajikan hangat.',
-        price: 9500,
-        image: '/images/siomay_ayam.png',
-        has_spicy_levels: false,
-        category: categories[1]
-    },
-    {
-        id: 8,
-        category_id: 2,
-        name: 'Pangsit Goreng',
-        description: 'Pangsit goreng garing renyah khas Gacoan isi olahan daging ayam gurih.',
-        price: 9500,
-        image: 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?w=300',
-        has_spicy_levels: false,
-        category: categories[1]
-    },
-    {
-        id: 9,
-        category_id: 2,
-        name: 'Lumpia Udang',
-        description: 'Lumpia kulit renyah isi udang lembut dan bumbu rempah spesial.',
-        price: 9500,
-        image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300',
-        has_spicy_levels: false,
-        category: categories[1]
-    },
-
+    { id: 6, category_id: 2, name: 'Udang Keju', description: 'Dimsum goreng balut tepung renyah isi udang gurih & lelehan keju mozarella.', price: 9500, image: '/images/udang_keju.png', has_spicy_levels: false, category: categories[1] },
+    { id: 7, category_id: 2, name: 'Siomay Ayam', description: 'Siomay kukus lembut olahan daging ayam pilihan disajikan hangat.', price: 9500, image: '/images/siomay_ayam.png', has_spicy_levels: false, category: categories[1] },
+    { id: 8, category_id: 2, name: 'Pangsit Goreng', description: 'Pangsit goreng garing renyah khas Gacoan isi olahan daging ayam gurih.', price: 9500, image: 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?w=300', has_spicy_levels: false, category: categories[1] },
+    { id: 9, category_id: 2, name: 'Lumpia Udang', description: 'Lumpia kulit renyah isi udang lembut dan bumbu rempah spesial.', price: 9500, image: 'https://images.unsplash.com/photo-1563245372-f21724e3856d?w=300', has_spicy_levels: false, category: categories[1] },
     // Es & Minuman
-    {
-        id: 10,
-        category_id: 3,
-        name: 'Es Gobak Sodor',
-        description: 'Es buah segar legendaris perpaduan jelly tropis, buah manis, sirup & susu gurih.',
-        price: 8500,
-        image: '/images/es_gobak_sodor.png',
-        has_spicy_levels: false,
-        category: categories[2]
-    },
-    {
-        id: 11,
-        category_id: 3,
-        name: 'Es Teklek',
-        description: 'Es ramuan buah naga & susu manis segar pencuci mulut dingin.',
-        price: 8500,
-        image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300',
-        has_spicy_levels: false,
-        category: categories[2]
-    },
-    {
-        id: 12,
-        category_id: 3,
-        name: 'Es Sluku Bathok',
-        description: 'Es mocca susu kekinian dengan topping jelly kelapa kenyal.',
-        price: 8500,
-        image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=300',
-        has_spicy_levels: false,
-        category: categories[2]
-    },
-    {
-        id: 13,
-        category_id: 3,
-        name: 'Es Teh Manis Jumbo',
-        description: 'Es teh manis aroma melati segar porsi jumbo pelepas dahaga.',
-        price: 4500,
-        image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300',
-        has_spicy_levels: false,
-        category: categories[2]
-    },
-    {
-        id: 14,
-        category_id: 3,
-        name: 'Lemon Tea Segar',
-        description: 'Es teh dengan perasan jeruk lemon asli yang menyegarkan.',
-        price: 6000,
-        image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300',
-        has_spicy_levels: false,
-        category: categories[2]
-    },
-    {
-        id: 15,
-        category_id: 3,
-        name: 'Air Mineral Cold',
-        description: 'Air mineral kemasan dingin 600ml.',
-        price: 4000,
-        image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300',
-        has_spicy_levels: false,
-        category: categories[2]
-    }
+    { id: 10, category_id: 3, name: 'Es Gobak Sodor', description: 'Es buah segar legendaris perpaduan jelly tropis, buah manis, sirup & susu gurih.', price: 8500, image: '/images/es_gobak_sodor.png', has_spicy_levels: false, category: categories[2] },
+    { id: 11, category_id: 3, name: 'Es Teklek', description: 'Es ramuan buah naga & susu manis segar pencuci mulut dingin.', price: 8500, image: 'https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300', has_spicy_levels: false, category: categories[2] },
+    { id: 12, category_id: 3, name: 'Es Sluku Bathok', description: 'Es mocca susu kekinian dengan topping jelly kelapa kenyal.', price: 8500, image: 'https://images.unsplash.com/photo-1517256064527-09c73fc73e38?w=300', has_spicy_levels: false, category: categories[2] },
+    { id: 13, category_id: 3, name: 'Es Teh Manis Jumbo', description: 'Es teh manis aroma melati segar porsi jumbo pelepas dahaga.', price: 4500, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=300', has_spicy_levels: false, category: categories[2] },
+    { id: 14, category_id: 3, name: 'Lemon Tea Segar', description: 'Es teh dengan perasan jeruk lemon asli yang menyegarkan.', price: 6000, image: 'https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=300', has_spicy_levels: false, category: categories[2] },
+    { id: 15, category_id: 3, name: 'Air Mineral Cold', description: 'Air mineral kemasan dingin 600ml.', price: 4000, image: 'https://images.unsplash.com/photo-1548839140-29a749e1bc4e?w=300', has_spicy_levels: false, category: categories[2] }
 ];
 
 const orders = [];
@@ -207,7 +70,7 @@ const server = http.createServer((req, res) => {
     }
 
     // POST /order (Create Order)
-    if (pathname === '/order' && req.method === 'POST') {
+    if ((pathname === '/order' || pathname === '/api/order') && req.method === 'POST') {
         let body = '';
         req.on('data', chunk => { body += chunk.toString(); });
         req.on('end', () => {
@@ -295,9 +158,9 @@ function renderIndexPage(tableNumber) {
         const catMenus = menus.filter(m => m.category_id === cat.id);
         const menusHtml = catMenus.map(menu => `
             <div class="menu-card" data-category="${cat.slug}">
-                <img src="${menu.image}" alt="${menu.name}" class="menu-img">
+                <img src="${menu.image}" alt="${menu.name}" class="menu-img" onerror="this.src='https://images.unsplash.com/photo-1569718212165-3a8278d5f624?w=200'">
                 <div class="menu-info">
-                    <h3 class="menu-title">${menu.name}</h3>
+                    <h3 class="menu-title">${menu.name}${menu.has_spicy_levels ? ' <span class="badge-spicy">🌶️ Pedas</span>' : ''}</h3>
                     <p class="menu-desc">${menu.description}</p>
                     <div class="d-flex justify-content-between align-items-center">
                         <span class="menu-price">Rp ${formatRupiah(menu.price)}</span>
@@ -326,8 +189,7 @@ function renderIndexPage(tableNumber) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="csrf-token" content="mock-csrf-token">
-    <title>Mie Gacoan - Self Ordering</title>
+    <title>Mie Gacoan - Self Ordering (Tanpa Login)</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
@@ -344,19 +206,20 @@ function renderIndexPage(tableNumber) {
         .btn-gacoan { background-color: var(--gacoan-magenta); color: #FFFFFF; font-weight: 700; border-radius: 12px; border: none; transition: all 0.2s ease-in-out; }
         .btn-gacoan:hover, .btn-gacoan:active { background-color: var(--gacoan-magenta-dark); color: #FFFFFF; }
         .btn-outline-gacoan { border: 2px solid var(--gacoan-magenta); color: var(--gacoan-magenta); font-weight: 700; border-radius: 12px; background: transparent; }
-        .badge-gacoan { background-color: var(--gacoan-magenta); color: white; }
+        .badge-gacoan-pill { background-color: var(--gacoan-magenta); color: white; }
         .header-bar { background: linear-gradient(135deg, #E60067 0%, #B80052 100%); color: white; padding: 16px 20px; position: sticky; top: 0; z-index: 1020; box-shadow: 0 4px 12px rgba(230, 0, 103, 0.25); }
-        .table-badge { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.3); font-weight: 700; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; }
+        .table-badge { background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.3); font-weight: 700; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; cursor: pointer; }
         .category-pills { display: flex; overflow-x: auto; gap: 8px; padding: 12px 16px; background: #FFFFFF; position: sticky; top: 65px; z-index: 1010; border-bottom: 1px solid #F0F0F0; }
         .category-pills::-webkit-scrollbar { display: none; }
         .cat-btn { white-space: nowrap; padding: 8px 18px; border-radius: 25px; font-size: 0.85rem; font-weight: 700; border: 1.5px solid #E0E0E0; color: #555555; background: #F8F9FA; cursor: pointer; }
         .cat-btn.active { background-color: var(--gacoan-magenta); color: #FFFFFF; border-color: var(--gacoan-magenta); box-shadow: 0 3px 8px rgba(230, 0, 103, 0.3); }
         .menu-card { border: none; border-radius: 16px; background: #FFFFFF; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04); padding: 12px; margin-bottom: 14px; display: flex; gap: 12px; align-items: center; }
         .menu-img { width: 90px; height: 90px; object-fit: cover; border-radius: 12px; }
-        .menu-info { flex: 1; }
+        .menu-info { flex: 1; min-width: 0; }
         .menu-title { font-weight: 800; font-size: 0.98rem; margin-bottom: 4px; color: var(--gacoan-dark); }
         .menu-desc { font-size: 0.78rem; color: #777; margin-bottom: 8px; line-height: 1.3; }
         .menu-price { font-weight: 800; color: var(--gacoan-magenta); font-size: 0.95rem; }
+        .badge-spicy { background: rgba(230,0,103,.12); color: var(--gacoan-magenta); font-size: .65rem; border-radius: 8px; padding: 2px 6px; font-weight: 700; }
         .cart-bar { position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%); width: calc(100% - 32px); max-width: 448px; background: linear-gradient(135deg, #1A1A1A 0%, #2A2A2A 100%); color: white; border-radius: 18px; padding: 14px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); z-index: 1040; cursor: pointer; transition: transform 0.2s ease, opacity 0.2s ease; }
         .cart-bar.hidden { transform: translate(-50%, 100px); opacity: 0; pointer-events: none; }
         .spicy-selector { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
@@ -372,18 +235,41 @@ function renderIndexPage(tableNumber) {
             <div class="d-flex align-items-center gap-2">
                 <i class="bi bi-fire fs-3 text-warning"></i>
                 <div>
-                    <h1 class="h6 mb-0 fw-bold tracking-tight text-white">MIE GACOAN</h1>
-                    <small class="text-white-50" style="font-size: 0.72rem;">Self-Ordering App</small>
+                    <h1 class="h6 mb-0 fw-bold text-white">MIE GACOAN</h1>
+                    <small class="text-white-50" style="font-size: 0.72rem;">Self-Ordering (Tanpa Login)</small>
                 </div>
             </div>
-            <div class="table-badge d-flex align-items-center gap-1">
-                <i class="bi bi-qr-code-scan"></i> Meja #${tableNumber}
+            <div class="table-badge d-flex align-items-center gap-1" onclick="promptTableNumber()">
+                <i class="bi bi-qr-code-scan"></i> Meja #<span id="displayTableNumber">${tableNumber}</span>
+                <i class="bi bi-pencil-square ms-1" style="font-size: 0.75rem;"></i>
+            </div>
+        </div>
+
+        <!-- Modal Input Nomor Meja Makan -->
+        <div class="modal fade" id="tablePromptModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered px-3">
+                <div class="modal-content border-0 shadow-lg" style="border-radius: 20px;">
+                    <div class="modal-body text-center p-4">
+                        <div class="bg-danger bg-opacity-10 text-danger rounded-circle d-inline-flex align-items-center justify-content-center p-3 mb-3" style="width: 70px; height: 70px;">
+                            <i class="bi bi-geo-alt-fill fs-2" style="color: var(--gacoan-magenta);"></i>
+                        </div>
+                        <h5 class="fw-bold text-dark mb-1">Selamat Datang di Mie Gacoan!</h5>
+                        <p class="text-muted small mb-4">Masukkan nomor meja tempat Anda duduk untuk mulai memesan langsung tanpa perlu registrasi/login.</p>
+                        <div class="mb-3">
+                            <label class="form-label fw-bold text-secondary small">NOMOR MEJA DUDUK</label>
+                            <input type="number" id="inputTableNumber" class="form-control form-control-lg text-center fw-bold fs-4" placeholder="Cth: 14" min="1" max="99" value="${tableNumber}">
+                        </div>
+                        <button type="button" class="btn btn-gacoan w-100 py-3 text-uppercase fw-bold" onclick="saveTableNumber()">
+                            Mulai Pilih Menu <i class="bi bi-arrow-right-short fs-5"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Categories -->
         <div class="category-pills">
-            <button class="cat-btn active" onclick="filterCategory('all', this)">Semua Menu (${menus.length})</button>
+            <button class="cat-btn active" onclick="filterCategory('all', this)">Semua (${menus.length})</button>
             ${categoriesHtml}
         </div>
 
@@ -397,14 +283,14 @@ function renderIndexPage(tableNumber) {
             <div class="d-flex align-items-center gap-3">
                 <div class="position-relative">
                     <i class="bi bi-bag-check-fill fs-3 text-warning"></i>
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gacoan" id="cartTotalCount">0</span>
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill badge-gacoan-pill" id="cartTotalCount">0</span>
                 </div>
                 <div>
                     <div class="small text-white-50" style="font-size: 0.72rem;">Total Pesanan</div>
                     <div class="fw-extrabold fs-6" id="cartTotalPrice">Rp 0</div>
                 </div>
             </div>
-            <div class="d-flex align-items-center gap-1 font-weight-bold text-warning">
+            <div class="d-flex align-items-center gap-1 font-weight-bold text-warning small">
                 <span>Lanjut Checkout</span>
                 <i class="bi bi-chevron-right fs-6"></i>
             </div>
@@ -450,7 +336,7 @@ function renderIndexPage(tableNumber) {
             </div>
             <div class="offcanvas-body p-3">
                 <form id="orderForm" onsubmit="submitOrder(event)">
-                    <input type="hidden" name="table_number" value="${tableNumber}">
+                    <input type="hidden" id="formTableNumber" name="table_number" value="${tableNumber}">
                     <div class="mb-3">
                         <label class="form-label fw-bold small text-dark"><i class="bi bi-person-fill text-danger me-1"></i> Nama Pemesan</label>
                         <input type="text" name="customer_name" class="form-control" placeholder="Masukkan nama kamu..." required>
@@ -463,11 +349,16 @@ function renderIndexPage(tableNumber) {
 
                     <div class="mb-3">
                         <label class="form-label fw-bold small text-dark"><i class="bi bi-wallet2 text-danger me-1"></i> Metode Pembayaran</label>
-                        <div class="d-flex gap-2">
+                        <div class="d-flex gap-2 mb-2">
                             <input type="radio" class="btn-check" name="payment_method" id="pay_qris" value="qris" checked>
-                            <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_qris"><i class="bi bi-qr-code"></i> QRIS</label>
+                            <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_qris"><i class="bi bi-qr-code"></i> QRIS / Transfer</label>
                             <input type="radio" class="btn-check" name="payment_method" id="pay_kasir" value="kasir">
                             <label class="btn btn-outline-gacoan flex-fill py-2 text-center" for="pay_kasir"><i class="bi bi-cash-stack"></i> Kasir</label>
+                        </div>
+                        <div id="proofUploadContainer" class="bg-light p-3 rounded-3 border">
+                            <label class="form-label fw-bold small text-dark mb-1"><i class="bi bi-upload text-danger me-1"></i> Unggah Bukti Pembayaran (Opsional)</label>
+                            <input type="file" name="payment_proof" class="form-control form-control-sm" accept="image/*">
+                            <small class="text-muted" style="font-size: 0.7rem;">Dapat diunggah sekarang atau setelah memesan.</small>
                         </div>
                     </div>
 
@@ -501,11 +392,33 @@ function renderIndexPage(tableNumber) {
         let activeMenuForSpicy = null;
         let spicyBsModal = null;
         let checkoutBsCanvas = null;
+        let tablePromptBsModal = null;
 
         document.addEventListener('DOMContentLoaded', () => {
             spicyBsModal = new bootstrap.Modal(document.getElementById('spicyModal'));
             checkoutBsCanvas = new bootstrap.Offcanvas(document.getElementById('checkoutCanvas'));
+            tablePromptBsModal = new bootstrap.Modal(document.getElementById('tablePromptModal'));
+
+            const urlParams = new URLSearchParams(window.location.search);
+            let table = urlParams.get('table') || localStorage.getItem('gacoan_table_number');
+            if (!table) {
+                tablePromptBsModal.show();
+            } else {
+                setTableNumber(table);
+            }
         });
+
+        function promptTableNumber() { tablePromptBsModal.show(); }
+        function saveTableNumber() {
+            const val = document.getElementById('inputTableNumber').value || '14';
+            setTableNumber(val);
+            tablePromptBsModal.hide();
+        }
+        function setTableNumber(table) {
+            localStorage.setItem('gacoan_table_number', table);
+            document.getElementById('displayTableNumber').innerText = table;
+            document.getElementById('formTableNumber').value = table;
+        }
 
         function filterCategory(slug, btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
@@ -687,6 +600,8 @@ function renderSuccessPage(order) {
         body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #EAEAEA; margin: 0; padding: 0; display: flex; justify-content: center; min-height: 100vh; }
         .mobile-container { width: 100%; max-width: 480px; background-color: #FFFFFF; min-height: 100vh; position: relative; box-shadow: 0 0 25px rgba(0,0,0,0.15); display: flex; flex-direction: column; }
         .btn-gacoan { background-color: var(--gacoan-magenta); color: #FFFFFF; font-weight: 700; border-radius: 12px; border: none; text-decoration: none; display: inline-block; }
+        .step-badge { background: #e9ecef; color: #6c757d; font-size: 0.72rem; font-weight: 700; padding: 6px 12px; border-radius: 20px; }
+        .step-badge.active { background: var(--gacoan-magenta); color: #fff; }
     </style>
 </head>
 <body>
@@ -698,7 +613,17 @@ function renderSuccessPage(order) {
         </div>
 
         <h1 class="h4 fw-bold text-dark mb-1">Pesanan Berhasil Dibuat!</h1>
-        <p class="text-muted small mb-4">Pesanan kamu sedang diproses oleh dapur Mie Gacoan.</p>
+        <p class="text-muted small mb-3">Pesanan Anda langsung diteruskan ke dapur tanpa perlu login.</p>
+
+        <!-- Monitoring Status Pesanan -->
+        <div class="bg-light p-3 rounded-4 mb-4 border text-start">
+            <div class="small fw-bold text-secondary mb-2"><i class="bi bi-activity text-danger me-1"></i> STATUS MONITORING PESANAN</div>
+            <div class="d-flex justify-content-between gap-1 text-center">
+                <span class="step-badge active"><i class="bi bi-clock-history me-1"></i> Menunggu</span>
+                <span class="step-badge active"><i class="bi bi-fire me-1"></i> Diproses</span>
+                <span class="step-badge"><i class="bi bi-bag-check me-1"></i> Siap Diantar</span>
+            </div>
+        </div>
 
         <div class="card border-0 shadow-sm rounded-4 text-start mb-4 overflow-hidden">
             <div class="p-3 text-white d-flex justify-content-between align-items-center" style="background-color: var(--gacoan-dark);">
