@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
 import HeaderBar from './components/HeaderBar';
 import HeroBanner from './components/HeroBanner';
 import CategoryGrid from './components/CategoryGrid';
@@ -65,12 +64,12 @@ export default function App() {
   const handleSelectCategory = (slug) => {
     setActiveSlug(slug);
     setActivePage('menu-items');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleBackToCategories = () => {
     setActivePage('categories');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleOpenDetail = (menu) => {
@@ -135,13 +134,13 @@ export default function App() {
     setCart([]);
     setIsPaymentGatewayOpen(false);
     setActivePage('success');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleNewOrder = () => {
     setConfirmedOrder(null);
     setActivePage('categories');
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   if (activePage === 'get-started') {
@@ -171,35 +170,21 @@ export default function App() {
         onOpenScanner={() => setShowScannerModal(true)}
       />
 
-      {/* Main Pages with AnimatePresence */}
-      <AnimatePresence mode="wait">
-        {activePage === 'categories' ? (
-          <motion.div
-            key="page-categories"
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <HeroBanner />
-            <CategoryGrid onSelectCategory={handleSelectCategory} />
-          </motion.div>
-        ) : (
-          <motion.div
-            key="page-menu-items"
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 20 }}
-            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <MenuGrid 
-              activeSlug={activeSlug} 
-              onBack={handleBackToCategories} 
-              onOpenDetail={handleOpenDetail} 
-            />
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* Main Pages with Fast Pure CSS Transitions */}
+      {activePage === 'categories' ? (
+        <div key="page-categories" className="animate-fade-in gpu-accelerated">
+          <HeroBanner />
+          <CategoryGrid onSelectCategory={handleSelectCategory} />
+        </div>
+      ) : (
+        <div key="page-menu-items" className="animate-fade-in gpu-accelerated">
+          <MenuGrid 
+            activeSlug={activeSlug} 
+            onBack={handleBackToCategories} 
+            onOpenDetail={handleOpenDetail} 
+          />
+        </div>
+      )}
 
       {/* Floating Cart Bar */}
       <CartFloatingBar cart={cart} onOpenCheckout={() => setIsCheckoutOpen(true)} />

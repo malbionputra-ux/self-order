@@ -1,6 +1,5 @@
 import React, { useState, useMemo } from 'react';
 import { ArrowLeft, Plus, Sparkles, Search, SlidersHorizontal } from 'lucide-react';
-import { motion } from 'framer-motion';
 import { categories, menus, formatRupiah } from '../data/menuData';
 
 export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
@@ -32,14 +31,13 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
   return (
     <div className="min-h-[calc(100vh-140px)] bg-[#FAF7F2]">
       {/* Sticky Back Header Bar */}
-      <div className="sticky top-[61px] z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 border-b border-[#EFE9E2] flex items-center justify-between shadow-xs">
-        <motion.button
-          whileTap={{ scale: 0.94 }}
+      <div className="sticky top-[57px] z-20 bg-white px-4 py-2.5 border-b border-[#EFE9E2] flex items-center justify-between shadow-xs">
+        <button
           onClick={onBack}
-          className="bg-[#FAF7F2] text-[#2C221E] hover:bg-[#C85A32] hover:text-white font-brand font-extrabold text-xs px-3.5 py-1.5 rounded-full border border-[#EFE9E2] flex items-center gap-1.5 transition-colors shadow-xs"
+          className="btn-fast bg-[#FAF7F2] text-[#2C221E] hover:bg-[#C85A32] hover:text-white font-brand font-extrabold text-xs px-3.5 py-1.5 rounded-full border border-[#EFE9E2] flex items-center gap-1.5 transition-colors shadow-xs"
         >
           <ArrowLeft className="w-4 h-4" /> Kembali Ke Kategori
-        </motion.button>
+        </button>
         <span className="font-serif font-bold text-sm text-[#C85A32]">
           {activeCategory?.name || 'Daftar Menu'}
         </span>
@@ -47,7 +45,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
 
       <div className="p-4">
         {/* Search Bar */}
-        <div className="relative flex items-center shadow-xs rounded-2xl bg-white border border-[#EFE9E2] focus-within:border-[#C85A32] transition-all mb-3 overflow-hidden">
+        <div className="relative flex items-center shadow-xs rounded-2xl bg-white border border-[#EFE9E2] focus-within:border-[#C85A32] transition-colors mb-3 overflow-hidden">
           <Search className="w-4 h-4 text-[#7E746F] absolute left-3.5" />
           <input
             type="text"
@@ -69,7 +67,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
               <button
                 key={pill.slug}
                 onClick={() => setCurrentCategorySlug(pill.slug)}
-                className={`px-3.5 py-1.5 rounded-full font-brand font-bold text-xs whitespace-nowrap transition-all duration-200 shadow-xs flex items-center gap-1 ${
+                className={`btn-fast px-3.5 py-1.5 rounded-full font-brand font-bold text-xs whitespace-nowrap transition-all duration-150 shadow-xs flex items-center gap-1 ${
                   isActive
                     ? 'bg-[#C85A32] text-white shadow-md shadow-[#C85A32]/30 scale-105'
                     : 'bg-white text-[#2C221E] border border-[#EFE9E2] hover:border-[#C85A32]/40'
@@ -98,7 +96,8 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
             <div
               key={menu.id}
               onClick={() => onOpenDetail(menu)}
-              className="menu-card gpu-accelerated bg-gradient-to-br from-[#2C221E] via-[#352924] to-[#2C221E] rounded-[28px] p-3 text-white border border-white/10 shadow-xl shadow-[#2C221E]/15 flex flex-col justify-between relative overflow-hidden group cursor-pointer"
+              className="menu-card gpu-accelerated animate-fade-in-up bg-gradient-to-br from-[#2C221E] via-[#352924] to-[#2C221E] rounded-[28px] p-3 text-white border border-white/10 shadow-xl shadow-[#2C221E]/15 flex flex-col justify-between relative overflow-hidden group cursor-pointer"
+              style={{ animationDelay: `${(index % 6) * 0.04}s` }}
             >
               {/* Favorite / Best Seller Badge */}
               {menu.is_bestseller && (
@@ -133,7 +132,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
                 <span className="font-mono font-extrabold text-xs text-[#2C221E]">
                   Rp {formatRupiah(menu.price)}
                 </span>
-                <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md shadow-[#C85A32]/40 group-hover:bg-[#E8703E] transition-colors">
+                <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors">
                   <Plus className="w-4 h-4 stroke-[3]" />
                 </div>
               </div>

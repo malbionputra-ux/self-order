@@ -7,32 +7,93 @@
     background-color: #FAF7F2;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
+    text-rendering: optimizeSpeed;
   }
 }
 
-/* GPU Hardware Acceleration Classes */
+/* ===== HARDWARE ACCELERATION & ZERO-LAG UTILITIES ===== */
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 .gpu-accelerated {
   transform: translate3d(0, 0, 0);
   will-change: transform, opacity;
   backface-visibility: hidden;
 }
 
-.font-serif {
-  font-family: 'DM Serif Display', serif;
-  letter-spacing: 0.01em;
+/* ===== PURE CSS HIGH-FPS ANIMATIONS ===== */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 16px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
 }
 
-.font-brand {
-  font-family: 'Outfit', sans-serif;
-  letter-spacing: 0.01em;
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.font-mono {
-  font-family: 'Space Grotesk', monospace;
+@keyframes popIn {
+  from {
+    opacity: 0;
+    transform: scale3d(0.92, 0.92, 1);
+  }
+  to {
+    opacity: 1;
+    transform: scale3d(1, 1, 1);
+  }
 }
 
-/* Fast Custom Scrollbar */
+.animate-fade-in-up {
+  animation: fadeInUp 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  will-change: transform, opacity;
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-out forwards;
+}
+
+.animate-pop-in {
+  animation: popIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* ===== PURE CSS FAST HOVER & TOUCH PHYSICS ===== */
+.menu-card {
+  transition: transform 0.18s ease-out, box-shadow 0.18s ease-out;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.menu-card:hover {
+  transform: translate3d(0, -4px, 0) scale(1.015);
+  box-shadow: 0 12px 24px rgba(44, 34, 30, 0.2);
+}
+
+.menu-card:active {
+  transform: translate3d(0, 0, 0) scale(0.96);
+  transition-duration: 0.08s;
+}
+
+.btn-fast {
+  transition: transform 0.15s ease-out, opacity 0.15s ease-out;
+  will-change: transform;
+}
+
+.btn-fast:active {
+  transform: scale(0.94);
+}
+
+.btn-fast:hover {
+  transform: scale(1.03);
+}
+
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 4px;
   height: 4px;
@@ -45,35 +106,22 @@
   border-radius: 10px;
 }
 
-/* Shimmer Animation (Lightweight) */
-@keyframes shimmer {
-  0% { background-position: -200% 0; }
-  100% { background-position: 200% 0; }
-}
-
-.shimmer-badge {
-  background: linear-gradient(
-    110deg,
-    rgba(255,179,150,0) 0%,
-    rgba(255,179,150,0.3) 45%,
-    rgba(255,179,150,0) 55%,
-    rgba(255,179,150,0) 100%
-  );
-  background-size: 200% 100%;
-  animation: shimmer 3s ease-in-out infinite;
-}
-
-/* Card Hover Optimizations */
-.menu-card {
-  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease;
-  will-change: transform;
-}
-
-/* Hide scrollbars for horizontal pills */
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }
 .no-scrollbar {
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.font-serif {
+  font-family: 'DM Serif Display', serif;
+}
+
+.font-brand {
+  font-family: 'Outfit', sans-serif;
+}
+
+.font-mono {
+  font-family: 'Space Grotesk', monospace;
 }
