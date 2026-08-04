@@ -1,15 +1,23 @@
 {
-  "name": "mie-gacoan-self-ordering",
+  "name": "kiri-coffee-self-ordering",
   "version": "1.0.0",
-  "description": "Mie Gacoan Web Self-Ordering App via QR Code Meja",
-  "main": "server.js",
+  "description": "Kiri Coffee & Eatery Web Self-Ordering App - React + Vite + TailwindCSS + Framer Motion",
+  "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "dev": "vite --port 8000 --host",
+    "build": "vite build",
+    "preview": "vite preview"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "dependencies": {
+    "framer-motion": "^12.4.7",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
-  "author": "malbionputra-ux",
-  "license": "MIT"
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.0.7",
+    "@vitejs/plugin-react": "^4.3.4",
+    "tailwindcss": "^4.0.7",
+    "vite": "^6.1.1"
+  }
 }

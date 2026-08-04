@@ -1,36 +1,39 @@
-# Mie Gacoan - Web Self-Ordering App 🍜
+# ☕ Kiri Coffee & Eatery - QR Code Web Self-Ordering (React + Vite + TailwindCSS)
 
-Aplikasi Web Self-Ordering (Pesan via QR Code Meja) tiruan **Mie Gacoan** dibangun menggunakan **Node.js + Vercel Serverless Functions**, mobile-first 480px.
+Aplikasi **Web Self-Ordering QR Code Meja** modern untuk **Kiri Coffee & Eatery** (@kiricoffee_) dibangun dengan **React, Vite, TailwindCSS (v4), Framer Motion, dan Lucide React Icons**.
 
-## ✨ Fitur Utama
-- 📱 Mobile-First UI (max 480px) dengan tema Magenta Gacoan (#E60067)
-- 🌶️ Pilihan Level Kepedasan (Level 0, 1, 2, 3, 4, 6, 8) via Modal
-- 🛒 Floating Cart Bar real-time update
-- 💳 Checkout Offcanvas dengan kalkulasi Pajak PB1 10%
-- ✅ Konfirmasi & Struk Pesanan Digital
-- 15 Menu: Mie Pedas, Dimsum, Es & Minuman
+## 📱 Arsitektur & Fitur Utama
 
-## 🌐 Live Demo
-Akses: `https://[project].vercel.app/?table=14`
+1. **Halaman 1 (Landing Grid Kategori)**:
+   - Header Frosted Dark Mocha dengan logo Kiri Coffee & link Instagram (@kiricoffee_).
+   - Badge Meja Dinamis dengan modal edit nomor meja.
+   - Hero Banner bertema *Warm Space & Good Mood*.
+   - **4 Grid Card Kategori** (*Signature Coffee*, *Non-Coffee & Refreshers*, *Artisan Pastry*, *Eatery & Mains*) dengan animasi muncul bertahap (*staggered entrance*).
 
-## 🚀 Run Lokal
+2. **Halaman 2 (Daftar Menu 2-Kolom)**:
+   - Terbuka dengan transisi geser mulus (*Framer Motion slide animation*).
+   - Tombol **`← Kembali Ke Kategori`** sticky bar.
+   - Grid 2-kolom kartu produk besar dengan foto resolusi tinggi HD, deskripsi, harga, dan badge Favorite.
+
+3. **Product Detail Modal (Kustomisasi Kontekstual & Dynamic Photo)**:
+   - Starbucks-style Rich Modal dengan animasi *spring physics*.
+   - **Foto Berubah Otomatis**: Foto berganti saat memilih varian `Ice` vs `Hot`.
+   - **Pill Kontekstual**: Drink hangat (*Kiri Kopi Kedua*) HANYA menampilkan `Hot (Hangat)`, drink dingin (*Caramon Mocktail*) HANYA menampilkan level es.
+   - Pilihan Tingkat Manis, Susu (Fresh/Oat/Almond), Catatan Khusus, dan Counter Porsi (`- 1 +`).
+
+4. **Floating Cart & Checkout Bottom Sheet**:
+   - Bar keranjang melayang dengan animasi membal gembira (*cart bounce*).
+   - Bottom Sheet Checkout dengan pilihan pembayaran (QRIS / Kasir), perhitungan pajak PB1 Resto 10%, dan layar struk sukses monitoring barista.
+
+## 🚀 Cara Menjalankan Aplikasi (Vite React Dev Server)
+
 ```bash
-node server.js
-# Buka: http://127.0.0.1:8000?table=14
+# Install dependencies
+npm install
+
+# Jalankan Vite Dev Server
+npm run dev
 ```
 
-## 🗃️ Tech Stack
-- Runtime: Node.js (Serverless Vercel Functions)
-- Frontend: Bootstrap 5 + Vanilla JS + Bootstrap Icons
-- Font: Plus Jakarta Sans (Google Fonts)
-- Deployment: Vercel
-
-## 📋 Struktur Menu (15 Item)
-### Mie Pedas (5)
-- Mie Hompimpa, Mie Iblis, Mie Gacoan, Mie Suit, Mie Angel
-
-### Dimsum (4)
-- Udang Keju, Siomay Ayam, Pangsit Goreng, Lumpia Udang
-
-### Es & Minuman (6)
-- Es Gobak Sodor, Es Teklek, Es Sluku Bathok, Es Teh Manis Jumbo, Lemon Tea Segar, Air Mineral Cold
+Akses URL di browser:
+👉 **`http://127.0.0.1:8000?table=08`**
