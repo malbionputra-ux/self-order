@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Plus, Sparkles, Search, SlidersHorizontal } from 'lucide-react';
+import { ArrowLeft, Plus, Sparkles, Search } from 'lucide-react';
 import { categories, menus, formatRupiah } from '../data/menuData';
 
 export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
@@ -12,7 +12,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
   const filteredMenus = useMemo(() => {
     return menus.filter(menu => {
       const matchesCategory = menu.category_slug === activeSlug;
-      const matchesSearch = !searchQuery || 
+      const matchesSearch = !searchQuery ||
         menu.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         menu.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
@@ -20,94 +20,95 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
   }, [activeSlug, searchQuery]);
 
   return (
-    <div className="min-h-[calc(100vh-140px)] bg-[#FAF7F2]">
-      {/* Sticky Back Header Bar */}
-      <div className="sticky top-[57px] z-20 bg-white px-4 py-2.5 border-b border-[#EFE9E2] flex items-center justify-between shadow-xs">
+    <div className="min-h-[calc(100vh-140px)]">
+      {/* Sticky Back Header */}
+      <div className="sticky top-[53px] z-20 glass-panel px-4 py-2.5 flex items-center justify-between border-b border-white/[0.04]">
         <button
           onClick={onBack}
-          className="btn-fast bg-[#FAF7F2] text-[#2C221E] hover:bg-[#C85A32] hover:text-white font-brand font-extrabold text-xs px-3.5 py-1.5 rounded-full border border-[#EFE9E2] flex items-center gap-1.5 transition-colors shadow-xs"
+          className="btn-fast bg-white/[0.05] text-[#F5F0EB] hover:bg-[#E8703E] hover:text-white font-brand font-bold text-xs px-3.5 py-1.5 rounded-full border border-white/[0.08] flex items-center gap-1.5 transition-all"
         >
-          <ArrowLeft className="w-4 h-4" /> Kembali Ke Kategori
+          <ArrowLeft className="w-4 h-4" /> Kembali
         </button>
-        <span className="font-serif font-bold text-sm text-[#C85A32]">
-          {activeCategory?.name || 'Daftar Menu'}
+        <span className="font-serif text-sm text-[#E8703E]">
+          {activeCategory?.name || 'Menu'}
         </span>
       </div>
 
-      <div className="p-4">
-        {/* Search Bar */}
-        <div className="relative flex items-center shadow-xs rounded-2xl bg-white border border-[#EFE9E2] focus-within:border-[#C85A32] transition-colors mb-3.5 overflow-hidden">
-          <Search className="w-4 h-4 text-[#7E746F] absolute left-3.5" />
+      <div className="p-4 space-y-4">
+        {/* Search Bar — Glass Morphism */}
+        <div className="relative glass-panel rounded-2xl overflow-hidden focus-within:border-[#E8703E]/40 transition-colors">
+          <Search className="w-4 h-4 text-[#6B5F56] absolute left-3.5 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder={`Cari menu di ${activeCategory?.name || 'kategori ini'}...`}
-            className="w-full pl-10 pr-10 py-2.5 text-xs font-brand text-[#2C221E] placeholder-[#7E746F]/70 outline-none bg-transparent"
+            placeholder={`Cari di ${activeCategory?.name || 'kategori ini'}...`}
+            className="w-full pl-10 pr-4 py-3 text-xs font-brand text-[#F5F0EB] placeholder-[#6B5F56] outline-none bg-transparent"
           />
-          <div className="absolute right-3 p-1.5 bg-[#FAF7F2] rounded-xl text-[#C85A32]">
-            <SlidersHorizontal className="w-3.5 h-3.5" />
-          </div>
         </div>
 
-        {/* Category Header Title */}
-        <div className="flex items-center justify-between mb-3.5 px-1">
-          <h2 className="font-serif font-bold text-sm text-[#2C221E] flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-[#C85A32]" />
+        {/* Category Title */}
+        <div className="flex items-center justify-between px-0.5">
+          <h2 className="font-serif text-sm text-[#F5F0EB] flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-[#E8703E] shadow-sm shadow-[#E8703E]/50" />
             {activeCategory?.name || 'Daftar Menu'}
           </h2>
-          <span className="bg-[#FAF7F2] text-[#C85A32] font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-[#C85A32]/20">
+          <span className="bg-white/[0.05] text-[#E8703E] font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-[#E8703E]/15">
             {filteredMenus.length} Menu
           </span>
         </div>
 
-        {/* 2-Column Pinterest-Style Dark Cards Grid */}
-        <div className="grid grid-cols-2 gap-3.5">
+        {/* Menu Cards Grid */}
+        <div className="grid grid-cols-2 gap-3">
           {filteredMenus.map((menu, index) => (
             <div
               key={menu.id}
               onClick={() => onOpenDetail(menu)}
-              className="menu-card gpu-accelerated animate-fade-in-up bg-gradient-to-br from-[#2C221E] via-[#352924] to-[#2C221E] rounded-[28px] p-3 text-white border border-white/10 shadow-xl shadow-[#2C221E]/15 flex flex-col justify-between relative overflow-hidden group cursor-pointer"
-              style={{ animationDelay: `${(index % 6) * 0.04}s` }}
+              className="menu-card glass-card rounded-[20px] overflow-hidden cursor-pointer relative group animate-slide-reveal"
+              style={{ animationDelay: `${(index % 6) * 0.06}s` }}
             >
-              {/* Favorite / Best Seller Badge */}
+              {/* Bestseller Badge */}
               {menu.is_bestseller && (
-                <span className="absolute top-3 left-3 bg-[#C85A32]/90 text-white font-brand text-[9px] font-extrabold px-2.5 py-0.5 rounded-full shadow-md z-10 flex items-center gap-0.5">
+                <div className="absolute top-2.5 left-2.5 z-20 bg-[#E8703E]/90 text-white font-brand text-[9px] font-bold px-2 py-0.5 rounded-full flex items-center gap-0.5 shadow-md animate-shimmer">
                   <Sparkles className="w-2.5 h-2.5 text-amber-200" /> Top
-                </span>
+                </div>
               )}
 
-              {/* Floating Top Image with Fallback */}
-              <div className="relative w-28 h-28 mx-auto my-2 rounded-full overflow-hidden bg-[#2C221E] border-2 border-white/15 shadow-lg group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
-                <img 
-                  src={menu.image} 
+              {/* Food Image — Full Bleed Rectangle */}
+              <div className="relative w-full aspect-[4/3] overflow-hidden bg-[#1A1614]">
+                <img
+                  src={menu.image}
                   alt={menu.name}
                   loading="lazy"
-                  decoding="async" 
+                  decoding="async"
                   onError={(e) => {
                     e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
                   }}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                 />
+                {/* Bottom fade into card */}
+                <div className="absolute bottom-0 left-0 right-0 h-12 bg-gradient-to-t from-[#1A1614] to-transparent" />
               </div>
 
-              {/* Title & Description */}
-              <div className="text-center px-1 my-1">
-                <h4 className="font-brand font-extrabold text-xs text-white leading-snug line-clamp-1 group-hover:text-amber-200 transition-colors">
-                  {menu.name}
-                </h4>
-                <p className="text-[10px] text-white/60 line-clamp-1 mt-0.5 leading-tight">
-                  {menu.description}
-                </p>
-              </div>
+              {/* Card Body */}
+              <div className="p-3 pt-1.5 space-y-2">
+                <div>
+                  <h4 className="font-brand font-bold text-xs text-[#F5F0EB] leading-snug line-clamp-1 group-hover:text-[#FF9E79] transition-colors duration-300">
+                    {menu.name}
+                  </h4>
+                  <p className="text-[10px] text-[#6B5F56] line-clamp-1 mt-0.5">
+                    {menu.description}
+                  </p>
+                </div>
 
-              {/* Bottom White Action Pill Capsule (Price + Add Button) */}
-              <div className="bg-white rounded-full p-1 pl-3.5 flex items-center justify-between mt-2 shadow-lg shadow-black/30">
-                <span className="font-mono font-extrabold text-xs text-[#2C221E]">
-                  Rp {formatRupiah(menu.price)}
-                </span>
-                <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors">
-                  <Plus className="w-4 h-4 stroke-[3]" />
+                {/* Price + Add Button Row */}
+                <div className="flex items-center justify-between">
+                  <span className="font-mono font-bold text-xs text-[#D4A574]">
+                    Rp {formatRupiah(menu.price)}
+                  </span>
+                  <div className="w-7 h-7 rounded-full bg-[#E8703E] text-white flex items-center justify-center shadow-md shadow-[#E8703E]/25 group-hover:scale-110 transition-transform duration-200">
+                    <Plus className="w-4 h-4 stroke-[2.5]" />
+                  </div>
                 </div>
               </div>
             </div>

@@ -13,7 +13,7 @@ import CameraQRScannerModal from './components/CameraQRScannerModal';
 import GetStartedScreen from './components/GetStartedScreen';
 
 export default function App() {
-  const [activePage, setActivePage] = useState('get-started'); // 'get-started' | 'categories' | 'menu-items' | 'success'
+  const [activePage, setActivePage] = useState('get-started');
   const [activeSlug, setActiveSlug] = useState('signature-coffee');
   const [tableNumber, setTableNumber] = useState('08');
   const [showTableModal, setShowTableModal] = useState(false);
@@ -148,8 +148,8 @@ export default function App() {
 
   if (activePage === 'get-started') {
     return (
-      <div className="w-full max-w-md mx-auto bg-white min-h-screen shadow-2xl relative overflow-hidden">
-        <GetStartedScreen 
+      <div className="w-full max-w-md mx-auto bg-[#0D0B0A] min-h-screen shadow-2xl relative overflow-hidden">
+        <GetStartedScreen
           onGetStarted={handleGetStartedClick}
         />
       </div>
@@ -158,33 +158,33 @@ export default function App() {
 
   if (activePage === 'success') {
     return (
-      <div className="w-full max-w-md mx-auto bg-white min-h-screen shadow-2xl relative overflow-hidden">
+      <div className="w-full max-w-md mx-auto bg-[#0D0B0A] min-h-screen shadow-2xl relative overflow-hidden">
         <OrderSuccessScreen order={confirmedOrder} onNewOrder={handleNewOrder} />
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-md mx-auto bg-white min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
+    <div className="w-full max-w-md mx-auto bg-[#0D0B0A] min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
       {/* Header Bar */}
-      <HeaderBar 
-        tableNumber={tableNumber} 
+      <HeaderBar
+        tableNumber={tableNumber}
         onPromptTable={() => setShowTableModal(true)}
         onOpenScanner={() => setShowScannerModal(true)}
       />
 
-      {/* Main Pages with Fast Pure CSS Transitions */}
+      {/* Main Pages */}
       {activePage === 'categories' ? (
         <div key="page-categories" className="animate-fade-in gpu-accelerated">
           <HeroBanner />
           <CategoryGrid onSelectCategory={handleSelectCategory} />
         </div>
       ) : (
-        <div key="page-menu-items" className="animate-[#FAF7F2] gpu-accelerated">
-          <MenuGrid 
-            activeSlug={activeSlug} 
-            onBack={handleBackToCategories} 
-            onOpenDetail={handleOpenDetail} 
+        <div key="page-menu-items" className="gpu-accelerated">
+          <MenuGrid
+            activeSlug={activeSlug}
+            onBack={handleBackToCategories}
+            onOpenDetail={handleOpenDetail}
           />
         </div>
       )}
@@ -219,14 +219,14 @@ export default function App() {
         onOpenScanner={() => setShowScannerModal(true)}
       />
 
-      {/* Camera QR Code Scanner Modal */}
+      {/* Camera QR Scanner Modal */}
       <CameraQRScannerModal
         isOpen={showScannerModal}
         onClose={() => setShowScannerModal(false)}
         onScanSuccess={handleCameraScanSuccess}
       />
 
-      {/* Table Number Prompt Modal */}
+      {/* Table Number Modal */}
       <TablePromptModal
         isOpen={showTableModal}
         currentTable={tableNumber}
