@@ -65,16 +65,16 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/65 backdrop-blur-md">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md">
         <motion.div
-          initial={{ y: "100%" }}
-          animate={{ y: 0 }}
-          exit={{ y: "100%" }}
-          transition={{ type: "spring", damping: 28, stiffness: 300 }}
-          className="bg-white rounded-t-3xl overflow-hidden w-full max-w-md max-h-[90vh] flex flex-col shadow-2xl relative"
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ type: "spring", damping: 26, stiffness: 320 }}
+          className="bg-white rounded-3xl overflow-hidden w-full max-w-md max-h-[85vh] flex flex-col shadow-2xl relative border border-[#EFE9E2]"
         >
           {/* Header Image Area */}
-          <div className="relative w-full h-56 bg-[#2C221E] overflow-hidden">
+          <div className="relative w-full h-52 bg-[#2C221E] overflow-hidden flex-shrink-0">
             <img 
               src={currentDisplayImage} 
               alt={menu.name} 
@@ -87,13 +87,13 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
 
             <button
               onClick={onClose}
-              className="btn-fast absolute top-4 right-4 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-md border border-white/20 hover:bg-black/60 transition-colors"
+              className="btn-fast absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-md border border-white/20 hover:bg-black/60 transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
 
             {menu.is_bestseller && (
-              <span className="absolute top-4 left-4 bg-[#C85A32] text-white font-brand text-[10px] font-extrabold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+              <span className="absolute top-3.5 left-3.5 bg-[#C85A32] text-white font-brand text-[10px] font-extrabold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-200" /> Bestseller Dump Cafe
               </span>
             )}
