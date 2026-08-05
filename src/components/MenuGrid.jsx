@@ -3,30 +3,21 @@ import { ArrowLeft, Plus, Sparkles, Search, SlidersHorizontal } from 'lucide-rea
 import { categories, menus, formatRupiah } from '../data/menuData';
 
 export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
-  const [currentCategorySlug, setCurrentCategorySlug] = useState(activeSlug || 'signature-coffee');
   const [searchQuery, setSearchQuery] = useState('');
 
   const activeCategory = useMemo(() => {
-    return categories.find(c => c.slug === currentCategorySlug) || categories[0];
-  }, [currentCategorySlug]);
+    return categories.find(c => c.slug === activeSlug) || categories[0];
+  }, [activeSlug]);
 
   const filteredMenus = useMemo(() => {
     return menus.filter(menu => {
-      const matchesCategory = currentCategorySlug === 'all' || menu.category_slug === currentCategorySlug;
+      const matchesCategory = menu.category_slug === activeSlug;
       const matchesSearch = !searchQuery || 
         menu.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
         menu.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [currentCategorySlug, searchQuery]);
-
-  const categoryPills = [
-    { slug: 'all', name: '⭐ Popular' },
-    { slug: 'signature-coffee', name: '☕ Signature Coffee' },
-    { slug: 'non-coffee', name: '🍹 Non-Coffee' },
-    { slug: 'pastry-bakery', name: '🥐 Pastry & Bakery' },
-    { slug: 'eatery-mains', name: '🍔 Eatery & Mains' }
-  ];
+  }, [activeSlug, searchQuery]);
 
   return (
     <div className="min-h-[calc(100vh-140px)] bg-[#FAF7F2]">
@@ -45,38 +36,18 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
 
       <div className="p-4">
         {/* Search Bar */}
-        <div className="relative flex items-center shadow-xs rounded-2xl bg-white border border-[#EFE9E2] focus-within:border-[#C85A32] transition-colors mb-3 overflow-hidden">
+        <div className="relative flex items-center shadow-xs rounded-2xl bg-white border border-[#EFE9E2] focus-within:border-[#C85A32] transition-colors mb-3.5 overflow-hidden">
           <Search className="w-4 h-4 text-[#7E746F] absolute left-3.5" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari kopi, mocktail, croissant, burger..."
+            placeholder={`Cari menu di ${activeCategory?.name || 'kategori ini'}...`}
             className="w-full pl-10 pr-10 py-2.5 text-xs font-brand text-[#2C221E] placeholder-[#7E746F]/70 outline-none bg-transparent"
           />
           <div className="absolute right-3 p-1.5 bg-[#FAF7F2] rounded-xl text-[#C85A32]">
             <SlidersHorizontal className="w-3.5 h-3.5" />
           </div>
-        </div>
-
-        {/* Horizontal Category Switcher Pills */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1 mb-4">
-          {categoryPills.map((pill) => {
-            const isActive = currentCategorySlug === pill.slug;
-            return (
-              <button
-                key={pill.slug}
-                onClick={() => setCurrentCategorySlug(pill.slug)}
-                className={`btn-fast px-3.5 py-1.5 rounded-full font-brand font-bold text-xs whitespace-nowrap transition-all duration-150 shadow-xs flex items-center gap-1 ${
-                  isActive
-                    ? 'bg-[#C85A32] text-white shadow-md shadow-[#C85A32]/30 scale-105'
-                    : 'bg-white text-[#2C221E] border border-[#EFE9E2] hover:border-[#C85A32]/40'
-                }`}
-              >
-                {pill.name}
-              </button>
-            );
-          })}
         </div>
 
         {/* Category Header Title */}
