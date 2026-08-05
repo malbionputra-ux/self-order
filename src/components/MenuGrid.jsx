@@ -92,7 +92,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
               </div>
 
               {/* Card Body */}
-              <div className="p-3 pt-2.5 flex flex-col flex-1 justify-between space-y-2">
+              <div className="p-3 pt-2.5 flex flex-col flex-1 justify-between">
                 <div>
                   <h4 className="font-display font-extrabold text-xs text-[#1C1917] leading-snug line-clamp-1 group-hover:text-[#C85A32] transition-colors">
                     {menu.name}
@@ -102,13 +102,13 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
                   </p>
                 </div>
 
-                {/* Bottom Price & Add Button Row */}
-                <div className="flex items-center justify-between pt-1 border-none">
-                  <span className="font-mono font-extrabold text-xs text-[#C85A32]">
+                {/* Bottom Action Pill Capsule (Price + Add Button with Gap) */}
+                <div className="bg-[#FAF7F2] rounded-full p-1 pl-3.5 flex items-center justify-between mt-3 shadow-xs border-none">
+                  <span className="font-mono font-extrabold text-xs text-[#1C1917]">
                     Rp {formatRupiah(menu.price)}
                   </span>
-                  <div className="w-7.5 h-7.5 rounded-full bg-[#FAF7F2] group-hover:bg-[#C85A32] text-[#1C1917] group-hover:text-white flex items-center justify-center transition-all duration-200 shadow-xs border-none">
-                    <Plus className="w-4 h-4 stroke-[2.5]" />
+                  <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors border-none">
+                    <Plus className="w-4 h-4 stroke-[3]" />
                   </div>
                 </div>
               </div>
