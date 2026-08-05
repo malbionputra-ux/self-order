@@ -25,7 +25,7 @@ export default function CheckoutBottomSheet({
 
   // Split Bill / Partial Payment State
   const [isSplitBill, setIsSplitBill] = useState(false);
-  const [splitMode, setSplitMode] = useState('equal'); // 'equal' | 'custom' | 'item'
+  const [splitMode, setSplitMode] = useState('equal');
   const [splitPeopleCount, setSplitPeopleCount] = useState(2);
   const [customPayAmount, setCustomPayAmount] = useState('');
   const [selectedItemKeys, setSelectedItemKeys] = useState([]);
@@ -34,7 +34,6 @@ export default function CheckoutBottomSheet({
 
   const rawSubtotal = cart.reduce((sum, item) => sum + (item.unit_price * item.quantity), 0);
   
-  // Calculate discount
   let discountAmount = 0;
   if (appliedPromo) {
     const promo = PROMO_CODES[appliedPromo];
@@ -49,7 +48,6 @@ export default function CheckoutBottomSheet({
   const taxAmount = Math.round(subtotalAfterDiscount * 0.10);
   const fullTotalPrice = subtotalAfterDiscount + taxAmount;
 
-  // Split Bill Calculations
   let currentPayAmount = fullTotalPrice;
   let remainingBalance = 0;
 
@@ -117,7 +115,7 @@ export default function CheckoutBottomSheet({
       discountAmount,
       taxAmount,
       fullTotalPrice,
-      totalPrice: currentPayAmount, // Amount paying now
+      totalPrice: currentPayAmount,
       isSplitBill,
       splitDetails: isSplitBill ? {
         mode: splitMode,
@@ -136,28 +134,28 @@ export default function CheckoutBottomSheet({
           animate={{ y: 0 }}
           exit={{ y: "100%" }}
           transition={{ type: "spring", damping: 28, stiffness: 300 }}
-          className="bg-[#0D0B0A] rounded-t-3xl overflow-hidden w-full max-w-md max-h-[92vh] flex flex-col shadow-2xl border-t border-x border-white/[0.06]"
+          className="bg-white rounded-t-3xl overflow-hidden w-full max-w-md max-h-[92vh] flex flex-col shadow-2xl"
         >
           {/* Header */}
-          <div className="p-4 border-b border-white/[0.06] flex items-center justify-between bg-[#1A1614]">
-            <div className="flex items-center gap-2 font-serif font-bold text-base text-[#F5F0EB]">
-              <Receipt className="w-5 h-5 text-[#E8703E]" />
+          <div className="p-4 border-b border-[#EFE9E2] flex items-center justify-between bg-[#FAF7F2]">
+            <div className="flex items-center gap-2 font-serif font-bold text-base text-[#2C221E]">
+              <Receipt className="w-5 h-5 text-[#C85A32]" />
               <span>Ringkasan Pesanan</span>
             </div>
             <button
               onClick={onClose}
-              className="btn-fast w-8 h-8 rounded-full bg-white/[0.06] text-[#F5F0EB] flex items-center justify-center hover:bg-[#E8703E] hover:text-white transition-colors"
+              className="btn-fast w-8 h-8 rounded-full bg-slate-200/70 text-[#2C221E] flex items-center justify-center hover:bg-[#C85A32] hover:text-white transition-colors"
             >
               <X className="w-4 h-4" />
             </button>
           </div>
 
           {/* Form Content */}
-          <form onSubmit={handleSubmit} className="p-4 overflow-y-auto flex-1 space-y-4">
+          <form onSubmit={handleSubmit} className="p-4 overflow-y-auto flex-1 space-y-4 bg-white">
             {/* Customer Name */}
             <div>
-              <label className="block font-brand font-bold text-xs text-[#F5F0EB] mb-1.5 flex items-center gap-1">
-                <User className="w-3.5 h-3.5 text-[#E8703E]" /> Nama Pemesan
+              <label className="block font-brand font-bold text-xs text-[#2C221E] mb-1.5 flex items-center gap-1">
+                <User className="w-3.5 h-3.5 text-[#C85A32]" /> Nama Pemesan
               </label>
               <input
                 type="text"
@@ -165,29 +163,29 @@ export default function CheckoutBottomSheet({
                 value={customerName}
                 onChange={(e) => setCustomerName(e.target.value)}
                 placeholder="Masukkan nama kamu..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-white/[0.08] focus:border-[#E8703E]/40 text-xs font-brand outline-none transition-all bg-white/[0.04] text-[#F5F0EB] placeholder-[#6B5F56]"
+                className="w-full px-3.5 py-2.5 rounded-xl border-2 border-[#EFE9E2] focus:border-[#C85A32] focus:shadow-md text-xs font-brand outline-none transition-all text-[#2C221E] bg-[#FAF7F2]"
               />
             </div>
 
             {/* Split Bill Toggle Bar */}
-            <div className="bg-white/[0.03] p-3 rounded-2xl border border-white/[0.06]">
+            <div className="bg-[#FAF7F2] p-3 rounded-2xl border border-[#EFE9E2]">
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-xl bg-[#E8703E] text-white flex items-center justify-center">
+                  <div className="w-7 h-7 rounded-xl bg-[#C85A32] text-white flex items-center justify-center">
                     <Scissors className="w-4 h-4" />
                   </div>
                   <div>
-                    <span className="font-brand font-extrabold text-xs text-[#F5F0EB] block">
+                    <span className="font-brand font-extrabold text-xs text-[#2C221E] block">
                       Split Bill / Bayar Sebagian
                     </span>
-                    <span className="text-[10px] text-[#6B5F56]">Bagi tagihan dengan teman di meja</span>
+                    <span className="text-[10px] text-[#7E746F]">Bagi tagihan dengan teman di meja</span>
                   </div>
                 </div>
                 <button
                   type="button"
                   onClick={() => setIsSplitBill(!isSplitBill)}
                   className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                    isSplitBill ? 'bg-[#E8703E]' : 'bg-white/10'
+                    isSplitBill ? 'bg-[#C85A32]' : 'bg-slate-300'
                   }`}
                 >
                   <span
@@ -200,15 +198,15 @@ export default function CheckoutBottomSheet({
 
               {/* Split Options Panel */}
               {isSplitBill && (
-                <div className="mt-3 pt-3 border-t border-white/[0.06] space-y-3 animate-fade-in">
+                <div className="mt-3 pt-3 border-t border-[#EFE9E2] space-y-3 animate-fade-in">
                   <div className="grid grid-cols-3 gap-1.5">
                     <button
                       type="button"
                       onClick={() => setSplitMode('equal')}
                       className={`py-1.5 px-2 rounded-xl text-[10px] font-brand font-bold flex items-center justify-center gap-1 border transition-all btn-fast ${
                         splitMode === 'equal'
-                          ? 'bg-[#E8703E] text-white border-[#E8703E]'
-                          : 'bg-white/[0.04] text-[#9A8E85] border-white/[0.06]'
+                          ? 'bg-[#C85A32] text-white border-[#C85A32]'
+                          : 'bg-white text-[#2C221E] border-[#EFE9E2]'
                       }`}
                     >
                       <Users className="w-3 h-3" /> Bagi Rata
@@ -219,8 +217,8 @@ export default function CheckoutBottomSheet({
                       onClick={() => setSplitMode('custom')}
                       className={`py-1.5 px-2 rounded-xl text-[10px] font-brand font-bold flex items-center justify-center gap-1 border transition-all btn-fast ${
                         splitMode === 'custom'
-                          ? 'bg-[#E8703E] text-white border-[#E8703E]'
-                          : 'bg-white/[0.04] text-[#9A8E85] border-white/[0.06]'
+                          ? 'bg-[#C85A32] text-white border-[#C85A32]'
+                          : 'bg-white text-[#2C221E] border-[#EFE9E2]'
                       }`}
                     >
                       <DollarSign className="w-3 h-3" /> Nominal Custom
@@ -231,8 +229,8 @@ export default function CheckoutBottomSheet({
                       onClick={() => setSplitMode('item')}
                       className={`py-1.5 px-2 rounded-xl text-[10px] font-brand font-bold flex items-center justify-center gap-1 border transition-all btn-fast ${
                         splitMode === 'item'
-                          ? 'bg-[#E8703E] text-white border-[#E8703E]'
-                          : 'bg-white/[0.04] text-[#9A8E85] border-white/[0.06]'
+                          ? 'bg-[#C85A32] text-white border-[#C85A32]'
+                          : 'bg-white text-[#2C221E] border-[#EFE9E2]'
                       }`}
                     >
                       <ListChecks className="w-3 h-3" /> Per Item
@@ -240,8 +238,8 @@ export default function CheckoutBottomSheet({
                   </div>
 
                   {splitMode === 'equal' && (
-                    <div className="flex items-center justify-between bg-white/[0.03] p-2.5 rounded-xl border border-white/[0.06]">
-                      <span className="text-xs font-brand text-[#6B5F56]">Jumlah Orang:</span>
+                    <div className="flex items-center justify-between bg-white p-2.5 rounded-xl border border-[#EFE9E2]">
+                      <span className="text-xs font-brand text-[#7E746F]">Jumlah Orang:</span>
                       <div className="flex items-center gap-2">
                         {[2, 3, 4, 5].map(num => (
                           <button
@@ -250,8 +248,8 @@ export default function CheckoutBottomSheet({
                             onClick={() => setSplitPeopleCount(num)}
                             className={`w-7 h-7 rounded-lg text-xs font-bold font-mono transition-colors ${
                               splitPeopleCount === num
-                                ? 'bg-[#E8703E] text-white'
-                                : 'bg-white/[0.05] text-[#9A8E85] hover:bg-white/10'
+                                ? 'bg-[#C85A32] text-white'
+                                : 'bg-[#FAF7F2] text-[#2C221E] hover:bg-slate-200'
                             }`}
                           >
                             {num}
@@ -263,7 +261,7 @@ export default function CheckoutBottomSheet({
 
                   {splitMode === 'custom' && (
                     <div>
-                      <label className="text-[10px] text-[#6B5F56] block font-brand mb-1">
+                      <label className="text-[10px] text-[#7E746F] block font-brand mb-1">
                         Masukkan Nominal Yang Ingin Anda Bayar:
                       </label>
                       <input
@@ -271,13 +269,13 @@ export default function CheckoutBottomSheet({
                         value={customPayAmount}
                         onChange={(e) => setCustomPayAmount(e.target.value)}
                         placeholder={`Cth: ${formatRupiah(Math.round(fullTotalPrice / 2))}`}
-                        className="w-full px-3 py-2 rounded-xl border border-white/[0.08] bg-white/[0.04] text-xs font-mono font-bold outline-none focus:border-[#E8703E]/40 text-[#F5F0EB] placeholder-[#6B5F56]"
+                        className="w-full px-3 py-2 rounded-xl border border-[#EFE9E2] bg-white text-xs font-mono font-bold outline-none focus:border-[#C85A32] text-[#2C221E]"
                       />
                     </div>
                   )}
 
                   {splitMode === 'item' && (
-                    <p className="text-[10px] text-[#E8703E] font-brand font-bold">
+                    <p className="text-[10px] text-[#C85A32] font-brand font-bold">
                       Centang item di bawah yang ingin Anda bayar sekarang ⬇️
                     </p>
                   )}
@@ -287,7 +285,7 @@ export default function CheckoutBottomSheet({
 
             {/* Cart Items List */}
             <div>
-              <label className="block font-brand font-bold text-xs text-[#F5F0EB] mb-2">
+              <label className="block font-brand font-bold text-xs text-[#2C221E] mb-2">
                 Item Pesanan
               </label>
               <div className="space-y-2 max-h-40 overflow-y-auto pr-1">
@@ -299,8 +297,8 @@ export default function CheckoutBottomSheet({
                       onClick={() => isSplitBill && splitMode === 'item' && toggleSelectItem(item.key)}
                       className={`p-3 rounded-2xl border transition-all ${
                         isSplitBill && splitMode === 'item' && isSelectedForSplit
-                          ? 'bg-[#E8703E]/10 border-[#E8703E]/40 shadow-xs cursor-pointer'
-                          : 'bg-white/[0.03] border-white/[0.06]'
+                          ? 'bg-[#FDF5F0] border-[#C85A32] shadow-xs cursor-pointer'
+                          : 'bg-[#FAF7F2] border-[#EFE9E2]'
                       } flex items-center justify-between`}
                     >
                       <div className="flex items-center gap-2 flex-1 pr-2">
@@ -309,46 +307,46 @@ export default function CheckoutBottomSheet({
                             type="checkbox"
                             checked={isSelectedForSplit}
                             onChange={() => toggleSelectItem(item.key)}
-                            className="w-4 h-4 accent-[#E8703E]"
+                            className="w-4 h-4 accent-[#C85A32]"
                           />
                         )}
                         <div>
-                          <h4 className="font-brand font-extrabold text-xs text-[#F5F0EB]">
+                          <h4 className="font-brand font-extrabold text-xs text-[#2C221E]">
                             {item.menu.name}
                           </h4>
                           <div className="flex flex-wrap gap-1 mt-1">
                             {item.customizations?.ice && (
-                              <span className="bg-[#0D0B0A] text-[10px] px-2 py-0.5 rounded-md border border-white/[0.08] text-[#8C8279] font-brand">
+                              <span className="bg-white text-[10px] px-2 py-0.5 rounded-md border border-[#EFE9E2] text-[#7E746F] font-brand">
                                 {item.customizations.ice}
                               </span>
                             )}
                             {item.customizations?.milk && (
-                              <span className="bg-white/[0.05] text-[10px] px-2 py-0.5 rounded-md border border-white/[0.06] text-[#6B5F56] font-brand">
+                              <span className="bg-white text-[10px] px-2 py-0.5 rounded-md border border-[#EFE9E2] text-[#7E746F] font-brand">
                                 {item.customizations.milk}
                               </span>
                             )}
                           </div>
-                          <span className="font-brand font-extrabold text-xs text-[#E8703E] block mt-1">
+                          <span className="font-brand font-extrabold text-xs text-[#C85A32] block mt-1">
                             Rp {formatRupiah(item.unit_price)}
                           </span>
                         </div>
                       </div>
 
-                      <div className="flex items-center bg-white/[0.05] border border-white/[0.06] rounded-full px-2 py-0.5 gap-2">
+                      <div className="flex items-center bg-white border border-[#EFE9E2] rounded-full px-2 py-0.5 gap-2 shadow-xs">
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); onUpdateQty(index, -1); }}
-                          className="btn-fast w-6 h-6 rounded-full text-[#F5F0EB] font-bold text-xs flex items-center justify-center hover:bg-white/10"
+                          className="btn-fast w-6 h-6 rounded-full text-[#2C221E] font-bold text-xs flex items-center justify-center hover:bg-slate-100"
                         >
                           <Minus className="w-3 h-3" />
                         </button>
-                        <span className="font-mono font-bold text-xs text-[#F5F0EB] w-3 text-center">
+                        <span className="font-mono font-bold text-xs text-[#2C221E] w-3 text-center">
                           {item.quantity}
                         </span>
                         <button
                           type="button"
                           onClick={(e) => { e.stopPropagation(); onUpdateQty(index, 1); }}
-                          className="btn-fast w-6 h-6 rounded-full text-[#F5F0EB] font-bold text-xs flex items-center justify-center hover:bg-white/10"
+                          className="btn-fast w-6 h-6 rounded-full text-[#2C221E] font-bold text-xs flex items-center justify-center hover:bg-slate-100"
                         >
                           <Plus className="w-3 h-3" />
                         </button>
@@ -360,9 +358,9 @@ export default function CheckoutBottomSheet({
             </div>
 
             {/* Promo Code & Voucher Section */}
-            <div className="bg-white/[0.03] p-3 rounded-2xl border border-white/[0.06] space-y-2">
-              <label className="block font-brand font-bold text-xs text-[#F5F0EB] flex items-center gap-1">
-                <Tag className="w-3.5 h-3.5 text-[#E8703E]" /> Kode Promo / Diskon
+            <div className="bg-[#FAF7F2] p-3 rounded-2xl border border-[#EFE9E2] space-y-2">
+              <label className="block font-brand font-bold text-xs text-[#2C221E] flex items-center gap-1">
+                <Tag className="w-3.5 h-3.5 text-[#C85A32]" /> Kode Promo / Diskon
               </label>
 
               {appliedPromo ? (
@@ -396,12 +394,12 @@ export default function CheckoutBottomSheet({
                       value={promoInput}
                       onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
                       placeholder="Cth: KIRI10 / KIRICOFFEE"
-                      className="flex-1 px-3 py-2 rounded-xl border border-white/[0.08] bg-white/[0.04] text-xs font-brand outline-none focus:border-[#E8703E]/40 text-[#F5F0EB] placeholder-[#6B5F56]"
+                      className="flex-1 px-3 py-2 rounded-xl border border-[#EFE9E2] bg-white text-xs font-brand outline-none focus:border-[#C85A32] text-[#2C221E]"
                     />
                     <button
                       type="button"
                       onClick={() => handleApplyPromo()}
-                      className="bg-[#E8703E] text-white font-brand font-bold text-xs px-4 py-2 rounded-xl hover:bg-[#C85A32] transition-colors btn-fast"
+                      className="bg-[#C85A32] text-white font-brand font-bold text-xs px-4 py-2 rounded-xl hover:bg-[#A44321] transition-colors btn-fast"
                     >
                       Terapkan
                     </button>
@@ -413,13 +411,13 @@ export default function CheckoutBottomSheet({
 
                   {/* Quick Voucher Tags */}
                   <div className="flex items-center gap-1.5 pt-0.5">
-                    <span className="text-[10px] text-[#6B5F56] font-brand">Gunakan:</span>
+                    <span className="text-[10px] text-[#7E746F] font-brand">Gunakan:</span>
                     {Object.keys(PROMO_CODES).map((code) => (
                       <button
                         key={code}
                         type="button"
                         onClick={() => handleApplyPromo(code)}
-                        className="text-[10px] font-brand font-bold bg-white/[0.05] text-[#E8703E] px-2 py-0.5 rounded-md border border-[#E8703E]/20 hover:bg-[#E8703E] hover:text-white transition-colors"
+                        className="text-[10px] font-brand font-bold bg-white text-[#C85A32] px-2 py-0.5 rounded-md border border-[#C85A32]/30 hover:bg-[#C85A32] hover:text-white transition-colors"
                       >
                         {code}
                       </button>
@@ -431,79 +429,79 @@ export default function CheckoutBottomSheet({
 
             {/* Payment Method Options (4 Options) */}
             <div>
-              <label className="block font-brand font-bold text-xs text-[#F5F0EB] mb-2">
+              <label className="block font-brand font-bold text-xs text-[#2C221E] mb-2">
                 Metode Pembayaran
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('qris')}
-                  className={`py-2.5 px-2 rounded-xl border font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
+                  className={`py-2.5 px-2 rounded-xl border-2 font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
                     paymentMethod === 'qris'
-                      ? 'border-[#E8703E]/50 bg-[#E8703E]/10 text-[#FF9E79]'
-                      : 'border-white/[0.06] bg-white/[0.03] text-[#9A8E85] hover:border-[#E8703E]/30'
+                      ? 'border-[#C85A32] bg-[#FDF5F0] text-[#C85A32] shadow-xs'
+                      : 'border-[#EFE9E2] bg-white text-[#2C221E] hover:border-[#C85A32]/40'
                   }`}
                 >
-                  <QrCode className="w-4 h-4 text-[#E8703E]" />
+                  <QrCode className="w-4 h-4 text-[#C85A32]" />
                   <span>QRIS / Instant</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('card')}
-                  className={`py-2.5 px-2 rounded-xl border font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
+                  className={`py-2.5 px-2 rounded-xl border-2 font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
                     paymentMethod === 'card'
-                      ? 'border-[#E8703E]/50 bg-[#E8703E]/10 text-[#FF9E79]'
-                      : 'border-white/[0.06] bg-white/[0.03] text-[#9A8E85] hover:border-[#E8703E]/30'
+                      ? 'border-[#C85A32] bg-[#FDF5F0] text-[#C85A32] shadow-xs'
+                      : 'border-[#EFE9E2] bg-white text-[#2C221E] hover:border-[#C85A32]/40'
                   }`}
                 >
-                  <CreditCard className="w-4 h-4 text-[#E8703E]" />
+                  <CreditCard className="w-4 h-4 text-[#C85A32]" />
                   <span>Debit / Kredit</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('va')}
-                  className={`py-2.5 px-2 rounded-xl border font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
+                  className={`py-2.5 px-2 rounded-xl border-2 font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
                     paymentMethod === 'va'
-                      ? 'border-[#E8703E]/50 bg-[#E8703E]/10 text-[#FF9E79]'
-                      : 'border-white/[0.06] bg-white/[0.03] text-[#9A8E85] hover:border-[#E8703E]/30'
+                      ? 'border-[#C85A32] bg-[#FDF5F0] text-[#C85A32] shadow-xs'
+                      : 'border-[#EFE9E2] bg-white text-[#2C221E] hover:border-[#C85A32]/40'
                   }`}
                 >
-                  <CreditCard className="w-4 h-4 text-[#E8703E]" />
+                  <CreditCard className="w-4 h-4 text-[#C85A32]" />
                   <span>BCA VA</span>
                 </button>
 
                 <button
                   type="button"
                   onClick={() => setPaymentMethod('kasir')}
-                  className={`py-2.5 px-2 rounded-xl border font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
+                  className={`py-2.5 px-2 rounded-xl border-2 font-brand font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
                     paymentMethod === 'kasir'
-                      ? 'border-[#E8703E]/50 bg-[#E8703E]/10 text-[#FF9E79]'
-                      : 'border-white/[0.06] bg-white/[0.03] text-[#9A8E85] hover:border-[#E8703E]/30'
+                      ? 'border-[#C85A32] bg-[#FDF5F0] text-[#C85A32] shadow-xs'
+                      : 'border-[#EFE9E2] bg-white text-[#2C221E] hover:border-[#C85A32]/40'
                   }`}
                 >
-                  <Banknote className="w-4 h-4 text-[#E8703E]" />
+                  <Banknote className="w-4 h-4 text-[#C85A32]" />
                   <span>Bayar Kasir</span>
                 </button>
               </div>
             </div>
 
             {/* Total Calculations Card */}
-            <div className="bg-white/[0.03] p-3.5 rounded-2xl border border-white/[0.06] space-y-1.5 font-brand text-xs">
-              <div className="flex justify-between text-[#6B5F56]">
+            <div className="bg-[#FAF7F2] p-3.5 rounded-2xl border border-[#EFE9E2] space-y-1.5 font-brand text-xs">
+              <div className="flex justify-between text-[#7E746F]">
                 <span>Total Tagihan Meja #{tableNumber}</span>
-                <span className="font-mono font-bold text-[#F5F0EB]">Rp {formatRupiah(fullTotalPrice)}</span>
+                <span className="font-mono font-bold text-[#2C221E]">Rp {formatRupiah(fullTotalPrice)}</span>
               </div>
 
               {isSplitBill && (
                 <>
-                  <div className="flex justify-between text-[#E8703E] font-bold">
+                  <div className="flex justify-between text-[#C85A32] font-bold">
                     <span>Split Bill ({splitMode === 'equal' ? `Bagi ${splitPeopleCount} Orang` : splitMode === 'item' ? 'Per Item' : 'Nominal Custom'})</span>
                     <span className="font-mono">Rp {formatRupiah(currentPayAmount)}</span>
                   </div>
                   {remainingBalance > 0 && (
-                    <div className="flex justify-between text-[#6B5F56] text-[11px]">
+                    <div className="flex justify-between text-slate-500 text-[11px]">
                       <span>Sisa Tagihan Meja</span>
                       <span className="font-mono">Rp {formatRupiah(remainingBalance)}</span>
                     </div>
@@ -511,20 +509,20 @@ export default function CheckoutBottomSheet({
                 </>
               )}
 
-              <hr className="border-white/[0.06] my-1" />
+              <hr className="border-[#EFE9E2] my-1" />
               
-              <div className="flex justify-between font-extrabold text-sm text-[#F5F0EB] pt-1">
+              <div className="flex justify-between font-extrabold text-sm text-[#2C221E] pt-1">
                 <span>{isSplitBill ? 'Dibayar Sekarang' : 'Total Pembayaran'}</span>
-                <span className="font-brand text-base text-[#E8703E]">Rp {formatRupiah(currentPayAmount)}</span>
+                <span className="font-brand text-base text-[#C85A32]">Rp {formatRupiah(currentPayAmount)}</span>
               </div>
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="btn-cta w-full bg-gradient-to-r from-[#C85A32] to-[#E8703E] text-white font-brand font-extrabold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-[#E8703E]/25 tracking-wide uppercase text-xs"
+              className="btn-fast w-full bg-gradient-to-r from-[#C85A32] to-[#E8703E] hover:from-[#A44321] hover:to-[#C85A32] text-white font-brand font-extrabold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-[#C85A32]/25 tracking-wide uppercase text-xs"
             >
-              <CheckCircle2 className="w-4 h-4 relative z-10" /> <span className="relative z-10">{isSplitBill ? `Bayar Bagian Anda (Rp ${formatRupiah(currentPayAmount)})` : 'Lanjut Ke Pembayaran'}</span>
+              <CheckCircle2 className="w-4 h-4" /> {isSplitBill ? `Bayar Bagian Anda (Rp ${formatRupiah(currentPayAmount)})` : 'Lanjut Ke Pembayaran'}
             </button>
           </form>
         </motion.div>

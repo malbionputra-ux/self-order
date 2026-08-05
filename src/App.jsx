@@ -148,7 +148,7 @@ export default function App() {
 
   if (activePage === 'get-started') {
     return (
-      <div className="w-full max-w-md mx-auto bg-[#0D0B0A] min-h-screen shadow-2xl relative overflow-hidden">
+      <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
         <GetStartedScreen
           onGetStarted={handleGetStartedClick}
         />
@@ -158,14 +158,14 @@ export default function App() {
 
   if (activePage === 'success') {
     return (
-      <div className="w-full max-w-md mx-auto bg-[#0D0B0A] min-h-screen shadow-2xl relative overflow-hidden">
+      <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
         <OrderSuccessScreen order={confirmedOrder} onNewOrder={handleNewOrder} />
       </div>
     );
   }
 
   return (
-    <div className="w-full max-w-md mx-auto bg-[#0D0B0A] min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
+    <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
       {/* Header Bar */}
       <HeaderBar
         tableNumber={tableNumber}
