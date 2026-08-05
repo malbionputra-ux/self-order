@@ -56,7 +56,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
             <span className="w-2 h-2 rounded-full bg-[#C85A32]" />
             {activeCategory?.name || 'Daftar Menu'}
           </h2>
-          <span className="bg-white text-[#C85A32] font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-xs border-none">
+          <span className="bg-[#2C221E] text-white font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-xs border-none">
             {filteredMenus.length} Menu
           </span>
         </div>
@@ -102,9 +102,9 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
                   </p>
                 </div>
 
-                {/* Bottom Action Pill Capsule (Price + Add Button with Gap) */}
-                <div className="bg-[#FAF7F2] rounded-full p-1 pl-3.5 flex items-center justify-between mt-3 shadow-xs border-none">
-                  <span className="font-mono font-extrabold text-xs text-[#1C1917]">
+                {/* High-Contrast Espresso Action Pill Capsule (Price + Add Button) */}
+                <div className="bg-[#2C221E] rounded-full p-1 pl-3.5 flex items-center justify-between mt-3 shadow-md border-none">
+                  <span className="font-mono font-extrabold text-xs text-white">
                     Rp {formatRupiah(menu.price)}
                   </span>
                   <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors border-none">
