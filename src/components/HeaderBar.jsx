@@ -21,15 +21,15 @@ export default function HeaderBar({ tableNumber, onPromptTable }) {
         </motion.div>
         <div>
           <h1 className="font-brand font-extrabold text-xs tracking-wider uppercase leading-tight text-[#2C221E]">
-            Kiri Coffee & Eatery
+            Dump Cafe & Eatery
           </h1>
           <a 
-            href="https://www.instagram.com/kiricoffee_/" 
+            href="https://www.instagram.com/" 
             target="_blank" 
             rel="noopener noreferrer"
             className="text-[10px] text-[#7E746F] hover:text-[#C85A32] flex items-center gap-1 transition-colors duration-300"
           >
-            <Instagram className="w-3 h-3 text-[#C85A32]" /> @kiricoffee_
+            <Instagram className="w-3 h-3 text-[#C85A32]" /> @dumpcafe_
           </a>
         </div>
       </div>

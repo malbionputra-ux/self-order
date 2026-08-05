@@ -83,7 +83,7 @@ export default function PaymentGatewayModal({ isOpen, onClose, orderData, onPaym
                 <ShieldCheck className="w-4 h-4" />
               </div>
               <div>
-                <span className="font-brand font-extrabold text-xs tracking-wider block">KIRI PAYMENT GATEWAY</span>
+                <span className="font-brand font-extrabold text-xs tracking-wider block">DUMP PAYMENT GATEWAY</span>
                 <span className="text-[10px] text-white/60 font-mono">256-bit SSL Encrypted Payment</span>
               </div>
             </div>
@@ -130,7 +130,7 @@ export default function PaymentGatewayModal({ isOpen, onClose, orderData, onPaym
                 {/* QR Code Container with Scan Line Animation */}
                 <div className="relative w-52 h-52 mx-auto bg-white p-3 rounded-2xl border-2 border-[#EFE9E2] shadow-md flex items-center justify-center overflow-hidden">
                   <img
-                    src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=KIRICOFFEE_ORDER_${orderData.table_number}_${orderData.totalPrice}`}
+                    src={`https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=DUMPCAFE_ORDER_${orderData.table_number}_${orderData.totalPrice}`}
                     alt="QRIS QR Code"
                     className="w-full h-full object-contain"
                   />
@@ -173,7 +173,7 @@ export default function PaymentGatewayModal({ isOpen, onClose, orderData, onPaym
 
                 <div className="bg-gradient-to-br from-[#2C221E] via-[#382B25] to-[#2C221E] p-4 rounded-2xl text-white shadow-lg space-y-3 border border-white/10">
                   <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-mono text-amber-300">KIRI CARD PAY</span>
+                    <span className="text-[10px] font-mono text-amber-300">DUMP CARD PAY</span>
                     <span className="text-xs font-bold font-mono bg-white/10 px-2 py-0.5 rounded">VISA / MC</span>
                   </div>
 
@@ -244,7 +244,7 @@ export default function PaymentGatewayModal({ isOpen, onClose, orderData, onPaym
                   </div>
                   <button
                     onClick={handleCopyVA}
-                    className="btn-fast bg-[#C85A32] text-white text-xs font-brand font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow-sm"
+                    className="btn-fast bg-[#C85A32] text-[#FAF7F2] text-xs font-brand font-bold px-3 py-2 rounded-xl flex items-center gap-1 shadow-sm"
                   >
                     {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
                     {copied ? 'Tersalin!' : 'Salin'}
@@ -261,10 +261,10 @@ export default function PaymentGatewayModal({ isOpen, onClose, orderData, onPaym
                   Tunjukkan Kode Ini ke Kasir
                 </h4>
                 <div className="bg-white p-2.5 rounded-xl border border-[#EFE9E2] font-mono font-extrabold text-xl text-[#C85A32]">
-                  PAY-KIRI-MEJA{orderData.table_number}
+                  PAY-DUMP-MEJA{orderData.table_number}
                 </div>
                 <p className="text-xs text-[#7E746F]">
-                  Silakan lakukan pembayaran tunai atau EDC di meja kasir Kiri Coffee.
+                  Silakan lakukan pembayaran tunai atau EDC di meja kasir Dump Cafe.
                 </p>
               </div>
             )}

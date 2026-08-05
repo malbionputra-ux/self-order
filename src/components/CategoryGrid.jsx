@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Grid, Sparkles } from 'lucide-react';
+import { ArrowRight, Grid } from 'lucide-react';
 import { categories, menus } from '../data/menuData';
 
 export default function CategoryGrid({ onSelectCategory }) {
@@ -24,13 +24,16 @@ export default function CategoryGrid({ onSelectCategory }) {
               className="menu-card gpu-accelerated animate-fade-in-up bg-gradient-to-br from-[#2C221E] via-[#382B25] to-[#2C221E] rounded-[28px] p-4 text-center text-white cursor-pointer shadow-xl shadow-[#2C221E]/15 border border-white/10 flex flex-col items-center justify-between min-h-[210px] relative overflow-hidden group"
               style={{ animationDelay: `${index * 0.05}s` }}
             >
-              {/* Circle Image with Border */}
+              {/* Circle Image with Border & Fallback */}
               <div className="w-20 h-20 rounded-full overflow-hidden mb-3 border-2 border-[#C85A32]/60 shadow-lg bg-[#2C221E] relative z-10 group-hover:scale-105 transition-transform duration-200">
                 <img 
                   src={cat.image} 
                   alt={cat.name} 
                   loading="lazy"
                   decoding="async"
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
+                  }}
                   className="w-full h-full object-cover"
                 />
               </div>

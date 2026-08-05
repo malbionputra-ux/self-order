@@ -66,7 +66,7 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
             Pembayaran Berhasil! 🎉
           </h1>
           <p className="text-xs text-[#7E746F] mb-5">
-            Pesanan Anda telah diterima barista & kitchen Kiri Coffee.
+            Pesanan Anda telah diterima barista & kitchen Dump Cafe.
           </p>
         </div>
 
@@ -187,6 +187,93 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
       >
         <PlusCircle className="w-4 h-4" /> Pesan Menu Lainnya
       </button>
+
+      {/* ===== PRINTABLE THERMAL RECEIPT ===== */}
+      <div id="printable-receipt" className="hidden">
+        <div style={{ textAlign: 'center', marginBottom: '10px' }}>
+          <h2 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>DUMP CAFE & EATERY</h2>
+          <p style={{ fontSize: '9px', margin: 0 }}>Artisan Coffee, Pastry & Eatery</p>
+          <p style={{ fontSize: '9px', margin: '2px 0' }}>Instagram: @dumpcafe_</p>
+          <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }} />
+        </div>
+
+        <table style={{ width: '100%', fontSize: '10px', marginBottom: '8px' }}>
+          <tbody>
+            <tr>
+              <td>ID Pesanan:</td>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>#{String(order.id || 101).padStart(5, '0')}</td>
+            </tr>
+            <tr>
+              <td>No. Meja:</td>
+              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>MEJA #{order.table_number}</td>
+            </tr>
+            <tr>
+              <td>Pemesan:</td>
+              <td style={{ textAlign: 'right' }}>{order.customer_name}</td>
+            </tr>
+            <tr>
+              <td>Waktu:</td>
+              <td style={{ textAlign: 'right' }}>{formattedDate}</td>
+            </tr>
+            <tr>
+              <td>Pembayaran:</td>
+              <td style={{ textAlign: 'right', textTransform: 'uppercase' }}>{order.payment_method}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }} />
+
+        <div style={{ marginBottom: '8px' }}>
+          <strong style={{ fontSize: '10px', display: 'block', marginBottom: '4px' }}>RINCIAN ITEM:</strong>
+          {order.items?.map((item, idx) => (
+            <div key={idx} style={{ marginBottom: '4px' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <span>{item.quantity}x {item.menu.name}</span>
+                <span>Rp {formatRupiah(item.unit_price * item.quantity)}</span>
+              </div>
+              {item.customizations && (
+                <div style={{ fontSize: '8px', color: '#555', paddingLeft: '8px' }}>
+                  {item.customizations.ice && <span>{item.customizations.ice} </span>}
+                  {item.customizations.milk && <span>• {item.customizations.milk}</span>}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
+
+        <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }} />
+
+        <table style={{ width: '100%', fontSize: '10px' }}>
+          <tbody>
+            <tr>
+              <td>Subtotal:</td>
+              <td style={{ textAlign: 'right' }}>Rp {formatRupiah(order.rawSubtotal)}</td>
+            </tr>
+            {order.discountAmount > 0 && (
+              <tr>
+                <td>Diskon Promo ({order.appliedPromo}):</td>
+                <td style={{ textAlign: 'right' }}>-Rp {formatRupiah(order.discountAmount)}</td>
+              </tr>
+            )}
+            <tr>
+              <td>Pajak PB1 (10%):</td>
+              <td style={{ textAlign: 'right' }}>Rp {formatRupiah(order.taxAmount)}</td>
+            </tr>
+            <tr style={{ fontWeight: 'bold', fontSize: '11px' }}>
+              <td style={{ paddingTop: '4px' }}>TOTAL AKHIR:</td>
+              <td style={{ textAlign: 'right', paddingTop: '4px' }}>Rp {formatRupiah(order.totalPrice)}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div style={{ borderBottom: '1px dashed #000', margin: '10px 0' }} />
+
+        <div style={{ textAlign: 'center', marginTop: '12px' }}>
+          <p style={{ fontSize: '9px', fontWeight: 'bold', margin: '0 0 2px 0' }}>Terima Kasih Atas Kunjungan Anda!</p>
+          <p style={{ fontSize: '8px', color: '#444', margin: 0 }}>Simpan struk ini sebagai bukti transaksi sah Dump Cafe.</p>
+        </div>
+      </div>
     </div>
   );
 }

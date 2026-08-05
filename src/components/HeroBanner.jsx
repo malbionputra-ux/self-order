@@ -4,21 +4,23 @@ import { motion } from 'framer-motion';
 
 export default function HeroBanner() {
   return (
-    <div className="p-4 pt-5 pb-1 bg-[#FAF7F2]">
-      {/* Pinterest Title Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="text-center mb-3"
-      >
-        <span className="inline-flex items-center gap-1.5 bg-[#C85A32]/10 text-[#C85A32] text-[10px] font-brand font-extrabold px-3 py-1 rounded-full uppercase tracking-wider mb-1.5 shadow-xs">
-          <Sparkles className="w-3 h-3 text-[#C85A32]" /> WARM SPACE & GOOD MOOD
-        </span>
-        <h2 className="font-serif text-2xl font-bold text-[#2C221E] leading-tight">
-          What do you want for <span className="text-[#C85A32] italic font-serif">Coffee & Eatery</span>
-        </h2>
-      </motion.div>
+    <div className="px-4 pt-3 pb-1">
+      <div className="relative w-full rounded-[28px] overflow-hidden bg-gradient-to-r from-[#2C221E] via-[#3D2D27] to-[#2C221E] text-white p-5 border border-white/10 shadow-xl shadow-[#2C221E]/10">
+        <div className="relative z-10 space-y-1.5 max-w-[260px]">
+          <div className="inline-flex items-center gap-1 bg-[#C85A32]/30 text-amber-200 border border-[#C85A32]/40 text-[10px] font-brand font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider">
+            <Sparkles className="w-3 h-3 text-amber-300" /> WARM SPACE & GOOD MOOD
+          </div>
+          <h2 className="font-serif text-xl font-normal text-white leading-tight">
+            What do you want for <span className="text-[#FF9E79] italic">Coffee & Eatery</span>
+          </h2>
+          <p className="text-[11px] text-white/70 font-brand leading-normal">
+            Pilihan menu artisan coffee, fresh pastry & main course favoritmu.
+          </p>
+        </div>
+
+        {/* Ambient Light */}
+        <div className="absolute top-0 right-0 w-32 h-32 bg-[#C85A32]/20 rounded-full blur-2xl pointer-events-none" />
+      </div>
     </div>
   );
 }

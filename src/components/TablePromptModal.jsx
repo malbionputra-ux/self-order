@@ -1,61 +1,71 @@
-import React, { useState } from 'react';
-import { CupSoda, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { X, MapPin, Coffee, ArrowRight, Camera } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function TablePromptModal({ isOpen, currentTable, onSave }) {
-  const [val, setVal] = useState(currentTable || '08');
+  const [inputTable, setInputTable] = useState(currentTable || '');
+
+  useEffect(() => {
+    setInputTable(currentTable || '');
+  }, [currentTable]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSave(val || '08');
+    if (inputTable.trim()) {
+      onSave(inputTable.trim());
+    }
   };
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-md">
         <motion.div
-          initial={{ opacity: 0, scale: 0.88, y: 20 }}
+          initial={{ opacity: 0, scale: 0.9, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 15 }}
-          className="bg-white rounded-3xl p-6 w-full max-w-sm text-center shadow-2xl border border-[#EFE9E2]"
+          exit={{ opacity: 0, scale: 0.95, y: 10 }}
+          transition={{ type: "spring", stiffness: 350, damping: 25 }}
+          className="bg-white rounded-3xl p-6 w-full max-w-sm text-center shadow-2xl border border-[#EFE9E2] relative overflow-hidden"
         >
-          <div className="w-16 h-16 rounded-full bg-[#C85A32]/10 text-[#C85A32] flex items-center justify-center mx-auto mb-3">
-            <CupSoda className="w-8 h-8 text-[#C85A32]" />
+          {/* Top Decorative Header Icon */}
+          <div className="w-14 h-14 rounded-full bg-[#FDF5F0] border-2 border-[#C85A32]/20 mx-auto mb-3 flex items-center justify-center text-[#C85A32] shadow-sm">
+            <Coffee className="w-7 h-7" />
           </div>
 
           <h3 className="font-serif font-bold text-lg text-[#2C221E] mb-1">
-            Selamat Datang di Kiri Coffee!
+            Selamat Datang di Dump Cafe!
           </h3>
-          <p className="text-xs text-[#7E746F] mb-4 leading-relaxed">
+          <p className="text-xs text-[#7E746F] mb-4 leading-relaxed font-brand">
             Masukkan nomor meja tempat Anda bersantai untuk mulai memesan menu favorit.
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block font-brand font-bold text-[11px] text-[#7E746F] mb-1 uppercase tracking-wider">
+              <label className="block text-[10px] font-brand font-extrabold uppercase text-[#7E746F] mb-1.5 tracking-wider">
                 NOMOR MEJA DUDUK
               </label>
-              <input
-                type="number"
-                min="1"
-                max="99"
-                value={val}
-                onChange={(e) => setVal(e.target.value)}
-                placeholder="Cth: 08"
-                className="w-full text-center font-mono font-bold text-2xl py-2.5 rounded-2xl border-2 border-[#EFE9E2] focus:border-[#C85A32] text-[#2C221E] outline-none"
-              />
+              <div className="relative flex items-center">
+                <MapPin className="w-4 h-4 text-[#C85A32] absolute left-3.5" />
+                <input
+                  type="text"
+                  required
+                  autoFocus
+                  value={inputTable}
+                  onChange={(e) => setInputTable(e.target.value)}
+                  placeholder="Cth: 08"
+                  className="w-full pl-10 pr-4 py-3 rounded-2xl border-2 border-[#EFE9E2] focus:border-[#C85A32] text-center font-mono font-extrabold text-lg text-[#2C221E] outline-none transition-colors bg-[#FAF7F2]"
+                />
+              </div>
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.94 }}
+            <button
               type="submit"
-              className="w-full bg-[#C85A32] hover:bg-[#A44321] text-white font-brand font-extrabold py-3.5 px-5 rounded-2xl flex items-center justify-center gap-2 shadow-lg shadow-[#C85A32]/25 tracking-wide uppercase text-xs"
+              className="btn-fast w-full bg-gradient-to-r from-[#C85A32] to-[#E8703E] hover:from-[#A44321] hover:to-[#C85A32] text-white font-brand font-extrabold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 shadow-md shadow-[#C85A32]/20 uppercase tracking-wider text-xs"
             >
-              Mulai Pilih Menu <ArrowRight className="w-4 h-4" />
-            </motion.button>
+              <span>Mulai Pilih Menu</span>
+              <ArrowRight className="w-4 h-4" />
+            </button>
           </form>
         </motion.div>
       </div>

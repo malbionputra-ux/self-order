@@ -77,13 +77,16 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
                 </span>
               )}
 
-              {/* Floating Top Image */}
+              {/* Floating Top Image with Fallback */}
               <div className="relative w-28 h-28 mx-auto my-2 rounded-full overflow-hidden bg-[#2C221E] border-2 border-white/15 shadow-lg group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
                 <img 
                   src={menu.image} 
                   alt={menu.name}
                   loading="lazy"
                   decoding="async" 
+                  onError={(e) => {
+                    e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
+                  }}
                   className="w-full h-full object-cover"
                 />
               </div>

@@ -1,90 +1,72 @@
 import React from 'react';
-import { ArrowRight, Coffee, Sparkles } from 'lucide-react';
+import { Sparkles, ArrowRight, MapPin, QrCode } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 export default function GetStartedScreen({ onGetStarted }) {
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
-      transition={{ duration: 0.4 }}
-      className="min-h-screen w-full bg-[#1C1614] text-white flex flex-col justify-between relative overflow-hidden font-brand"
-    >
-      {/* Kiri Coffee Building Background Photo */}
-      <div className="absolute inset-0 bg-[url('/kiri-cilegon.jpg')] bg-cover bg-[position:50%_0%] opacity-90 scale-140 translate-y-14" />
-      
-      {/* Vignette Overlay for Crisp Readability */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#1C1614] via-[#1C1614]/20 to-black/50" />
-
-      {/* Animated Ambient Light Orbs */}
-      <motion.div 
-        animate={{ 
-          scale: [1, 1.25, 1],
-          opacity: [0.15, 0.3, 0.15]
-        }}
-        transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-12 left-6 w-44 h-44 bg-[#C85A32]/25 rounded-full blur-3xl pointer-events-none"
-      />
-
-      {/* Top Header Logo Bar */}
-      <div className="relative z-10 p-6 pt-8 flex items-center justify-between">
-        <motion.div 
-          initial={{ y: -20, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.2 }}
-          className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md px-3.5 py-1.5 rounded-2xl border border-white/15"
-        >
-          <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-[#C85A32] to-[#E8703E] flex items-center justify-center shadow-md shadow-[#C85A32]/40 border border-white/20">
-            <Coffee className="w-4 h-4 text-white" />
-          </div>
-          <div>
-            <span className="font-brand font-extrabold text-xs tracking-wider uppercase block text-white">
-              KIRI COFFEE
-            </span>
-            <span className="text-[10px] text-white/70 font-mono">Artisan & Eatery</span>
-          </div>
-        </motion.div>
+    <div className="relative w-full h-screen min-h-[660px] bg-[#2C221E] flex flex-col justify-between overflow-hidden select-none">
+      {/* Background Hero Image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/kiri-cilegon.jpg"
+          alt="Dump Cafe Building Exterior"
+          className="w-full h-full object-cover object-center opacity-85 scale-105 filter brightness-95"
+          onError={(e) => {
+            e.target.src = 'https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1000&q=80';
+          }}
+        />
+        {/* Soft Vignette Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#2C221E] via-[#2C221E]/30 to-transparent" />
       </div>
 
-      {/* Middle Spacer to showcase the Kiri Coffee Architecture */}
-      <div className="relative z-10 my-auto py-12" />
+      {/* Top Header Branding */}
+      <div className="relative z-10 p-5 pt-8 flex items-center justify-between">
+        <div className="flex items-center gap-2.5 bg-black/40 backdrop-blur-md border border-white/10 px-3.5 py-2 rounded-2xl">
+          <div className="w-7 h-7 rounded-xl bg-gradient-to-br from-[#C85A32] to-[#E8703E] flex items-center justify-center text-white font-brand font-black text-xs shadow-sm">
+            D
+          </div>
+          <div>
+            <h1 className="font-brand font-extrabold text-xs text-white tracking-widest uppercase">
+              DUMP CAFE
+            </h1>
+            <p className="text-[9px] text-amber-200/90 font-mono tracking-tight">
+              Artisan & Eatery
+            </p>
+          </div>
+        </div>
+      </div>
 
-      {/* Bottom Sheet Welcome Section */}
-      <motion.div 
-        initial={{ y: 80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="relative z-10 bg-gradient-to-b from-[#2C221E] via-[#241B18] to-[#1C1614] rounded-t-[36px] p-6 pt-7 border-t border-white/15 shadow-2xl shadow-black flex flex-col gap-5"
-      >
-        <div className="w-12 h-1 bg-white/20 rounded-full mx-auto -mt-2" />
+      {/* Bottom Floating Welcome Card */}
+      <div className="relative z-10 p-5 pb-8">
+        <div className="bg-[#2C221E]/95 backdrop-blur-xl border border-white/15 p-6 rounded-[32px] text-white shadow-2xl shadow-black/80 space-y-4">
+          <div className="inline-flex items-center gap-1.5 bg-[#C85A32]/25 text-[#FF9E79] border border-[#C85A32]/40 text-[10px] font-brand font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+            <Sparkles className="w-3 h-3 text-amber-300" />
+            <span>SELAMAT DATANG DI DUMP CAFE</span>
+          </div>
 
-        <div className="text-center space-y-2">
-          <span className="inline-flex items-center gap-1.5 text-amber-400 text-[11px] font-brand font-bold uppercase tracking-wider">
-            <Sparkles className="w-3.5 h-3.5" /> SELAMAT DATANG DI KIRI COFFEE
-          </span>
-          <h1 className="font-serif text-2xl font-bold leading-tight text-white">
-            Savor Every Moment, <br />
-            Order directly from <span className="text-[#E8703E] italic">Your Table</span>
-          </h1>
-          <p className="text-xs text-white/60 leading-relaxed max-w-xs mx-auto">
+          <div className="space-y-1">
+            <h2 className="font-serif text-2xl text-white leading-tight font-normal">
+              Savor Every Moment,
+            </h2>
+            <h2 className="font-serif text-2xl text-[#FF9E79] italic font-normal">
+              Order directly from <span className="underline decoration-[#C85A32] underline-offset-4 font-normal">Your Table</span>
+            </h2>
+          </div>
+
+          <p className="text-xs text-white/70 font-brand font-normal leading-relaxed">
             Nikmati kemudahan pesan kopi espresso, pastry hangat, & eatery lezat langsung dari tempat dudukmu tanpa perlu antre.
           </p>
-        </div>
 
-        {/* Action Button */}
-        <div className="pt-1">
-          <motion.button
-            whileHover={{ scale: 1.02, boxShadow: "0 10px 30px rgba(200,90,50,0.4)" }}
-            whileTap={{ scale: 0.94 }}
+          {/* Primary Action Button */}
+          <button
             onClick={onGetStarted}
-            className="w-full bg-gradient-to-r from-[#C85A32] via-[#E8703E] to-[#C85A32] hover:from-[#A44321] hover:to-[#C85A32] text-white font-brand font-extrabold py-4 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-[#C85A32]/30 text-xs tracking-wider uppercase btn-premium"
+            className="btn-fast w-full bg-gradient-to-r from-[#C85A32] to-[#E8703E] hover:from-[#A44321] hover:to-[#C85A32] text-white font-brand font-extrabold text-xs py-4 px-6 rounded-2xl flex items-center justify-center gap-2 shadow-xl shadow-[#C85A32]/40 tracking-wider uppercase"
           >
             <span>Mulai Memesan Sekarang</span>
             <ArrowRight className="w-4 h-4" />
-          </motion.button>
+          </button>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
