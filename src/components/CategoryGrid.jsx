@@ -7,14 +7,14 @@ export default function CategoryGrid({ onSelectCategory }) {
     <div className="p-4 min-h-[calc(100vh-230px)]">
       {/* Section Header */}
       <div className="flex items-center justify-between mb-4 px-1">
-        <div className="flex items-center gap-2 font-brand font-extrabold text-xs text-[#2C221E] tracking-wider uppercase">
+        <div className="flex items-center gap-2 font-display font-extrabold text-xs text-[#1C1917] tracking-wider uppercase">
           <Grid className="w-4 h-4 text-[#C85A32]" />
           <span>PILIH KATEGORI MENU</span>
         </div>
-        <span className="font-mono text-[10px] text-[#7E746F]">Sentuh untuk pilih</span>
+        <span className="font-mono text-[10px] text-[#78716C] font-semibold">Sentuh untuk pilih</span>
       </div>
 
-      {/* Bento Grid — 1 Hero + 3 Cards */}
+      {/* Bento Grid — 1 Hero + 3 Cards (Borderless) */}
       <div className="bento-grid">
         {categories.map((cat, index) => {
           const itemCount = menus.filter(m => m.category_slug === cat.slug).length;
@@ -25,7 +25,7 @@ export default function CategoryGrid({ onSelectCategory }) {
               key={cat.id}
               onClick={() => onSelectCategory(cat.slug)}
               className={`
-                menu-card rounded-[24px] overflow-hidden cursor-pointer relative group shadow-xl shadow-[#2C221E]/10 border border-[#EFE9E2]
+                menu-card rounded-[24px] overflow-hidden cursor-pointer relative group shadow-xl shadow-[#1C1917]/10 border-none
                 animate-slide-reveal
                 ${isHero ? 'bento-hero min-h-[200px]' : 'min-h-[185px]'}
               `}
@@ -43,18 +43,18 @@ export default function CategoryGrid({ onSelectCategory }) {
                 className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
               />
 
-              {/* High Contrast Gradient Overlay for Clear Text Readability */}
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2C221E] via-[#2C221E]/40 to-transparent" />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#1C1917] via-[#1C1917]/40 to-transparent" />
 
               {/* Content Overlay */}
               <div className="relative z-10 h-full flex flex-col justify-end p-4 text-white">
                 <div>
-                  <h3 className={`font-brand font-extrabold text-white leading-snug group-hover:text-amber-200 transition-colors duration-300 ${
+                  <h3 className={`font-display font-extrabold text-white leading-snug group-hover:text-amber-200 transition-colors duration-300 ${
                     isHero ? 'text-base' : 'text-sm'
                   }`}>
                     {cat.name}
                   </h3>
-                  <p className={`text-white/70 leading-tight mt-0.5 line-clamp-1 ${
+                  <p className={`text-white/75 font-medium leading-tight mt-0.5 line-clamp-1 ${
                     isHero ? 'text-xs' : 'text-[11px]'
                   }`}>
                     {cat.subtitle}
@@ -63,7 +63,7 @@ export default function CategoryGrid({ onSelectCategory }) {
 
                 {/* Action Pill */}
                 <div className="mt-3 flex items-center justify-between">
-                  <span className="bg-[#C85A32] text-white text-[11px] font-brand font-extrabold px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-md group-hover:bg-[#E8703E] transition-colors">
+                  <span className="bg-[#C85A32] text-white text-[11px] font-brand font-extrabold px-3 py-1.5 rounded-full inline-flex items-center gap-1.5 shadow-md group-hover:bg-[#E8703E] transition-colors border-none">
                     {itemCount} Menu <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
                   </span>
                 </div>

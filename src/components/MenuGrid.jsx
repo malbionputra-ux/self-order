@@ -21,29 +21,29 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
 
   return (
     <div className="min-h-[calc(100vh-140px)] bg-[#FAF7F2]">
-      {/* Sticky Back Header Bar */}
-      <div className="sticky top-[57px] z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 border-b border-[#EFE9E2] flex items-center justify-between shadow-xs">
+      {/* Sticky Back Header Bar — Borderless */}
+      <div className="sticky top-[57px] z-20 bg-white/95 backdrop-blur-md px-4 py-2.5 border-none flex items-center justify-between shadow-sm">
         <button
           onClick={onBack}
-          className="btn-fast bg-[#FAF7F2] text-[#2C221E] hover:bg-[#C85A32] hover:text-white font-brand font-extrabold text-xs px-3.5 py-1.5 rounded-full border border-[#EFE9E2] flex items-center gap-1.5 transition-colors shadow-xs"
+          className="btn-fast bg-[#FAF7F2] text-[#1C1917] hover:bg-[#C85A32] hover:text-white font-brand font-extrabold text-xs px-3.5 py-1.5 rounded-full flex items-center gap-1.5 transition-colors border-none shadow-xs"
         >
           <ArrowLeft className="w-4 h-4" /> Kembali Ke Kategori
         </button>
-        <span className="font-serif font-bold text-sm text-[#C85A32]">
+        <span className="font-display font-extrabold text-sm text-[#C85A32]">
           {activeCategory?.name || 'Daftar Menu'}
         </span>
       </div>
 
       <div className="p-4 space-y-3.5">
-        {/* Search Bar */}
-        <div className="relative flex items-center shadow-xs rounded-2xl bg-white border border-[#EFE9E2] focus-within:border-[#C85A32] transition-colors overflow-hidden">
-          <Search className="w-4 h-4 text-[#7E746F] absolute left-3.5" />
+        {/* Search Bar — Borderless */}
+        <div className="relative flex items-center shadow-sm rounded-2xl bg-white border-none transition-colors overflow-hidden">
+          <Search className="w-4 h-4 text-[#78716C] absolute left-3.5" />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder={`Cari menu di ${activeCategory?.name || 'kategori ini'}...`}
-            className="w-full pl-10 pr-10 py-2.5 text-xs font-brand text-[#2C221E] placeholder-[#7E746F]/70 outline-none bg-transparent"
+            className="w-full pl-10 pr-10 py-2.5 text-xs font-brand font-medium text-[#1C1917] placeholder-[#78716C]/70 outline-none bg-transparent border-none"
           />
           <div className="absolute right-3 p-1.5 bg-[#FAF7F2] rounded-xl text-[#C85A32]">
             <SlidersHorizontal className="w-3.5 h-3.5" />
@@ -52,33 +52,33 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
 
         {/* Category Header Title */}
         <div className="flex items-center justify-between px-1">
-          <h2 className="font-serif font-bold text-sm text-[#2C221E] flex items-center gap-2">
+          <h2 className="font-display font-extrabold text-sm text-[#1C1917] flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-[#C85A32]" />
             {activeCategory?.name || 'Daftar Menu'}
           </h2>
-          <span className="bg-white text-[#C85A32] font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full border border-[#C85A32]/20 shadow-xs">
+          <span className="bg-white text-[#C85A32] font-mono text-[11px] font-bold px-2.5 py-0.5 rounded-full shadow-xs border-none">
             {filteredMenus.length} Menu
           </span>
         </div>
 
-        {/* 2-Column Pinterest-Style Dark Cards Grid */}
+        {/* 2-Column Pinterest-Style Dark Cards Grid — Borderless */}
         <div className="grid grid-cols-2 gap-3.5">
           {filteredMenus.map((menu, index) => (
             <div
               key={menu.id}
               onClick={() => onOpenDetail(menu)}
-              className="menu-card gpu-accelerated animate-fade-in-up bg-gradient-to-br from-[#2C221E] via-[#352924] to-[#2C221E] rounded-[28px] p-3 text-white border border-white/10 shadow-xl shadow-[#2C221E]/15 flex flex-col justify-between relative overflow-hidden group cursor-pointer"
+              className="menu-card gpu-accelerated animate-fade-in-up bg-gradient-to-br from-[#1C1917] via-[#2C221E] to-[#1C1917] rounded-[28px] p-3 text-white border-none shadow-xl shadow-[#1C1917]/15 flex flex-col justify-between relative overflow-hidden group cursor-pointer"
               style={{ animationDelay: `${(index % 6) * 0.04}s` }}
             >
               {/* Bestseller Badge */}
               {menu.is_bestseller && (
-                <span className="absolute top-3 left-3 bg-[#C85A32]/90 text-white font-brand text-[9px] font-extrabold px-2.5 py-0.5 rounded-full shadow-md z-10 flex items-center gap-0.5">
+                <span className="absolute top-3 left-3 bg-[#C85A32]/90 text-white font-brand text-[9px] font-extrabold px-2.5 py-0.5 rounded-full shadow-md z-10 flex items-center gap-0.5 border-none">
                   <Sparkles className="w-2.5 h-2.5 text-amber-200" /> Top
                 </span>
               )}
 
-              {/* Floating Image with Fallback */}
-              <div className="relative w-28 h-28 mx-auto my-2 rounded-full overflow-hidden bg-[#2C221E] border-2 border-white/15 shadow-lg group-hover:scale-105 transition-transform duration-200 flex-shrink-0">
+              {/* Floating Image */}
+              <div className="relative w-28 h-28 mx-auto my-2 rounded-full overflow-hidden bg-[#1C1917] shadow-lg group-hover:scale-105 transition-transform duration-200 flex-shrink-0 border-none">
                 <img
                   src={menu.image}
                   alt={menu.name}
@@ -93,20 +93,20 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
 
               {/* Title & Description */}
               <div className="text-center px-1 my-1">
-                <h4 className="font-brand font-extrabold text-xs text-white leading-snug line-clamp-1 group-hover:text-amber-200 transition-colors">
+                <h4 className="font-display font-extrabold text-xs text-white leading-snug line-clamp-1 group-hover:text-amber-200 transition-colors">
                   {menu.name}
                 </h4>
-                <p className="text-[10px] text-white/60 line-clamp-1 mt-0.5 leading-tight">
+                <p className="text-[10px] text-white/65 line-clamp-1 mt-0.5 leading-tight font-medium">
                   {menu.description}
                 </p>
               </div>
 
-              {/* Bottom White Action Pill Capsule (Price + Add Button) */}
-              <div className="bg-white rounded-full p-1 pl-3.5 flex items-center justify-between mt-2 shadow-lg shadow-black/30">
-                <span className="font-mono font-extrabold text-xs text-[#2C221E]">
+              {/* Bottom White Action Pill Capsule */}
+              <div className="bg-white rounded-full p-1 pl-3.5 flex items-center justify-between mt-2 shadow-lg shadow-black/30 border-none">
+                <span className="font-mono font-extrabold text-xs text-[#1C1917]">
                   Rp {formatRupiah(menu.price)}
                 </span>
-                <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors">
+                <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors border-none">
                   <Plus className="w-4 h-4 stroke-[3]" />
                 </div>
               </div>

@@ -69,10 +69,10 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 10 }}
           transition={{ type: "spring", damping: 26, stiffness: 320 }}
-          className="bg-white rounded-3xl overflow-hidden w-full max-w-md max-h-[85vh] flex flex-col shadow-2xl relative border border-[#EFE9E2]"
+          className="bg-white rounded-[32px] overflow-hidden w-full max-w-md max-h-[85vh] flex flex-col shadow-2xl relative border-none"
         >
           {/* Header Image Area */}
-          <div className="relative w-full h-52 bg-[#2C221E] overflow-hidden flex-shrink-0">
+          <div className="relative w-full h-56 bg-[#2C221E] overflow-hidden flex-shrink-0">
             <img
               src={currentDisplayImage}
               alt={menu.name}
@@ -81,17 +81,17 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
               }}
               className="w-full h-full object-cover transition-all duration-300"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/40" />
+            <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-black/30" />
 
             <button
               onClick={onClose}
-              className="btn-fast absolute top-3.5 right-3.5 w-8 h-8 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-md border border-white/20 hover:bg-black/60 transition-colors"
+              className="btn-fast absolute top-3.5 right-3.5 w-8.5 h-8.5 rounded-full bg-black/40 text-white flex items-center justify-center backdrop-blur-md border-none hover:bg-black/60 transition-colors shadow-md"
             >
               <X className="w-4 h-4" />
             </button>
 
             {menu.is_bestseller && (
-              <span className="absolute top-3.5 left-3.5 bg-[#C85A32] text-white font-brand text-[10px] font-extrabold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+              <span className="absolute top-3.5 left-3.5 bg-[#C85A32] text-white font-brand text-[10px] font-extrabold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
                 <Sparkles className="w-3 h-3 text-amber-200" /> Bestseller Dump Cafe
               </span>
             )}
@@ -102,32 +102,32 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
             {/* Title & Description */}
             <div>
               <div className="flex items-start justify-between gap-2">
-                <h3 className="font-serif font-bold text-lg text-[#2C221E]">
+                <h3 className="font-display font-extrabold text-xl text-[#1C1917] tracking-tight">
                   {menu.name}
                 </h3>
                 <span className="font-mono font-extrabold text-base text-[#C85A32]">
                   Rp {formatRupiah(menu.price)}
                 </span>
               </div>
-              <p className="text-xs text-[#7E746F] mt-1 leading-relaxed">
+              <p className="text-xs text-[#78716C] mt-1.5 leading-relaxed font-medium">
                 {menu.description}
               </p>
             </div>
 
-            {/* Temperature Options */}
+            {/* Temperature Options — Borderless Modern Pills */}
             {menu.is_beverage && menu.temp_options === 'both' && (
               <div className="space-y-2">
-                <label className="block font-brand font-bold text-xs text-[#2C221E]">
+                <label className="block font-brand font-bold text-xs text-[#1C1917]">
                   Suhu Saji:
                 </label>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     type="button"
                     onClick={() => setTemperature('ice')}
-                    className={`py-2.5 px-3 rounded-xl border-2 font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
+                    className={`py-3 px-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast border-none ${
                       temperature === 'ice'
-                        ? 'border-[#C85A32] bg-[#FDF5F0] text-[#C85A32] shadow-xs'
-                        : 'border-[#EFE9E2] bg-white text-[#2C221E]'
+                        ? 'bg-[#FDF5F0] text-[#C85A32] shadow-sm'
+                        : 'bg-[#F5F0EB] text-[#78716C] hover:bg-[#EFE9E2]'
                     }`}
                   >
                     <Snowflake className="w-4 h-4 text-sky-500" />
@@ -137,10 +137,10 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
                   <button
                     type="button"
                     onClick={() => setTemperature('hot')}
-                    className={`py-2.5 px-3 rounded-xl border-2 font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast ${
+                    className={`py-3 px-3 rounded-2xl font-bold text-xs flex items-center justify-center gap-2 transition-all btn-fast border-none ${
                       temperature === 'hot'
-                        ? 'border-[#C85A32] bg-[#FDF5F0] text-[#C85A32] shadow-xs'
-                        : 'border-[#EFE9E2] bg-white text-[#2C221E]'
+                        ? 'bg-[#FDF5F0] text-[#C85A32] shadow-sm'
+                        : 'bg-[#F5F0EB] text-[#78716C] hover:bg-[#EFE9E2]'
                     }`}
                   >
                     <Flame className="w-4 h-4 text-amber-500" />
@@ -150,22 +150,22 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
               </div>
             )}
 
-            {/* Milk Options */}
+            {/* Milk Options — Borderless Pills */}
             {menu.is_beverage && menu.is_milk_based && temperature === 'ice' && (
               <div className="space-y-2">
-                <label className="block font-brand font-bold text-xs text-[#2C221E]">
+                <label className="block font-brand font-bold text-xs text-[#1C1917]">
                   Pilihan Susu:
                 </label>
-                <div className="grid grid-cols-3 gap-1.5">
+                <div className="grid grid-cols-3 gap-2">
                   {['Fresh Milk', 'Oat Milk (+7k)', 'Almond Milk (+8k)'].map(milk => (
                     <button
                       key={milk}
                       type="button"
                       onClick={() => setMilkOption(milk)}
-                      className={`py-2 px-2 rounded-xl border font-bold text-[11px] transition-all btn-fast ${
+                      className={`py-2.5 px-2 rounded-2xl font-bold text-[11px] transition-all btn-fast border-none ${
                         milkOption === milk
-                          ? 'border-[#C85A32] bg-[#C85A32] text-white shadow-xs'
-                          : 'border-[#EFE9E2] bg-[#FAF7F2] text-[#2C221E]'
+                          ? 'bg-[#C85A32] text-white shadow-md'
+                          : 'bg-[#F5F0EB] text-[#78716C] hover:bg-[#EFE9E2]'
                       }`}
                     >
                       {milk}
@@ -175,9 +175,9 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
               </div>
             )}
 
-            {/* Notes */}
+            {/* Notes Input — Borderless Tinted Input */}
             <div>
-              <label className="block font-brand font-bold text-xs text-[#2C221E] mb-1">
+              <label className="block font-brand font-bold text-xs text-[#1C1917] mb-1.5">
                 Catatan Khusus Barista / Kitchen:
               </label>
               <input
@@ -185,28 +185,28 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
                 placeholder="Cth: Sedikit es, jangan terlalu manis..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#EFE9E2] focus:border-[#C85A32] text-xs font-brand outline-none transition-colors bg-[#FAF7F2] text-[#2C221E]"
+                className="w-full px-4 py-3 rounded-2xl border-none focus:ring-2 focus:ring-[#C85A32]/30 text-xs font-brand outline-none transition-colors bg-[#F5F0EB] text-[#1C1917] placeholder-[#A8A29E]"
               />
             </div>
           </div>
 
-          {/* Footer Action Bar */}
-          <div className="p-4 bg-slate-50 border-t border-[#EFE9E2] flex items-center gap-3">
-            <div className="flex items-center bg-white border border-[#EFE9E2] rounded-2xl px-3 py-1.5 gap-3 shadow-xs">
+          {/* Footer Action Bar — Borderless Elevation */}
+          <div className="p-4 bg-[#FAF7F2] border-none flex items-center gap-3 shadow-inner">
+            <div className="flex items-center bg-white rounded-2xl px-3.5 py-1.5 gap-3 shadow-md border-none">
               <button
                 type="button"
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="btn-fast w-7 h-7 rounded-full text-[#2C221E] font-bold flex items-center justify-center hover:bg-slate-100"
+                className="btn-fast w-7 h-7 rounded-full text-[#1C1917] font-extrabold flex items-center justify-center hover:bg-slate-100"
               >
                 <Minus className="w-3.5 h-3.5" />
               </button>
-              <span className="font-mono font-bold text-sm text-[#2C221E] w-4 text-center">
+              <span className="font-mono font-extrabold text-sm text-[#1C1917] w-4 text-center">
                 {quantity}
               </span>
               <button
                 type="button"
                 onClick={() => setQuantity(quantity + 1)}
-                className="btn-fast w-7 h-7 rounded-full text-[#2C221E] font-bold flex items-center justify-center hover:bg-slate-100"
+                className="btn-fast w-7 h-7 rounded-full text-[#1C1917] font-extrabold flex items-center justify-center hover:bg-slate-100"
               >
                 <Plus className="w-3.5 h-3.5" />
               </button>
@@ -214,7 +214,7 @@ export default function ProductDetailModal({ menu, isOpen, onClose, onAddToCart 
 
             <button
               onClick={handleAddToCart}
-              className="btn-fast flex-1 bg-gradient-to-r from-[#C85A32] to-[#E8703E] hover:from-[#A44321] hover:to-[#C85A32] text-white font-brand font-extrabold py-3.5 px-4 rounded-2xl flex items-center justify-between shadow-lg shadow-[#C85A32]/25 tracking-wide text-xs"
+              className="btn-fast flex-1 bg-gradient-to-r from-[#C85A32] to-[#E8703E] hover:from-[#A44321] hover:to-[#C85A32] text-white font-brand font-extrabold py-3.5 px-4 rounded-2xl flex items-center justify-between shadow-lg shadow-[#C85A32]/30 tracking-wide text-xs border-none"
             >
               <span className="flex items-center gap-1.5">
                 <ShoppingBag className="w-4 h-4" /> + Tambah Ke Keranjang
