@@ -121,6 +121,9 @@ export default function App() {
       payment_method: orderData.payment_method,
       items: orderData.items,
       rawSubtotal: orderData.rawSubtotal,
+      appliedPromo: orderData.appliedPromo,
+      promoLabel: orderData.promoLabel,
+      discountAmount: orderData.discountAmount,
       taxAmount: orderData.taxAmount,
       totalPrice: orderData.totalPrice,
       created_at: new Date()
@@ -177,7 +180,7 @@ export default function App() {
           <CategoryGrid onSelectCategory={handleSelectCategory} />
         </div>
       ) : (
-        <div key="page-menu-items" className="animate-fade-in gpu-accelerated">
+        <div key="page-menu-items" className="animate-[#FAF7F2] gpu-accelerated">
           <MenuGrid 
             activeSlug={activeSlug} 
             onBack={handleBackToCategories} 
@@ -213,6 +216,7 @@ export default function App() {
         onClose={() => setIsPaymentGatewayOpen(false)}
         orderData={pendingOrderData}
         onPaymentSuccess={handlePaymentSuccess}
+        onOpenScanner={() => setShowScannerModal(true)}
       />
 
       {/* Camera QR Code Scanner Modal */}
