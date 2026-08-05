@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Clock, Flame, CupSoda, PlusCircle, Sparkles } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { CheckCircle2, Clock, Flame, CupSoda, PlusCircle, Scissors } from 'lucide-react';
 import { formatRupiah } from '../data/menuData';
 
 function ConfettiParticle({ delay, color, left }) {
@@ -64,7 +63,7 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
 
         <div className="animate-fade-in-up">
           <h1 className="font-serif font-bold text-xl text-[#2C221E] mb-1 flex items-center justify-center gap-2">
-            Pesanan Berhasil Dibuat! 🎉
+            Pembayaran Berhasil! 🎉
           </h1>
           <p className="text-xs text-[#7E746F] mb-5">
             Pesanan Anda telah diterima barista & kitchen Kiri Coffee.
@@ -113,6 +112,23 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
               </div>
             </div>
 
+            {/* Split Bill Active Badge */}
+            {order.isSplitBill && order.splitDetails && (
+              <div className="bg-[#FDF5F0] border border-[#C85A32]/30 p-2.5 rounded-2xl flex items-center gap-2">
+                <div className="w-7 h-7 rounded-xl bg-[#C85A32] text-white flex items-center justify-center">
+                  <Scissors className="w-4 h-4" />
+                </div>
+                <div className="flex-1 text-[11px]">
+                  <span className="font-brand font-bold text-[#C85A32] block">
+                    Split Bill Active ({order.splitDetails.mode === 'equal' ? `Bagi ${order.splitDetails.peopleCount} Orang` : 'Partial Payment'})
+                  </span>
+                  <span className="text-[#7E746F]">
+                    Sisa Tagihan Meja #{order.table_number}: <strong className="text-[#2C221E]">Rp {formatRupiah(order.splitDetails.remainingBalance)}</strong>
+                  </span>
+                </div>
+              </div>
+            )}
+
             <div>
               <span className="font-bold text-[#7E746F] block mb-2 text-[11px] uppercase tracking-wide">
                 RINCIAN PESANAN
@@ -140,8 +156,8 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
 
             <div className="bg-[#FAF7F2] p-3 rounded-2xl border border-[#EFE9E2] space-y-1.5">
               <div className="flex justify-between text-[#7E746F]">
-                <span>Subtotal Menu</span>
-                <span className="font-mono">Rp {formatRupiah(order.rawSubtotal)}</span>
+                <span>Total Tagihan Meja</span>
+                <span className="font-mono">Rp {formatRupiah(order.fullTotalPrice || order.totalPrice)}</span>
               </div>
 
               {order.discountAmount > 0 && (
@@ -157,7 +173,7 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
               </div>
               <hr className="border-[#EFE9E2] my-1" />
               <div className="flex justify-between font-extrabold text-sm text-[#2C221E]">
-                <span>Total Akhir</span>
+                <span>{order.isSplitBill ? 'Bagian Yang Dibayar' : 'Total Akhir'}</span>
                 <span className="text-[#C85A32]">Rp {formatRupiah(order.totalPrice)}</span>
               </div>
             </div>
@@ -171,93 +187,6 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
       >
         <PlusCircle className="w-4 h-4" /> Pesan Menu Lainnya
       </button>
-
-      {/* ===== PRINTABLE THERMAL RECEIPT (FOR BROWSER PRINT IF NEEDED) ===== */}
-      <div id="printable-receipt" className="hidden">
-        <div style={{ textAlign: 'center', marginBottom: '10px' }}>
-          <h2 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>KIRI COFFEE & EATERY</h2>
-          <p style={{ fontSize: '9px', margin: 0 }}>Artisan Coffee, Pastry & Eatery</p>
-          <p style={{ fontSize: '9px', margin: '2px 0' }}>Instagram: @kiricoffee_</p>
-          <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }} />
-        </div>
-
-        <table style={{ width: '100%', fontSize: '10px', marginBottom: '8px' }}>
-          <tbody>
-            <tr>
-              <td>ID Pesanan:</td>
-              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>#{String(order.id || 101).padStart(5, '0')}</td>
-            </tr>
-            <tr>
-              <td>No. Meja:</td>
-              <td style={{ textAlign: 'right', fontWeight: 'bold' }}>MEJA #{order.table_number}</td>
-            </tr>
-            <tr>
-              <td>Pemesan:</td>
-              <td style={{ textAlign: 'right' }}>{order.customer_name}</td>
-            </tr>
-            <tr>
-              <td>Waktu:</td>
-              <td style={{ textAlign: 'right' }}>{formattedDate}</td>
-            </tr>
-            <tr>
-              <td>Pembayaran:</td>
-              <td style={{ textAlign: 'right', textTransform: 'uppercase' }}>{order.payment_method}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }} />
-
-        <div style={{ marginBottom: '8px' }}>
-          <strong style={{ fontSize: '10px', display: 'block', marginBottom: '4px' }}>RINCIAN ITEM:</strong>
-          {order.items?.map((item, idx) => (
-            <div key={idx} style={{ marginBottom: '4px' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span>{item.quantity}x {item.menu.name}</span>
-                <span>Rp {formatRupiah(item.unit_price * item.quantity)}</span>
-              </div>
-              {item.customizations && (
-                <div style={{ fontSize: '8px', color: '#555', paddingLeft: '8px' }}>
-                  {item.customizations.ice && <span>{item.customizations.ice} </span>}
-                  {item.customizations.milk && <span>• {item.customizations.milk}</span>}
-                </div>
-              )}
-            </div>
-          ))}
-        </div>
-
-        <div style={{ borderBottom: '1px dashed #000', margin: '8px 0' }} />
-
-        <table style={{ width: '100%', fontSize: '10px' }}>
-          <tbody>
-            <tr>
-              <td>Subtotal:</td>
-              <td style={{ textAlign: 'right' }}>Rp {formatRupiah(order.rawSubtotal)}</td>
-            </tr>
-            {order.discountAmount > 0 && (
-              <tr>
-                <td>Diskon Promo ({order.appliedPromo}):</td>
-                <td style={{ textAlign: 'right' }}>-Rp {formatRupiah(order.discountAmount)}</td>
-              </tr>
-            )}
-            <tr>
-              <td>Pajak PB1 (10%):</td>
-              <td style={{ textAlign: 'right' }}>Rp {formatRupiah(order.taxAmount)}</td>
-            </tr>
-            <tr style={{ fontWeight: 'bold', fontSize: '11px' }}>
-              <td style={{ paddingTop: '4px' }}>TOTAL AKHIR:</td>
-              <td style={{ textAlign: 'right', paddingTop: '4px' }}>Rp {formatRupiah(order.totalPrice)}</td>
-            </tr>
-          </tbody>
-        </table>
-
-        <div style={{ borderBottom: '1px dashed #000', margin: '10px 0' }} />
-
-        <div style={{ textAlign: 'center', marginTop: '12px' }}>
-          <p style={{ fontSize: '9px', fontWeight: 'bold', margin: '0 0 2px 0' }}>Terima Kasih Atas Kunjungan Anda!</p>
-          <p style={{ fontSize: '8px', color: '#444', margin: 0 }}>Simpan struk ini sebagai bukti transaksi sah Kiri Coffee.</p>
-        </div>
-      </div>
     </div>
   );
 }
