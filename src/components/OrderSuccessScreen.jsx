@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle2, Clock, Flame, CupSoda, PlusCircle, Printer, Download, Sparkles } from 'lucide-react';
+import { CheckCircle2, Clock, Flame, CupSoda, PlusCircle, Sparkles } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { formatRupiah } from '../data/menuData';
 
@@ -28,10 +28,6 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
   }, []);
 
   if (!order) return null;
-
-  const handlePrintReceipt = () => {
-    window.print();
-  };
 
   const formattedDate = new Date(order.created_at || Date.now()).toLocaleString('id-ID', {
     day: '2-digit',
@@ -73,16 +69,6 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
           <p className="text-xs text-[#7E746F] mb-5">
             Pesanan Anda telah diterima barista & kitchen Kiri Coffee.
           </p>
-        </div>
-
-        {/* Action Quick Print Bar */}
-        <div className="flex justify-center gap-2 mb-4">
-          <button
-            onClick={handlePrintReceipt}
-            className="btn-fast bg-[#2C221E] text-white font-brand font-bold text-xs px-4 py-2.5 rounded-xl shadow-md flex items-center gap-2 hover:bg-[#C85A32] transition-colors"
-          >
-            <Printer className="w-4 h-4 text-amber-300" /> Cetak Struk (Thermal POS)
-          </button>
         </div>
 
         {/* Barista Status Monitoring */}
@@ -186,7 +172,7 @@ export default function OrderSuccessScreen({ order, onNewOrder }) {
         <PlusCircle className="w-4 h-4" /> Pesan Menu Lainnya
       </button>
 
-      {/* ===== PRINTABLE THERMAL RECEIPT (VISIBLE ONLY WHEN PRINTING) ===== */}
+      {/* ===== PRINTABLE THERMAL RECEIPT (FOR BROWSER PRINT IF NEEDED) ===== */}
       <div id="printable-receipt" className="hidden">
         <div style={{ textAlign: 'center', marginBottom: '10px' }}>
           <h2 style={{ fontSize: '14px', fontWeight: 'bold', margin: 0 }}>KIRI COFFEE & EATERY</h2>
