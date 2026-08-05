@@ -1,8 +1,8 @@
 import React from 'react';
-import { Coffee, MapPin, Edit3, Instagram, Camera, Bell } from 'lucide-react';
+import { Coffee, MapPin, Edit3, Instagram } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export default function HeaderBar({ tableNumber, onPromptTable, onOpenScanner }) {
+export default function HeaderBar({ tableNumber, onPromptTable }) {
   return (
     <motion.header 
       initial={{ y: -50, opacity: 0 }}
@@ -35,17 +35,6 @@ export default function HeaderBar({ tableNumber, onPromptTable, onOpenScanner })
       </div>
 
       <div className="flex items-center gap-2">
-        {/* Camera Scan QR Button */}
-        <motion.button
-          whileHover={{ scale: 1.08 }}
-          whileTap={{ scale: 0.9 }}
-          onClick={onOpenScanner}
-          className="w-9 h-9 rounded-full bg-[#FAF7F2] border border-[#EFE9E2] text-[#C85A32] hover:bg-[#C85A32] hover:text-white flex items-center justify-center shadow-xs transition-all duration-300"
-          title="Pindai QR Kamera"
-        >
-          <Camera className="w-4 h-4" />
-        </motion.button>
-
         {/* Table Number Button */}
         <motion.button
           whileHover={{ scale: 1.05 }}
@@ -59,11 +48,11 @@ export default function HeaderBar({ tableNumber, onPromptTable, onOpenScanner })
             key={tableNumber}
             initial={{ scale: 1.4, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
-            className="bg-[#C85A32] text-white font-mono px-1.5 py-0.5 rounded-md text-[10px] font-bold"
+            className="bg-[#C85A32] text-white px-2 py-0.5 rounded-full font-mono text-xs font-extrabold"
           >
             {tableNumber}
           </motion.span>
-          <Edit3 className="w-2.5 h-2.5 text-[#7E746F]" />
+          <Edit3 className="w-3 h-3 text-[#7E746F]" />
         </motion.button>
       </div>
     </motion.header>
