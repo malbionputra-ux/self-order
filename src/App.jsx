@@ -11,9 +11,21 @@ import TablePromptModal from './components/TablePromptModal';
 import PaymentGatewayModal from './components/PaymentGatewayModal';
 import CameraQRScannerModal from './components/CameraQRScannerModal';
 import GetStartedScreen from './components/GetStartedScreen';
-import TableManagementView from './components/TableManagementView';
+
+// POS Staff Dashboard
+import PosDashboard from './pos/PosDashboard';
+
+// Shared Initial Menu Data
+import { menus as initialMenus, categories as initialCategories } from './data/menuData';
 
 export default function App() {
+  const [appMode, setAppMode] = useState('customer'); // 'customer' | 'pos'
+
+  // Central Dynamic Menu Data State (Synced across POS & Customer views)
+  const [menus, setMenus] = useState(initialMenus);
+  const [categories, setCategories] = useState(initialCategories);
+
+  // Customer State
   const [activePage, setActivePage] = useState('get-started');
   const [activeSlug, setActiveSlug] = useState('signature-coffee');
   const [tableNumber, setTableNumber] = useState('08');
@@ -42,18 +54,39 @@ export default function App() {
       setActiveSlug(initialCat);
       setActivePage('menu-items');
     }
+    const mode = urlParams.get('mode');
+    if (mode === 'pos') {
+      setAppMode('pos');
+    }
   }, []);
+
+  // POS Menu & Stock Management Handlers
+  const handleToggleAvailability = (menuId) => {
+    setMenus(prevMenus => prevMenus.map(m => {
+      if (m.id === menuId) {
+        return { ...m, is_available: m.is_available === false ? true : false };
+      }
+      return m;
+    }));
+  };
+
+  const handleUpdatePrice = (menuId, newPrice) => {
+    setMenus(prevMenus => prevMenus.map(m => {
+      if (m.id === menuId) {
+        return { ...m, price: newPrice };
+      }
+      return m;
+    }));
+  };
+
+  const handleAddNewMenu = (newMenuObj) => {
+    setMenus(prevMenus => [newMenuObj, ...prevMenus]);
+  };
 
   const handleSaveTable = (table) => {
     setTableNumber(table);
     localStorage.setItem('kiri_table_number', table);
     setShowTableModal(false);
-  };
-
-  const handleSelectTableFromMapAndOrder = (selectedTableId) => {
-    handleSaveTable(selectedTableId);
-    setActivePage('categories');
-    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleCameraScanSuccess = (scannedTable) => {
@@ -80,6 +113,7 @@ export default function App() {
   };
 
   const handleOpenDetail = (menu) => {
+    if (menu.is_available === false) return;
     setSelectedMenu(menu);
     setIsDetailOpen(true);
   };
@@ -153,6 +187,27 @@ export default function App() {
     window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
+  // -------------------------------------------------------------
+  // RENDER STAFF POS MODE
+  // -------------------------------------------------------------
+  if (appMode === 'pos') {
+    return (
+      <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
+        <PosDashboard
+          menus={menus}
+          categories={categories}
+          onToggleAvailability={handleToggleAvailability}
+          onUpdatePrice={handleUpdatePrice}
+          onAddNewMenu={handleAddNewMenu}
+          onSwitchToCustomerMode={() => setAppMode('customer')}
+        />
+      </div>
+    );
+  }
+
+  // -------------------------------------------------------------
+  // RENDER CUSTOMER MODE
+  // -------------------------------------------------------------
   if (activePage === 'get-started') {
     return (
       <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
@@ -171,25 +226,13 @@ export default function App() {
     );
   }
 
-  if (activePage === 'table-map') {
-    return (
-      <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
-        <TableManagementView
-          currentActiveTable={tableNumber}
-          onSelectTableAndOrder={handleSelectTableFromMapAndOrder}
-          onCloseMap={() => setActivePage('categories')}
-        />
-      </div>
-    );
-  }
-
   return (
     <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
-      {/* Header Bar */}
+      {/* Header Bar with POS Staff Switcher */}
       <HeaderBar
         tableNumber={tableNumber}
         onPromptTable={() => setShowTableModal(true)}
-        onOpenTableMap={() => setActivePage('table-map')}
+        onOpenTableMap={() => setAppMode('pos')}
         onOpenScanner={() => setShowScannerModal(true)}
       />
 
@@ -203,6 +246,7 @@ export default function App() {
         <div key="page-menu-items" className="gpu-accelerated">
           <MenuGrid
             activeSlug={activeSlug}
+            menus={menus}
             onBack={handleBackToCategories}
             onOpenDetail={handleOpenDetail}
           />

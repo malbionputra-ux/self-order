@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from 'react';
-import { ArrowLeft, Plus, Sparkles, Search, SlidersHorizontal } from 'lucide-react';
-import { categories, menus, formatRupiah } from '../data/menuData';
+import { ArrowLeft, Plus, Sparkles, Search, SlidersHorizontal, Lock } from 'lucide-react';
+import { categories, menus as initialMenus, formatRupiah } from '../data/menuData';
 
-export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
+export default function MenuGrid({ activeSlug, onBack, onOpenDetail, menus = initialMenus }) {
   const [searchQuery, setSearchQuery] = useState('');
 
   const activeCategory = useMemo(() => {
@@ -17,7 +17,7 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
         menu.description.toLowerCase().includes(searchQuery.toLowerCase());
       return matchesCategory && matchesSearch;
     });
-  }, [activeSlug, searchQuery]);
+  }, [activeSlug, searchQuery, menus]);
 
   return (
     <div className="min-h-[calc(100vh-140px)] bg-[#FAF7F2]">
@@ -63,57 +63,84 @@ export default function MenuGrid({ activeSlug, onBack, onOpenDetail }) {
 
         {/* 2-Column Ultra-Clean Modern White Cards Grid */}
         <div className="grid grid-cols-2 gap-3.5">
-          {filteredMenus.map((menu, index) => (
-            <div
-              key={menu.id}
-              onClick={() => onOpenDetail(menu)}
-              className="menu-card gpu-accelerated animate-fade-in-up bg-white rounded-[24px] text-[#1C1917] border-none shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden group cursor-pointer"
-              style={{ animationDelay: `${(index % 6) * 0.04}s` }}
-            >
-              {/* Bestseller Badge */}
-              {menu.is_bestseller && (
-                <span className="absolute top-2.5 left-2.5 bg-[#C85A32] text-white font-brand text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-md z-10 flex items-center gap-0.5 border-none">
-                  <Sparkles className="w-2.5 h-2.5 text-amber-200" /> Top
-                </span>
-              )}
+          {filteredMenus.map((menu, index) => {
+            const isAvailable = menu.is_available !== false;
 
-              {/* Full-Bleed Rectangular Food Image Header */}
-              <div className="relative w-full h-36 overflow-hidden bg-[#FAF7F2]">
-                <img
-                  src={menu.image}
-                  alt={menu.name}
-                  loading="lazy"
-                  decoding="async"
-                  onError={(e) => {
-                    e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
-                  }}
-                  className="w-full h-full object-cover group-hover:scale-108 transition-transform duration-300"
-                />
-              </div>
+            return (
+              <div
+                key={menu.id}
+                onClick={() => {
+                  if (isAvailable) {
+                    onOpenDetail(menu);
+                  }
+                }}
+                className={`menu-card gpu-accelerated animate-fade-in-up bg-white rounded-[24px] text-[#1C1917] border-none shadow-md hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden group cursor-pointer ${
+                  !isAvailable ? 'opacity-70 grayscale-[30%]' : ''
+                }`}
+                style={{ animationDelay: `${(index % 6) * 0.04}s` }}
+              >
+                {/* Bestseller Badge */}
+                {menu.is_bestseller && isAvailable && (
+                  <span className="absolute top-2.5 left-2.5 bg-[#C85A32] text-white font-brand text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-md z-10 flex items-center gap-0.5 border-none">
+                    <Sparkles className="w-2.5 h-2.5 text-amber-200" /> Top
+                  </span>
+                )}
 
-              {/* Card Body */}
-              <div className="p-3 pt-2.5 flex flex-col flex-1 justify-between">
-                <div>
-                  <h4 className="font-display font-extrabold text-xs text-[#1C1917] leading-snug line-clamp-1 group-hover:text-[#C85A32] transition-colors">
-                    {menu.name}
-                  </h4>
-                  <p className="text-[10px] text-[#78716C] line-clamp-2 mt-1 leading-normal font-medium">
-                    {menu.description}
-                  </p>
+                {/* Out of Stock Overlay Badge */}
+                {!isAvailable && (
+                  <span className="absolute top-2.5 left-2.5 bg-red-600 text-white font-brand text-[9px] font-extrabold px-2.5 py-1 rounded-full shadow-md z-10 flex items-center gap-1 border-none">
+                    <Lock className="w-2.5 h-2.5" /> Stok Habis
+                  </span>
+                )}
+
+                {/* Full-Bleed Rectangular Food Image Header */}
+                <div className="relative w-full h-36 overflow-hidden bg-[#FAF7F2]">
+                  <img
+                    src={menu.image}
+                    alt={menu.name}
+                    loading="lazy"
+                    decoding="async"
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
+                    }}
+                    className={`w-full h-full object-cover group-hover:scale-108 transition-transform duration-300 ${
+                      !isAvailable ? 'filter brightness-90' : ''
+                    }`}
+                  />
                 </div>
 
-                {/* High-Contrast Espresso Action Pill Capsule (Price + Add Button) */}
-                <div className="bg-[#2C221E] rounded-full p-1 pl-3.5 flex items-center justify-between mt-3 shadow-md border-none">
-                  <span className="font-mono font-extrabold text-xs text-white">
-                    Rp {formatRupiah(menu.price)}
-                  </span>
-                  <div className="w-7 h-7 rounded-full bg-[#C85A32] text-white flex items-center justify-center shadow-md group-hover:bg-[#E8703E] transition-colors border-none">
-                    <Plus className="w-4 h-4 stroke-[3]" />
+                {/* Card Body */}
+                <div className="p-3 pt-2.5 flex flex-col flex-1 justify-between">
+                  <div>
+                    <h4 className="font-display font-extrabold text-xs text-[#1C1917] leading-snug line-clamp-1 group-hover:text-[#C85A32] transition-colors">
+                      {menu.name}
+                    </h4>
+                    <p className="text-[10px] text-[#78716C] line-clamp-2 mt-1 leading-normal font-medium">
+                      {menu.description}
+                    </p>
+                  </div>
+
+                  {/* High-Contrast Espresso Action Pill Capsule */}
+                  <div className={`rounded-full p-1 pl-3.5 flex items-center justify-between mt-3 shadow-md border-none ${
+                    isAvailable ? 'bg-[#2C221E] text-white' : 'bg-slate-300 text-slate-600'
+                  }`}>
+                    <span className="font-mono font-extrabold text-xs">
+                      Rp {formatRupiah(menu.price)}
+                    </span>
+                    <div className={`w-7 h-7 rounded-full text-white flex items-center justify-center shadow-md border-none ${
+                      isAvailable ? 'bg-[#C85A32] group-hover:bg-[#E8703E]' : 'bg-slate-500'
+                    }`}>
+                      {isAvailable ? (
+                        <Plus className="w-4 h-4 stroke-[3]" />
+                      ) : (
+                        <Lock className="w-3.5 h-3.5" />
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
