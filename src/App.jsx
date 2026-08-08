@@ -11,6 +11,7 @@ import TablePromptModal from './components/TablePromptModal';
 import PaymentGatewayModal from './components/PaymentGatewayModal';
 import CameraQRScannerModal from './components/CameraQRScannerModal';
 import GetStartedScreen from './components/GetStartedScreen';
+import TableManagementView from './components/TableManagementView';
 
 export default function App() {
   const [activePage, setActivePage] = useState('get-started');
@@ -47,6 +48,12 @@ export default function App() {
     setTableNumber(table);
     localStorage.setItem('kiri_table_number', table);
     setShowTableModal(false);
+  };
+
+  const handleSelectTableFromMapAndOrder = (selectedTableId) => {
+    handleSaveTable(selectedTableId);
+    setActivePage('categories');
+    window.scrollTo({ top: 0, behavior: 'instant' });
   };
 
   const handleCameraScanSuccess = (scannedTable) => {
@@ -164,12 +171,25 @@ export default function App() {
     );
   }
 
+  if (activePage === 'table-map') {
+    return (
+      <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
+        <TableManagementView
+          currentActiveTable={tableNumber}
+          onSelectTableAndOrder={handleSelectTableFromMapAndOrder}
+          onCloseMap={() => setActivePage('categories')}
+        />
+      </div>
+    );
+  }
+
   return (
     <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative flex flex-col pb-24 overflow-x-hidden">
       {/* Header Bar */}
       <HeaderBar
         tableNumber={tableNumber}
         onPromptTable={() => setShowTableModal(true)}
+        onOpenTableMap={() => setActivePage('table-map')}
         onOpenScanner={() => setShowScannerModal(true)}
       />
 
