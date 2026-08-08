@@ -1,21 +1,25 @@
 import React, { useState } from 'react';
-import { LayoutGrid, Users, CheckCircle2, AlertCircle, Lock, ArrowRight, RefreshCw, X, ShoppingBag, Plus, DollarSign, LogOut, ArrowRightLeft } from 'lucide-react';
+import { LayoutGrid, Users, CheckCircle2, AlertCircle, Lock, ArrowRight, RefreshCw, X, ShoppingBag, Plus, DollarSign, LogOut, ArrowRightLeft, Search } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatRupiah } from '../data/menuData';
 
 // Initial Mock Tables Data for F&B Outlet
 const INITIAL_TABLES = [
-  { id: '01', area: 'Indoor', label: 'Meja 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '02', area: 'Indoor', label: 'Meja 02', capacity: 4, status: 'occupied', customerName: 'Andi', totalAmount: 72000, itemsCount: 3, orderId: 'ORD-8821' },
-  { id: '03', area: 'Indoor', label: 'Meja 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '04', area: 'Indoor', label: 'Meja 04', capacity: 6, status: 'closed', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '05', area: 'Indoor', label: 'Meja 05', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '08', area: 'Indoor', label: 'Meja 08', capacity: 4, status: 'occupied', customerName: 'Rian', totalAmount: 95000, itemsCount: 4, orderId: 'ORD-8825' },
-  { id: '09', area: 'Indoor', label: 'Meja 09', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '01', area: 'Indoor Main', label: 'Meja 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '02', area: 'Indoor Main', label: 'Meja 02', capacity: 4, status: 'occupied', customerName: 'Andi', totalAmount: 72000, itemsCount: 3, orderId: 'ORD-8821' },
+  { id: '03', area: 'Indoor Main', label: 'Meja 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '04', area: 'Indoor Main', label: 'Meja 04', capacity: 6, status: 'closed', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '05', area: 'Indoor Main', label: 'Meja 05', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '06', area: 'Indoor Main', label: 'Meja 06', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '07', area: 'Indoor Main', label: 'Meja 07', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '08', area: 'Indoor Main', label: 'Meja 08', capacity: 4, status: 'occupied', customerName: 'Rian', totalAmount: 95000, itemsCount: 4, orderId: 'ORD-8825' },
+  { id: '09', area: 'Indoor Main', label: 'Meja 09', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: '10', area: 'Indoor Main', label: 'Meja 10', capacity: 6, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
   
-  { id: 'OUT-01', area: 'Outdoor', label: 'Terrace 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: 'OUT-02', area: 'Outdoor', label: 'Terrace 02', capacity: 4, status: 'occupied', customerName: 'Maya', totalAmount: 118000, itemsCount: 5, orderId: 'ORD-8830' },
-  { id: 'OUT-03', area: 'Outdoor', label: 'Terrace 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: 'OUT-01', area: 'Outdoor Terrace', label: 'Terrace 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: 'OUT-02', area: 'Outdoor Terrace', label: 'Terrace 02', capacity: 4, status: 'occupied', customerName: 'Maya', totalAmount: 118000, itemsCount: 5, orderId: 'ORD-8830' },
+  { id: 'OUT-03', area: 'Outdoor Terrace', label: 'Terrace 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
+  { id: 'OUT-04', area: 'Outdoor Terrace', label: 'Terrace 04', capacity: 6, status: 'closed', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
   
   { id: 'VIP-01', area: 'VIP Lounge', label: 'VIP Room 1', capacity: 8, status: 'occupied', customerName: 'Bpk. Hendra', totalAmount: 340000, itemsCount: 12, orderId: 'ORD-8800' },
   { id: 'VIP-02', area: 'VIP Lounge', label: 'VIP Room 2', capacity: 10, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
@@ -29,7 +33,7 @@ export default function TableManagementView({
   const [tables, setTables] = useState(INITIAL_TABLES);
   const [selectedArea, setSelectedArea] = useState('Semua');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedTable, setSelectedTable] = useState(null);
+  const [selectedTable, setSelectedTable] = useState(tables[1]); // Default select Meja 02 on Tablet/Laptop
   const [showMoveModal, setShowMoveModal] = useState(false);
   const [targetMoveTableId, setTargetMoveTableId] = useState('');
 
@@ -101,265 +105,273 @@ export default function TableManagementView({
     }));
 
     setShowMoveModal(false);
-    setSelectedTable(null);
   };
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] pb-10 text-[#1C1917] font-brand select-none">
-      {/* Top Bar Header */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-[#C85A32] text-white flex items-center justify-center shadow-md">
+    <div className="min-h-screen bg-[#FAF7F2] text-[#1C1917] font-brand select-none flex flex-col">
+      {/* Tablet / Laptop Header Bar */}
+      <div className="bg-white px-6 py-3.5 border-b border-slate-200 flex items-center justify-between shadow-xs">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-[#C85A32] text-white flex items-center justify-center shadow-md">
             <LayoutGrid className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="font-display font-extrabold text-sm text-[#1C1917] tracking-tight">
-              PETA & MANAJEMEN MEJA
+            <h1 className="font-display font-extrabold text-base text-[#1C1917] tracking-tight">
+              PETA & MANAJEMEN MEJA (POS TERMINAL)
             </h1>
-            <p className="text-[10px] text-[#78716C]">
-              Dump Cafe & Eatery POS
+            <p className="text-xs text-[#78716C]">
+              Denah Layout Realtime Outlet Dump Cafe
             </p>
           </div>
         </div>
 
-        <button
-          onClick={onCloseMap}
-          className="btn-fast bg-[#FAF7F2] text-[#1C1917] p-2 rounded-full hover:bg-slate-200"
-        >
-          <X className="w-5 h-5" />
-        </button>
-      </div>
-
-      <div className="p-4 space-y-4 max-w-md mx-auto">
-        {/* Status Summary Bar */}
-        <div className="grid grid-cols-4 gap-2">
+        {/* Status Counters Bar - Tablet Wide */}
+        <div className="flex items-center gap-2">
           <button
             onClick={() => setStatusFilter('all')}
-            className={`p-2.5 rounded-2xl text-center transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               statusFilter === 'all'
                 ? 'bg-[#1C1917] text-white shadow-md'
-                : 'bg-white text-[#78716C] shadow-xs'
+                : 'bg-[#FAF7F2] text-[#78716C] hover:bg-slate-200'
             }`}
           >
-            <span className="block text-[10px] uppercase font-bold tracking-wider">Semua</span>
-            <span className="font-mono font-extrabold text-base">{totalCount}</span>
+            <span>Semua</span>
+            <span className="font-mono font-extrabold px-2 py-0.5 rounded-md bg-white/20 text-xs">{totalCount}</span>
           </button>
 
           <button
             onClick={() => setStatusFilter('open')}
-            className={`p-2.5 rounded-2xl text-center transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               statusFilter === 'open'
                 ? 'bg-emerald-600 text-white shadow-md'
-                : 'bg-white text-emerald-700 shadow-xs'
+                : 'bg-emerald-50 text-emerald-800 hover:bg-emerald-100'
             }`}
           >
-            <span className="block text-[10px] uppercase font-bold tracking-wider">Open</span>
-            <span className="font-mono font-extrabold text-base">{openCount}</span>
+            <span>Open (Tersedia)</span>
+            <span className="font-mono font-extrabold px-2 py-0.5 rounded-md bg-white/20 text-xs">{openCount}</span>
           </button>
 
           <button
             onClick={() => setStatusFilter('occupied')}
-            className={`p-2.5 rounded-2xl text-center transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               statusFilter === 'occupied'
                 ? 'bg-[#C85A32] text-white shadow-md'
-                : 'bg-white text-[#C85A32] shadow-xs'
+                : 'bg-orange-50 text-[#C85A32] hover:bg-orange-100'
             }`}
           >
-            <span className="block text-[10px] uppercase font-bold tracking-wider">Terisi</span>
-            <span className="font-mono font-extrabold text-base">{occupiedCount}</span>
+            <span>Terisi (Occupied)</span>
+            <span className="font-mono font-extrabold px-2 py-0.5 rounded-md bg-white/20 text-xs">{occupiedCount}</span>
           </button>
 
           <button
             onClick={() => setStatusFilter('closed')}
-            className={`p-2.5 rounded-2xl text-center transition-all ${
+            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 ${
               statusFilter === 'closed'
                 ? 'bg-slate-700 text-white shadow-md'
-                : 'bg-white text-slate-500 shadow-xs'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
             }`}
           >
-            <span className="block text-[10px] uppercase font-bold tracking-wider">Tutup</span>
-            <span className="font-mono font-extrabold text-base">{closedCount}</span>
+            <span>Ditutup</span>
+            <span className="font-mono font-extrabold px-2 py-0.5 rounded-md bg-white/20 text-xs">{closedCount}</span>
           </button>
-        </div>
-
-        {/* Area Tabs Filter */}
-        <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-1">
-          {['Semua', 'Indoor', 'Outdoor', 'VIP Lounge'].map(area => (
-            <button
-              key={area}
-              onClick={() => setSelectedArea(area)}
-              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                selectedArea === area
-                  ? 'bg-[#C85A32] text-white shadow-sm'
-                  : 'bg-white text-[#78716C] hover:bg-slate-100 shadow-xs'
-              }`}
-            >
-              {area}
-            </button>
-          ))}
-        </div>
-
-        {/* Table Map Grid View */}
-        <div className="grid grid-cols-2 gap-3.5">
-          {filteredTables.map(table => {
-            const isOpen = table.status === 'open';
-            const isOccupied = table.status === 'occupied';
-            const isClosed = table.status === 'closed';
-            const isCurrentActive = currentActiveTable === table.id;
-
-            return (
-              <motion.div
-                key={table.id}
-                whileTap={{ scale: 0.96 }}
-                onClick={() => setSelectedTable(table)}
-                className={`
-                  p-4 rounded-[24px] cursor-pointer relative flex flex-col justify-between min-h-[140px] transition-all shadow-md
-                  ${isOpen ? 'bg-white text-[#1C1917] hover:shadow-lg' : ''}
-                  ${isOccupied ? 'bg-gradient-to-br from-[#2C221E] to-[#382B25] text-white shadow-xl' : ''}
-                  ${isClosed ? 'bg-slate-200 text-slate-500 opacity-80' : ''}
-                  ${isCurrentActive ? 'ring-4 ring-[#C85A32]' : ''}
-                `}
-              >
-                {/* Header Row */}
-                <div className="flex items-start justify-between">
-                  <div>
-                    <span className="font-display font-extrabold text-sm block">
-                      {table.label}
-                    </span>
-                    <span className={`text-[10px] font-medium flex items-center gap-1 ${isOccupied ? 'text-white/70' : 'text-[#78716C]'}`}>
-                      <Users className="w-3 h-3" /> {table.capacity} Kursi • {table.area}
-                    </span>
-                  </div>
-
-                  {/* Status Badge */}
-                  {isOpen && (
-                    <span className="bg-emerald-100 text-emerald-800 text-[9px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <CheckCircle2 className="w-2.5 h-2.5" /> OPEN
-                    </span>
-                  )}
-                  {isOccupied && (
-                    <span className="bg-[#C85A32] text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <AlertCircle className="w-2.5 h-2.5" /> TERISI
-                    </span>
-                  )}
-                  {isClosed && (
-                    <span className="bg-slate-400 text-white text-[9px] font-extrabold px-2 py-0.5 rounded-full flex items-center gap-1">
-                      <Lock className="w-2.5 h-2.5" /> TUTUP
-                    </span>
-                  )}
-                </div>
-
-                {/* Table Body Content */}
-                <div className="mt-3 pt-2 border-t border-current/10">
-                  {isOpen && (
-                    <p className="text-[11px] text-emerald-600 font-bold flex items-center gap-1">
-                      Tersedia untuk dipesan
-                    </p>
-                  )}
-
-                  {isOccupied && (
-                    <div className="space-y-0.5">
-                      <div className="flex justify-between items-center text-[11px]">
-                        <span className="text-amber-200 font-bold truncate max-w-[90px]">{table.customerName || 'Tamu'}</span>
-                        <span className="text-white/60 text-[10px]">{table.itemsCount} item</span>
-                      </div>
-                      <span className="font-mono font-extrabold text-xs text-white block">
-                        Rp {formatRupiah(table.totalAmount)}
-                      </span>
-                    </div>
-                  )}
-
-                  {isClosed && (
-                    <p className="text-[10px] text-slate-500 font-medium">
-                      Meja ditutup / reservasi
-                    </p>
-                  )}
-                </div>
-              </motion.div>
-            );
-          })}
         </div>
       </div>
 
-      {/* Table Details Action Modal */}
-      <AnimatePresence>
-        {selectedTable && !showMoveModal && (
-          <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/65 backdrop-blur-md">
-            <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="bg-white rounded-t-[32px] p-5 w-full max-w-md space-y-4 shadow-2xl"
-            >
-              {/* Header */}
-              <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-                <div>
-                  <div className="flex items-center gap-2">
-                    <h3 className="font-display font-extrabold text-base text-[#1C1917]">
-                      {selectedTable.label}
-                    </h3>
-                    <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase ${
-                      selectedTable.status === 'open' ? 'bg-emerald-100 text-emerald-800' :
-                      selectedTable.status === 'occupied' ? 'bg-[#C85A32] text-white' : 'bg-slate-200 text-slate-700'
-                    }`}>
-                      {selectedTable.status}
-                    </span>
-                  </div>
-                  <p className="text-xs text-[#78716C]">
-                    Area: {selectedTable.area} • Kapasitas {selectedTable.capacity} Kursi
-                  </p>
-                </div>
-                <button
-                  onClick={() => setSelectedTable(null)}
-                  className="p-2 rounded-full bg-slate-100 hover:bg-slate-200 text-[#1C1917]"
+      {/* Main Tablet/Laptop 2-Column Split View */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Side: Table Map Grid Area */}
+        <div className="flex-1 p-6 overflow-y-auto space-y-4">
+          {/* Area Filter Tabs */}
+          <div className="flex items-center justify-between bg-white p-2.5 rounded-2xl shadow-xs border border-slate-200/60">
+            <div className="flex items-center gap-2">
+              {['Semua Area', 'Indoor Main', 'Outdoor Terrace', 'VIP Lounge'].map(area => {
+                const areaKey = area === 'Semua Area' ? 'Semua' : area;
+                return (
+                  <button
+                    key={area}
+                    onClick={() => setSelectedArea(areaKey)}
+                    className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${
+                      selectedArea === areaKey
+                        ? 'bg-[#C85A32] text-white shadow-sm'
+                        : 'bg-[#FAF7F2] text-[#78716C] hover:bg-slate-200'
+                    }`}
+                  >
+                    {area}
+                  </button>
+                );
+              })}
+            </div>
+            <span className="text-xs text-[#78716C] font-mono font-bold px-3">
+              Menampilkan {filteredTables.length} Meja
+            </span>
+          </div>
+
+          {/* Table Grid (4 Columns Tablet, 5-6 Columns Laptop) */}
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            {filteredTables.map(table => {
+              const isOpen = table.status === 'open';
+              const isOccupied = table.status === 'occupied';
+              const isClosed = table.status === 'closed';
+              const isSelected = selectedTable?.id === table.id;
+
+              return (
+                <motion.div
+                  key={table.id}
+                  whileHover={{ scale: 1.02 }}
+                  whileTap={{ scale: 0.97 }}
+                  onClick={() => setSelectedTable(table)}
+                  className={`
+                    p-4.5 rounded-[24px] cursor-pointer relative flex flex-col justify-between min-h-[155px] transition-all shadow-md
+                    ${isOpen ? 'bg-white text-[#1C1917] hover:shadow-xl' : ''}
+                    ${isOccupied ? 'bg-gradient-to-br from-[#2C221E] via-[#382B25] to-[#2C221E] text-white shadow-xl' : ''}
+                    ${isClosed ? 'bg-slate-200 text-slate-500 opacity-80' : ''}
+                    ${isSelected ? 'ring-4 ring-[#C85A32] shadow-2xl scale-[1.02]' : ''}
+                  `}
                 >
-                  <X className="w-4 h-4" />
-                </button>
+                  {/* Card Header */}
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <span className="font-display font-extrabold text-base block leading-tight">
+                        {table.label}
+                      </span>
+                      <span className={`text-[11px] font-medium flex items-center gap-1 mt-0.5 ${isOccupied ? 'text-white/70' : 'text-[#78716C]'}`}>
+                        <Users className="w-3.5 h-3.5" /> {table.capacity} Kursi
+                      </span>
+                    </div>
+
+                    {/* Status Badge */}
+                    {isOpen && (
+                      <span className="bg-emerald-100 text-emerald-800 text-[10px] font-extrabold px-2.5 py-1 rounded-full flex items-center gap-1">
+                        <CheckCircle2 className="w-3 h-3" /> OPEN
+                      </span>
+                    )}
+                    {isOccupied && (
+                      <span className="bg-[#C85A32] text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full flex items-center gap-1 shadow-sm">
+                        <AlertCircle className="w-3 h-3" /> TERISI
+                      </span>
+                    )}
+                    {isClosed && (
+                      <span className="bg-slate-400 text-white text-[10px] font-extrabold px-2.5 py-1 rounded-full flex items-center gap-1">
+                        <Lock className="w-3 h-3" /> TUTUP
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Card Body */}
+                  <div className="mt-4 pt-2.5 border-t border-current/10">
+                    {isOpen && (
+                      <span className="text-xs text-emerald-600 font-bold flex items-center gap-1">
+                        Siap Diisi Tamu
+                      </span>
+                    )}
+
+                    {isOccupied && (
+                      <div className="space-y-1">
+                        <div className="flex justify-between items-center text-xs">
+                          <span className="text-amber-200 font-bold truncate max-w-[100px]">{table.customerName || 'Tamu'}</span>
+                          <span className="text-white/70 text-[11px]">{table.itemsCount} items</span>
+                        </div>
+                        <span className="font-mono font-extrabold text-sm text-white block">
+                          Rp {formatRupiah(table.totalAmount)}
+                        </span>
+                      </div>
+                    )}
+
+                    {isClosed && (
+                      <span className="text-xs text-slate-500 font-medium">
+                        Reservasi / Dibersihkan
+                      </span>
+                    )}
+                  </div>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Side Panel: Tablet / Laptop Fixed Selected Table Details Drawer */}
+        <div className="w-80 lg:w-96 bg-white border-l border-slate-200 p-6 flex flex-col justify-between shadow-xl flex-shrink-0">
+          {selectedTable ? (
+            <div className="space-y-5 flex-1 flex flex-col justify-between">
+              <div className="space-y-4">
+                {/* Header Selected Table */}
+                <div className="flex items-center justify-between border-b border-slate-100 pb-3">
+                  <div>
+                    <div className="flex items-center gap-2">
+                      <h3 className="font-display font-extrabold text-lg text-[#1C1917]">
+                        {selectedTable.label}
+                      </h3>
+                      <span className={`text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase ${
+                        selectedTable.status === 'open' ? 'bg-emerald-100 text-emerald-800' :
+                        selectedTable.status === 'occupied' ? 'bg-[#C85A32] text-white' : 'bg-slate-200 text-slate-700'
+                      }`}>
+                        {selectedTable.status}
+                      </span>
+                    </div>
+                    <p className="text-xs text-[#78716C] mt-0.5">
+                      Area {selectedTable.area} • Kapasitas {selectedTable.capacity} Orang
+                    </p>
+                  </div>
+                </div>
+
+                {/* Status Details Card */}
+                {selectedTable.status === 'occupied' && (
+                  <div className="bg-[#FAF7F2] p-4 rounded-2xl space-y-2.5 border border-slate-200/60">
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#78716C]">Pemesan:</span>
+                      <span className="font-bold text-[#1C1917]">{selectedTable.customerName || 'Tamu'}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#78716C]">Order ID:</span>
+                      <span className="font-mono text-[#C85A32] font-bold">{selectedTable.orderId}</span>
+                    </div>
+                    <div className="flex justify-between items-center text-xs">
+                      <span className="text-[#78716C]">Jumlah Pesanan:</span>
+                      <span className="font-bold text-[#1C1917]">{selectedTable.itemsCount} Items</span>
+                    </div>
+                    <hr className="border-slate-200 my-1" />
+                    <div className="flex justify-between items-center">
+                      <span className="font-bold text-xs text-[#1C1917]">Running Total:</span>
+                      <span className="font-mono font-extrabold text-base text-[#C85A32]">Rp {formatRupiah(selectedTable.totalAmount)}</span>
+                    </div>
+                  </div>
+                )}
+
+                {selectedTable.status === 'open' && (
+                  <div className="bg-emerald-50 border border-emerald-200 p-4 rounded-2xl text-center space-y-1">
+                    <CheckCircle2 className="w-8 h-8 text-emerald-600 mx-auto" />
+                    <h4 className="font-bold text-emerald-800 text-sm">Meja Ini Kosong & Ready</h4>
+                    <p className="text-xs text-emerald-600">Klik tombol di bawah untuk membukanya dan langsung menginput pesanan tamu.</p>
+                  </div>
+                )}
+
+                {selectedTable.status === 'closed' && (
+                  <div className="bg-slate-100 p-4 rounded-2xl text-center space-y-1">
+                    <Lock className="w-8 h-8 text-slate-500 mx-auto" />
+                    <h4 className="font-bold text-slate-700 text-sm">Meja Sedang Ditutup</h4>
+                    <p className="text-xs text-slate-500">Meja ini tidak dapat diisi sebelum dibuka kembali oleh staf.</p>
+                  </div>
+                )}
               </div>
 
-              {/* Table Info Body */}
-              {selectedTable.status === 'occupied' && (
-                <div className="bg-[#FAF7F2] p-3.5 rounded-2xl space-y-2">
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-[#78716C]">Pemesan:</span>
-                    <span className="font-bold text-xs text-[#1C1917]">{selectedTable.customerName || 'Tamu'}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-[#78716C]">Order ID:</span>
-                    <span className="font-mono text-xs text-[#C85A32] font-bold">{selectedTable.orderId}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-xs text-[#78716C]">Jumlah Pesanan:</span>
-                    <span className="font-bold text-xs text-[#1C1917]">{selectedTable.itemsCount} Items</span>
-                  </div>
-                  <hr className="border-slate-200 my-1" />
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-xs text-[#1C1917]">Running Total:</span>
-                    <span className="font-mono font-extrabold text-sm text-[#C85A32]">Rp {formatRupiah(selectedTable.totalAmount)}</span>
-                  </div>
-                </div>
-              )}
-
-              {/* Actions List */}
-              <div className="space-y-2 pt-1">
+              {/* Action Buttons Stack */}
+              <div className="space-y-2.5 pt-4">
                 {selectedTable.status === 'open' && (
                   <>
                     <button
                       onClick={() => {
                         handleUpdateTableStatus(selectedTable.id, 'occupied', 'Pelanggan Meja ' + selectedTable.id, 0, 0);
                         onSelectTableAndOrder(selectedTable.id);
-                        setSelectedTable(null);
                       }}
-                      className="w-full bg-gradient-to-r from-[#C85A32] to-[#E8703E] text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 shadow-md text-xs"
+                      className="w-full bg-gradient-to-r from-[#C85A32] to-[#E8703E] text-white font-extrabold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg text-xs tracking-wider uppercase"
                     >
-                      <ShoppingBag className="w-4 h-4" /> Buka Meja & Pilih Menu
+                      <ShoppingBag className="w-4 h-4" /> Buka Meja & Input Pesanan
                     </button>
                     <button
                       onClick={() => handleUpdateTableStatus(selectedTable.id, 'closed')}
                       className="w-full bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs"
                     >
-                      <Lock className="w-4 h-4" /> Tandai Tutup / Reserve
+                      <Lock className="w-4 h-4" /> Tandai Tutup / Reservasi
                     </button>
                   </>
                 )}
@@ -369,17 +381,14 @@ export default function TableManagementView({
                     <button
                       onClick={() => {
                         onSelectTableAndOrder(selectedTable.id);
-                        setSelectedTable(null);
                       }}
-                      className="w-full bg-[#C85A32] text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs shadow-sm"
+                      className="w-full bg-[#C85A32] text-white font-extrabold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs shadow-md uppercase tracking-wider"
                     >
                       <Plus className="w-4 h-4" /> Tambah Pesanan Ke Meja Ini
                     </button>
 
                     <button
-                      onClick={() => {
-                        setShowMoveModal(true);
-                      }}
+                      onClick={() => setShowMoveModal(true)}
                       className="w-full bg-amber-50 hover:bg-amber-100 text-amber-800 font-bold py-3 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs"
                     >
                       <ArrowRightLeft className="w-4 h-4" /> Pindah Meja (Transfer Order)
@@ -397,22 +406,27 @@ export default function TableManagementView({
                 {selectedTable.status === 'closed' && (
                   <button
                     onClick={() => handleUpdateTableStatus(selectedTable.id, 'open')}
-                    className="w-full bg-emerald-600 text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs shadow-sm"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-3.5 px-4 rounded-2xl flex items-center justify-center gap-2 text-xs shadow-md"
                   >
                     <CheckCircle2 className="w-4 h-4" /> Buka Kembali Meja (Tersedia)
                   </button>
                 )}
               </div>
-            </motion.div>
-          </div>
-        )}
-      </AnimatePresence>
+            </div>
+          ) : (
+            <div className="flex-1 flex flex-col items-center justify-center text-center p-6 text-slate-400">
+              <LayoutGrid className="w-12 h-12 mb-2 stroke-1" />
+              <p className="text-xs font-bold">Pilih meja pada denah di sebelah kiri untuk melihat aksi & detail pesanan.</p>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* Transfer / Move Table Modal */}
       <AnimatePresence>
         {showMoveModal && selectedTable && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md">
-            <div className="bg-white rounded-3xl p-5 w-full max-w-sm space-y-4 text-center">
+            <div className="bg-white rounded-3xl p-6 w-full max-w-md space-y-4 text-center shadow-2xl">
               <h3 className="font-display font-extrabold text-base text-[#1C1917]">
                 Pindah Pesanan Dari {selectedTable.label}
               </h3>
@@ -423,7 +437,7 @@ export default function TableManagementView({
               <select
                 value={targetMoveTableId}
                 onChange={(e) => setTargetMoveTableId(e.target.value)}
-                className="w-full p-3 rounded-2xl border border-slate-200 font-bold text-xs bg-[#FAF7F2] text-[#1C1917] outline-none"
+                className="w-full p-3.5 rounded-2xl border border-slate-200 font-bold text-xs bg-[#FAF7F2] text-[#1C1917] outline-none"
               >
                 <option value="">-- Pilih Meja Tujuan --</option>
                 {tables.filter(t => t.status === 'open').map(t => (
@@ -433,17 +447,17 @@ export default function TableManagementView({
                 ))}
               </select>
 
-              <div className="flex gap-2 pt-2">
+              <div className="flex gap-3 pt-2">
                 <button
                   onClick={() => setShowMoveModal(false)}
-                  className="flex-1 py-3 rounded-2xl bg-slate-100 font-bold text-xs text-slate-700"
+                  className="flex-1 py-3.5 rounded-2xl bg-slate-100 font-bold text-xs text-slate-700"
                 >
                   Batal
                 </button>
                 <button
                   onClick={() => handleMoveTable(selectedTable.id, targetMoveTableId)}
                   disabled={!targetMoveTableId}
-                  className="flex-1 py-3 rounded-2xl bg-[#C85A32] disabled:bg-slate-300 font-bold text-xs text-white shadow-sm"
+                  className="flex-1 py-3.5 rounded-2xl bg-[#C85A32] disabled:bg-slate-300 font-bold text-xs text-white shadow-md"
                 >
                   Konfirmasi Pindah
                 </button>

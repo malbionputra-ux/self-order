@@ -188,11 +188,11 @@ export default function App() {
   };
 
   // -------------------------------------------------------------
-  // RENDER STAFF POS MODE
+  // RENDER STAFF POS MODE (Full Widescreen width for Tablet & Laptop)
   // -------------------------------------------------------------
   if (appMode === 'pos') {
     return (
-      <div className="w-full max-w-md mx-auto bg-[#FAF7F2] min-h-screen shadow-2xl relative overflow-hidden">
+      <div className="w-full min-h-screen bg-[#FAF7F2] relative overflow-x-hidden">
         <PosDashboard
           menus={menus}
           categories={categories}
@@ -206,7 +206,7 @@ export default function App() {
   }
 
   // -------------------------------------------------------------
-  // RENDER CUSTOMER MODE
+  // RENDER CUSTOMER MODE (Mobile-First View)
   // -------------------------------------------------------------
   if (activePage === 'get-started') {
     return (

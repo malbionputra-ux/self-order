@@ -78,63 +78,63 @@ export default function MenuManagementView({
 
   return (
     <div className="min-h-screen bg-[#FAF7F2] pb-12 text-[#1C1917] font-brand select-none">
-      {/* Sticky Header */}
-      <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md px-4 py-3 shadow-sm flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
-          <div className="w-9 h-9 rounded-xl bg-[#C85A32] text-white flex items-center justify-center shadow-md">
+      {/* Sticky Widescreen Header */}
+      <div className="sticky top-0 z-30 bg-white px-6 py-3.5 shadow-xs border-b border-slate-200 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-[#C85A32] text-white flex items-center justify-center shadow-md">
             <Utensils className="w-5 h-5" />
           </div>
           <div>
-            <h1 className="font-display font-extrabold text-sm text-[#1C1917] tracking-tight">
-              PENGATURAN MENU & STOK
+            <h1 className="font-display font-extrabold text-base text-[#1C1917] tracking-tight">
+              PENGATURAN MENU & STOK (POS MANAGER)
             </h1>
-            <p className="text-[10px] text-[#78716C]">
-              Atur Ketersediaan Stok & Harga Menu (POS Manager)
+            <p className="text-xs text-[#78716C]">
+              Atur Ketersediaan Stok Realtime & Edit Harga Menu Untuk Outlet
             </p>
           </div>
         </div>
 
         <button
           onClick={() => setShowAddModal(true)}
-          className="btn-fast bg-[#C85A32] text-white text-xs font-bold px-3 py-1.5 rounded-full flex items-center gap-1.5 shadow-sm hover:bg-[#A44321] transition-all"
+          className="btn-fast bg-[#C85A32] text-white text-xs font-extrabold px-4 py-2 rounded-xl flex items-center gap-1.5 shadow-md hover:bg-[#A44321] transition-all uppercase tracking-wider"
         >
-          <Plus className="w-4 h-4" /> Tambah Menu
+          <Plus className="w-4 h-4" /> Tambah Menu Baru
         </button>
       </div>
 
-      <div className="p-4 space-y-4 max-w-md mx-auto">
-        {/* Search & Filter Bar */}
-        <div className="space-y-2">
-          <div className="relative flex items-center shadow-sm rounded-2xl bg-white overflow-hidden">
+      <div className="p-6 space-y-5 max-w-7xl mx-auto">
+        {/* Search & Filter Bar Bar */}
+        <div className="bg-white p-3.5 rounded-2xl shadow-xs border border-slate-200/60 flex flex-col md:flex-row items-center justify-between gap-3">
+          <div className="relative flex items-center shadow-xs rounded-xl bg-[#FAF7F2] w-full md:w-80 overflow-hidden">
             <Search className="w-4 h-4 text-[#78716C] absolute left-3.5" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Cari nama menu..."
-              className="w-full pl-10 pr-4 py-2.5 text-xs font-medium outline-none bg-transparent"
+              className="w-full pl-10 pr-4 py-2 text-xs font-medium outline-none bg-transparent"
             />
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar py-0.5">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar w-full md:w-auto">
             <button
               onClick={() => setSelectedCategory('all')}
-              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+              className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                 selectedCategory === 'all'
                   ? 'bg-[#1C1917] text-white shadow-sm'
-                  : 'bg-white text-[#78716C] hover:bg-slate-100'
+                  : 'bg-[#FAF7F2] text-[#78716C] hover:bg-slate-200'
               }`}
             >
-              Semua Kategori
+              Semua Kategori ({menus.length})
             </button>
             {categories.map(cat => (
               <button
                 key={cat.slug}
                 onClick={() => setSelectedCategory(cat.slug)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
+                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
                   selectedCategory === cat.slug
                     ? 'bg-[#C85A32] text-white shadow-sm'
-                    : 'bg-white text-[#78716C] hover:bg-slate-100'
+                    : 'bg-[#FAF7F2] text-[#78716C] hover:bg-slate-200'
                 }`}
               >
                 {cat.name}
@@ -143,86 +143,89 @@ export default function MenuManagementView({
           </div>
         </div>
 
-        {/* Menu Items List */}
-        <div className="space-y-2.5">
+        {/* Menu Items Grid (3-4 Columns on Tablet & Laptop) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {filteredMenus.map(menu => {
             const isAvailable = menu.is_available !== false;
 
             return (
               <div
                 key={menu.id}
-                className={`p-3.5 rounded-2xl bg-white shadow-md flex items-center justify-between gap-3 transition-all border-none ${
-                  !isAvailable ? 'opacity-70 bg-slate-100' : ''
+                className={`p-4 rounded-2xl bg-white shadow-md flex flex-col justify-between gap-3 transition-all border border-slate-200/60 ${
+                  !isAvailable ? 'opacity-70 bg-slate-50' : ''
                 }`}
               >
-                {/* Image & Info */}
-                <div className="flex items-center gap-3 flex-1 min-w-0">
-                  <div className="relative w-14 h-14 rounded-2xl overflow-hidden bg-slate-200 flex-shrink-0">
-                    <img
-                      src={menu.image}
-                      alt={menu.name}
-                      onError={(e) => {
-                        e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
-                      }}
-                      className="w-full h-full object-cover"
-                    />
-                    {!isAvailable && (
-                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-[9px] font-extrabold text-red-300 uppercase">
-                        Habis
-                      </div>
-                    )}
-                  </div>
+                {/* Top Image + Category Badge */}
+                <div className="relative w-full h-40 rounded-xl overflow-hidden bg-slate-100">
+                  <img
+                    src={menu.image}
+                    alt={menu.name}
+                    onError={(e) => {
+                      e.target.src = 'https://images.unsplash.com/photo-1517701604599-bb29b565090c?auto=format&fit=crop&w=500&q=80';
+                    }}
+                    className="w-full h-full object-cover"
+                  />
+                  {!isAvailable && (
+                    <div className="absolute inset-0 bg-black/60 flex items-center justify-center text-xs font-extrabold text-red-300 uppercase tracking-widest backdrop-blur-xs">
+                      STOK HABIS
+                    </div>
+                  )}
 
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-1.5">
-                      <h4 className="font-display font-extrabold text-xs text-[#1C1917] truncate">
-                        {menu.name}
-                      </h4>
-                      {menu.is_bestseller && (
-                        <Sparkles className="w-3 h-3 text-amber-500 flex-shrink-0" />
-                      )}
-                    </div>
-                    <p className="text-[10px] text-[#78716C] truncate mt-0.5">
-                      {menu.description}
-                    </p>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className="font-mono font-extrabold text-xs text-[#C85A32]">
-                        Rp {formatRupiah(menu.price)}
-                      </span>
-                      <button
-                        onClick={() => {
-                          setEditingPriceMenu(menu);
-                          setNewPriceInput(menu.price.toString());
-                        }}
-                        className="text-[10px] text-[#78716C] hover:text-[#C85A32] underline flex items-center gap-0.5"
-                      >
-                        <Edit2 className="w-2.5 h-2.5" /> Edit Harga
-                      </button>
-                    </div>
-                  </div>
+                  {menu.is_bestseller && isAvailable && (
+                    <span className="absolute top-2 left-2 bg-[#C85A32] text-white text-[9px] font-extrabold px-2.5 py-0.5 rounded-full shadow-md flex items-center gap-1">
+                      <Sparkles className="w-3 h-3 text-amber-200" /> Bestseller
+                    </span>
+                  )}
                 </div>
 
-                {/* Realtime Availability Switch Toggle */}
-                <div className="flex flex-col items-end gap-1 flex-shrink-0">
-                  <span className={`text-[9px] font-extrabold uppercase tracking-wider ${
-                    isAvailable ? 'text-emerald-700' : 'text-red-500'
-                  }`}>
-                    {isAvailable ? 'STOK ADA' : 'HABIS'}
-                  </span>
-                  
-                  <button
-                    type="button"
-                    onClick={() => onToggleAvailability(menu.id)}
-                    className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                      isAvailable ? 'bg-emerald-600' : 'bg-slate-300'
-                    }`}
-                  >
-                    <span
-                      className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                        isAvailable ? 'translate-x-6' : 'translate-x-1'
+                {/* Content */}
+                <div className="space-y-1 flex-1">
+                  <h4 className="font-display font-extrabold text-sm text-[#1C1917] truncate">
+                    {menu.name}
+                  </h4>
+                  <p className="text-xs text-[#78716C] line-clamp-2 leading-relaxed">
+                    {menu.description}
+                  </p>
+                </div>
+
+                {/* Price & Realtime Availability Controls */}
+                <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
+                  <div>
+                    <span className="font-mono font-extrabold text-sm text-[#C85A32] block">
+                      Rp {formatRupiah(menu.price)}
+                    </span>
+                    <button
+                      onClick={() => {
+                        setEditingPriceMenu(menu);
+                        setNewPriceInput(menu.price.toString());
+                      }}
+                      className="text-[11px] text-[#78716C] hover:text-[#C85A32] underline flex items-center gap-1 mt-0.5"
+                    >
+                      <Edit2 className="w-3 h-3" /> Edit Harga
+                    </button>
+                  </div>
+
+                  <div className="flex flex-col items-end gap-1">
+                    <span className={`text-[9px] font-extrabold uppercase tracking-wider ${
+                      isAvailable ? 'text-emerald-700' : 'text-red-500'
+                    }`}>
+                      {isAvailable ? 'STOK ADA' : 'HABIS'}
+                    </span>
+                    
+                    <button
+                      type="button"
+                      onClick={() => onToggleAvailability(menu.id)}
+                      className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+                        isAvailable ? 'bg-emerald-600' : 'bg-slate-300'
                       }`}
-                    />
-                  </button>
+                    >
+                      <span
+                        className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
+                          isAvailable ? 'translate-x-6' : 'translate-x-1'
+                        }`}
+                      />
+                    </button>
+                  </div>
                 </div>
               </div>
             );
@@ -234,7 +237,7 @@ export default function MenuManagementView({
       <AnimatePresence>
         {editingPriceMenu && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md">
-            <div className="bg-white rounded-3xl p-5 w-full max-w-sm space-y-4 text-center shadow-2xl">
+            <div className="bg-white rounded-3xl p-6 w-full max-w-sm space-y-4 text-center shadow-2xl">
               <h3 className="font-display font-extrabold text-base text-[#1C1917]">
                 Edit Harga Menu: {editingPriceMenu.name}
               </h3>
@@ -250,7 +253,7 @@ export default function MenuManagementView({
                     autoFocus
                     value={newPriceInput}
                     onChange={(e) => setNewPriceInput(e.target.value)}
-                    className="w-full p-3 rounded-2xl border border-slate-200 font-mono font-extrabold text-base text-[#1C1917] outline-none text-center bg-[#FAF7F2]"
+                    className="w-full p-3.5 rounded-2xl border border-slate-200 font-mono font-extrabold text-lg text-[#1C1917] outline-none text-center bg-[#FAF7F2]"
                   />
                 </div>
 
@@ -258,13 +261,13 @@ export default function MenuManagementView({
                   <button
                     type="button"
                     onClick={() => setEditingPriceMenu(null)}
-                    className="flex-1 py-3 rounded-2xl bg-slate-100 font-bold text-xs text-slate-700"
+                    className="flex-1 py-3.5 rounded-2xl bg-slate-100 font-bold text-xs text-slate-700"
                   >
                     Batal
                   </button>
                   <button
                     type="submit"
-                    className="flex-1 py-3 rounded-2xl bg-[#C85A32] font-bold text-xs text-white shadow-sm"
+                    className="flex-1 py-3.5 rounded-2xl bg-[#C85A32] font-bold text-xs text-white shadow-md"
                   >
                     Simpan Harga
                   </button>
@@ -278,17 +281,16 @@ export default function MenuManagementView({
       {/* Add New Menu Item Modal */}
       <AnimatePresence>
         {showAddModal && (
-          <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/65 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/65 backdrop-blur-md">
             <motion.div
-              initial={{ y: "100%" }}
-              animate={{ y: 0 }}
-              exit={{ y: "100%" }}
-              transition={{ type: "spring", damping: 28, stiffness: 300 }}
-              className="bg-white rounded-t-[32px] p-5 w-full max-w-md space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto"
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              className="bg-white rounded-3xl p-6 w-full max-w-lg space-y-4 shadow-2xl max-h-[90vh] overflow-y-auto"
             >
               <div className="flex items-center justify-between border-b border-slate-100 pb-3">
                 <h3 className="font-display font-extrabold text-base text-[#1C1917]">
-                  Tambah Menu Baru Ke POS
+                  Tambah Menu Baru Ke POS Terminal
                 </h3>
                 <button
                   onClick={() => setShowAddModal(false)}
@@ -298,30 +300,32 @@ export default function MenuManagementView({
                 </button>
               </div>
 
-              <form onSubmit={handleCreateMenuSubmit} className="space-y-3.5 text-xs font-brand">
-                <div>
-                  <label className="block font-bold text-[#1C1917] mb-1">Nama Menu:</label>
-                  <input
-                    type="text"
-                    required
-                    value={newItemData.name}
-                    onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
-                    placeholder="Cth: Aren Latte Double Shot"
-                    className="w-full p-3 rounded-xl border border-slate-200 bg-[#FAF7F2] outline-none font-bold"
-                  />
-                </div>
+              <form onSubmit={handleCreateMenuSubmit} className="space-y-4 text-xs font-brand">
+                <div className="grid grid-cols-2 gap-3">
+                  <div>
+                    <label className="block font-bold text-[#1C1917] mb-1">Nama Menu:</label>
+                    <input
+                      type="text"
+                      required
+                      value={newItemData.name}
+                      onChange={(e) => setNewItemData({ ...newItemData, name: e.target.value })}
+                      placeholder="Cth: Aren Latte Double Shot"
+                      className="w-full p-3 rounded-xl border border-slate-200 bg-[#FAF7F2] outline-none font-bold"
+                    />
+                  </div>
 
-                <div>
-                  <label className="block font-bold text-[#1C1917] mb-1">Kategori:</label>
-                  <select
-                    value={newItemData.category_slug}
-                    onChange={(e) => setNewItemData({ ...newItemData, category_slug: e.target.value })}
-                    className="w-full p-3 rounded-xl border border-slate-200 bg-[#FAF7F2] outline-none font-bold"
-                  >
-                    {categories.map(c => (
-                      <option key={c.slug} value={c.slug}>{c.name}</option>
-                    ))}
-                  </select>
+                  <div>
+                    <label className="block font-bold text-[#1C1917] mb-1">Kategori:</label>
+                    <select
+                      value={newItemData.category_slug}
+                      onChange={(e) => setNewItemData({ ...newItemData, category_slug: e.target.value })}
+                      className="w-full p-3 rounded-xl border border-slate-200 bg-[#FAF7F2] outline-none font-bold"
+                    >
+                      {categories.map(c => (
+                        <option key={c.slug} value={c.slug}>{c.name}</option>
+                      ))}
+                    </select>
+                  </div>
                 </div>
 
                 <div>
@@ -366,7 +370,7 @@ export default function MenuManagementView({
                       onChange={(e) => setNewItemData({ ...newItemData, is_bestseller: e.target.checked })}
                       className="w-4 h-4 accent-[#C85A32]"
                     />
-                    Tandai Bestseller
+                    Tandai Sebagai Bestseller
                   </label>
                 </div>
 
