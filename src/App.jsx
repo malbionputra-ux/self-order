@@ -15,15 +15,28 @@ import GetStartedScreen from './components/GetStartedScreen';
 // POS Staff Dashboard
 import PosDashboard from './pos/PosDashboard';
 
-// Shared Initial Menu Data
+// Shared Initial Data
 import { menus as initialMenus, categories as initialCategories } from './data/menuData';
+
+const INITIAL_TABLES_DATA = [
+  { id: '01', area: 'Indoor Main', label: 'Meja 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null, items: [] },
+  { id: '02', area: 'Indoor Main', label: 'Meja 02', capacity: 4, status: 'occupied', customerName: 'Andi', totalAmount: 72000, itemsCount: 3, orderId: 'ORD-8821', items: [] },
+  { id: '03', area: 'Indoor Main', label: 'Meja 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null, items: [] },
+  { id: '04', area: 'Indoor Main', label: 'Meja 04', capacity: 6, status: 'closed', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null, items: [] },
+  { id: '05', area: 'Indoor Main', label: 'Meja 05', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null, items: [] },
+  { id: '08', area: 'Indoor Main', label: 'Meja 08', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null, items: [] },
+  { id: 'OUT-01', area: 'Outdoor Terrace', label: 'Terrace 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null, items: [] },
+  { id: 'VIP-01', area: 'VIP Lounge', label: 'VIP Room 1', capacity: 8, status: 'occupied', customerName: 'Bpk. Hendra', totalAmount: 340000, itemsCount: 12, orderId: 'ORD-8800', items: [] },
+];
 
 export default function App() {
   const [appMode, setAppMode] = useState('customer'); // 'customer' | 'pos'
 
-  // Central Dynamic Menu Data State (Synced across POS & Customer views)
+  // Central Shared State across POS & Customer
   const [menus, setMenus] = useState(initialMenus);
   const [categories, setCategories] = useState(initialCategories);
+  const [tables, setTables] = useState(INITIAL_TABLES_DATA);
+  const [pendingOrdersList, setPendingOrdersList] = useState([]);
 
   // Customer State
   const [activePage, setActivePage] = useState('get-started');
@@ -154,11 +167,12 @@ export default function App() {
     });
   };
 
+  // Submit Order from Customer Side -> Sync to Cashier & Table Map!
   const handleSubmitOrder = async (orderData) => {
-    setPendingOrderData({
-      id: Math.floor(100 + Math.random() * 900),
+    const newOrderObj = {
+      id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
       table_number: orderData.table_number,
-      customer_name: orderData.customer_name,
+      customer_name: orderData.customer_name || 'Pelanggan Meja ' + orderData.table_number,
       payment_method: orderData.payment_method,
       items: orderData.items,
       rawSubtotal: orderData.rawSubtotal,
@@ -168,7 +182,28 @@ export default function App() {
       taxAmount: orderData.taxAmount,
       totalPrice: orderData.totalPrice,
       created_at: new Date()
-    });
+    };
+
+    // 1. Sync Table Status in Table Map to OCCUPIED
+    setTables(prevTables => prevTables.map(t => {
+      if (t.id === orderData.table_number || t.label.includes(orderData.table_number)) {
+        return {
+          ...t,
+          status: 'occupied',
+          customerName: newOrderObj.customer_name,
+          totalAmount: newOrderObj.totalPrice,
+          itemsCount: newOrderObj.items.reduce((sum, i) => sum + i.quantity, 0),
+          orderId: newOrderObj.id,
+          items: newOrderObj.items
+        };
+      }
+      return t;
+    }));
+
+    // 2. Add to Cashier Pending Orders List
+    setPendingOrdersList(prev => [newOrderObj, ...prev]);
+
+    setPendingOrderData(newOrderObj);
     setIsCheckoutOpen(false);
     setIsPaymentGatewayOpen(true);
   };
@@ -196,6 +231,9 @@ export default function App() {
         <PosDashboard
           menus={menus}
           categories={categories}
+          tables={tables}
+          setTables={setTables}
+          pendingOrdersList={pendingOrdersList}
           onToggleAvailability={handleToggleAvailability}
           onUpdatePrice={handleUpdatePrice}
           onAddNewMenu={handleAddNewMenu}

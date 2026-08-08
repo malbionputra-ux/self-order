@@ -3,56 +3,48 @@ import { LayoutGrid, Users, CheckCircle2, AlertCircle, Lock, ArrowRight, Refresh
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatRupiah } from '../data/menuData';
 
-// Initial Mock Tables Data for F&B Outlet
-const INITIAL_TABLES = [
+const DEFAULT_TABLES = [
   { id: '01', area: 'Indoor Main', label: 'Meja 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
   { id: '02', area: 'Indoor Main', label: 'Meja 02', capacity: 4, status: 'occupied', customerName: 'Andi', totalAmount: 72000, itemsCount: 3, orderId: 'ORD-8821' },
   { id: '03', area: 'Indoor Main', label: 'Meja 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
   { id: '04', area: 'Indoor Main', label: 'Meja 04', capacity: 6, status: 'closed', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
   { id: '05', area: 'Indoor Main', label: 'Meja 05', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '06', area: 'Indoor Main', label: 'Meja 06', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '07', area: 'Indoor Main', label: 'Meja 07', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '08', area: 'Indoor Main', label: 'Meja 08', capacity: 4, status: 'occupied', customerName: 'Rian', totalAmount: 95000, itemsCount: 4, orderId: 'ORD-8825' },
-  { id: '09', area: 'Indoor Main', label: 'Meja 09', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: '10', area: 'Indoor Main', label: 'Meja 10', capacity: 6, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  
+  { id: '08', area: 'Indoor Main', label: 'Meja 08', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
   { id: 'OUT-01', area: 'Outdoor Terrace', label: 'Terrace 01', capacity: 2, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: 'OUT-02', area: 'Outdoor Terrace', label: 'Terrace 02', capacity: 4, status: 'occupied', customerName: 'Maya', totalAmount: 118000, itemsCount: 5, orderId: 'ORD-8830' },
-  { id: 'OUT-03', area: 'Outdoor Terrace', label: 'Terrace 03', capacity: 4, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  { id: 'OUT-04', area: 'Outdoor Terrace', label: 'Terrace 04', capacity: 6, status: 'closed', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
-  
   { id: 'VIP-01', area: 'VIP Lounge', label: 'VIP Room 1', capacity: 8, status: 'occupied', customerName: 'Bpk. Hendra', totalAmount: 340000, itemsCount: 12, orderId: 'ORD-8800' },
-  { id: 'VIP-02', area: 'VIP Lounge', label: 'VIP Room 2', capacity: 10, status: 'open', customerName: '', totalAmount: 0, itemsCount: 0, orderId: null },
 ];
 
 export default function TableManagementView({
+  tables = DEFAULT_TABLES,
+  setTables,
   currentActiveTable,
   onSelectTableAndOrder,
   onCloseMap
 }) {
-  const [tables, setTables] = useState(INITIAL_TABLES);
   const [selectedArea, setSelectedArea] = useState('Semua');
   const [statusFilter, setStatusFilter] = useState('all');
-  const [selectedTable, setSelectedTable] = useState(tables[1]); // Default select Meja 02 on Tablet/Laptop
+  const [selectedTable, setSelectedTable] = useState(tables[0]);
   const [showMoveModal, setShowMoveModal] = useState(false);
   const [targetMoveTableId, setTargetMoveTableId] = useState('');
 
+  const tableList = tables || DEFAULT_TABLES;
+
   // Filter Logic
-  const filteredTables = tables.filter(table => {
+  const filteredTables = tableList.filter(table => {
     const matchesArea = selectedArea === 'Semua' || table.area === selectedArea;
     const matchesStatus = statusFilter === 'all' || table.status === statusFilter;
     return matchesArea && matchesStatus;
   });
 
   // Counters
-  const totalCount = tables.length;
-  const openCount = tables.filter(t => t.status === 'open').length;
-  const occupiedCount = tables.filter(t => t.status === 'occupied').length;
-  const closedCount = tables.filter(t => t.status === 'closed').length;
+  const totalCount = tableList.length;
+  const openCount = tableList.filter(t => t.status === 'open').length;
+  const occupiedCount = tableList.filter(t => t.status === 'occupied').length;
+  const closedCount = tableList.filter(t => t.status === 'closed').length;
 
   // Actions
   const handleUpdateTableStatus = (tableId, newStatus, customerName = '', totalAmount = 0, itemsCount = 0) => {
-    setTables(prev => prev.map(t => {
+    const updater = (prev) => prev.map(t => {
       if (t.id === tableId) {
         return {
           ...t,
@@ -64,7 +56,12 @@ export default function TableManagementView({
         };
       }
       return t;
-    }));
+    });
+
+    if (setTables) {
+      setTables(updater);
+    }
+
     if (selectedTable && selectedTable.id === tableId) {
       setSelectedTable(prev => ({
         ...prev,
@@ -77,10 +74,10 @@ export default function TableManagementView({
   };
 
   const handleMoveTable = (fromTableId, toTableId) => {
-    const fromTable = tables.find(t => t.id === fromTableId);
+    const fromTable = tableList.find(t => t.id === fromTableId);
     if (!fromTable || !toTableId) return;
 
-    setTables(prev => prev.map(t => {
+    const updater = (prev) => prev.map(t => {
       if (t.id === toTableId) {
         return {
           ...t,
@@ -102,7 +99,11 @@ export default function TableManagementView({
         };
       }
       return t;
-    }));
+    });
+
+    if (setTables) {
+      setTables(updater);
+    }
 
     setShowMoveModal(false);
   };
@@ -206,7 +207,7 @@ export default function TableManagementView({
             </span>
           </div>
 
-          {/* Table Grid (4 Columns Tablet, 5-6 Columns Laptop) */}
+          {/* Table Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {filteredTables.map(table => {
               const isOpen = table.status === 'open';
@@ -289,7 +290,7 @@ export default function TableManagementView({
           </div>
         </div>
 
-        {/* Right Side Panel: Tablet / Laptop Fixed Selected Table Details Drawer */}
+        {/* Right Side Panel: Fixed Selected Table Details Drawer */}
         <div className="w-80 lg:w-96 bg-white border-l border-slate-200 p-6 flex flex-col justify-between shadow-xl flex-shrink-0">
           {selectedTable ? (
             <div className="space-y-5 flex-1 flex flex-col justify-between">
@@ -323,7 +324,7 @@ export default function TableManagementView({
                     </div>
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-[#78716C]">Order ID:</span>
-                      <span className="font-mono text-[#C85A32] font-bold">{selectedTable.orderId}</span>
+                      <span className="font-mono text-[#C85A32] font-bold">{selectedTable.orderId || 'ORD-QR'}</span>
                     </div>
                     <div className="flex justify-between items-center text-xs">
                       <span className="text-[#78716C]">Jumlah Pesanan:</span>
@@ -440,7 +441,7 @@ export default function TableManagementView({
                 className="w-full p-3.5 rounded-2xl border border-slate-200 font-bold text-xs bg-[#FAF7F2] text-[#1C1917] outline-none"
               >
                 <option value="">-- Pilih Meja Tujuan --</option>
-                {tables.filter(t => t.status === 'open').map(t => (
+                {tableList.filter(t => t.status === 'open').map(t => (
                   <option key={t.id} value={t.id}>
                     {t.label} ({t.area} • {t.capacity} Kursi)
                   </option>

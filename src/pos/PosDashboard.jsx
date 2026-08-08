@@ -7,6 +7,9 @@ import CashierPosTerminalView from './CashierPosTerminalView';
 export default function PosDashboard({
   menus,
   categories,
+  tables,
+  setTables,
+  pendingOrdersList,
   onToggleAvailability,
   onUpdatePrice,
   onAddNewMenu,
@@ -123,6 +126,8 @@ export default function PosDashboard({
 
         {posTab === 'table-map' && (
           <TableManagementView
+            tables={tables}
+            setTables={setTables}
             currentActiveTable="08"
             onSelectTableAndOrder={(tableId) => {
               setPosTab('pos-terminal');
